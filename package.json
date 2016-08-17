@@ -18,8 +18,10 @@
   },
   "homepage": "https://github.com/DeStore/destore#readme",
   "dependencies": {
+    "chokidar": "^1.6.0",
     "commander": "^2.9.0",
     "ipfs": "^0.14.3",
+    "systeminformation": "^3.0.1",
     "web3": "^0.17.0-alpha"
   },
   "devDependencies": {

@@ -9,18 +9,17 @@ contract Sender {
     if (msg.sender == owner) _
 	}
 
-	Event warnUser()
+	/*Event warnUser()*/
 
-	function Sender(){
+	function Sender() {
 		owner = msg.sender;
 		masterList = '0x9813498237498273487'
 	}
 
-	function destroy(){
-		//WARN USER TO DOWNLOAD ALL FILES --event
-		
-		
+  
 
+	function destroy() restricted {
+    suicide(owner);
 	}
 
 }
