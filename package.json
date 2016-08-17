@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Decentralized File Storage built with Ethereum and IPFS",
   "main": "index.js",
+  "bin": {
+    "dfs": "./cli.js"
+  },
   "scripts": {
     "start": "electron .app/electron/main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -18,8 +21,11 @@
   },
   "homepage": "https://github.com/DeStore/destore#readme",
   "dependencies": {
+    "chokidar": "^1.6.0",
     "commander": "^2.9.0",
+    "embark-framework": "^1.2.0",
     "ipfs": "^0.14.3",
+    "systeminformation": "^3.0.1",
     "web3": "^0.17.0-alpha"
   },
   "devDependencies": {
