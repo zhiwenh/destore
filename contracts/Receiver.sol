@@ -42,8 +42,6 @@ contract Receiver {
 	}
 
 	function destroy(uint256[] storage){
-		//PUSH ALL OF QUEUE TO MASTERLIST
-		// for(var i=0; i<hashArray.length; i++){
 			masterList.call(bytes4(sha3("reassign(string[], uint256[])")), hashArray, storage);
 		suicide(owner);
 	}

@@ -22,7 +22,7 @@ contract MasterList {
 	}
 
 	function addReceiver(uint availStorage){
-		for(var i =0; i<receivers.length; i++){
+		for(var i = 0; i < receivers.length; i++){
 			receivers[receivers.length++] = Receiver(msg.sender, availStorage);
 		}
 	}
@@ -30,7 +30,7 @@ contract MasterList {
 	//called by sender to find receiver with given filesize
 	//returns receiverAddress
 	function findReceiver(uint filesize) constant returns (address){
-		for(var i =0;i<receivers.length; i++){
+		for(var i = 0; i < receivers.length; i++){
 			if(filesize < receivers[i].availStorage) {
 				//decrease available Storage of receiver
 				receivers[i].availStorage -= filesize;
