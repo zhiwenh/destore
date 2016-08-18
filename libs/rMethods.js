@@ -8,7 +8,11 @@ const offered = 10000000000; // change to reference host-submitted storage space
 const freeSpaceThreshold = 0.9;
 let drive = 'C';
 
-if (systeminformation.osInfo !== 'windows') {
+// this is a first draft of a conditional to set the "drive" variable
+// it is a departure from my initial idea, which was just to write two methods:
+// one for *nix machines and one for windows machines. That didn't come out DRY
+// so I left off experimenting with this conditional
+if (systeminformation.osInfo !== 'windows') { // TODO 'windows' isn't right
   drive = '/';
 }
 
