@@ -1,9 +1,10 @@
 contract Sender {
-	address masterList;
   address owner; //0x019823r0918j231029830982173 -- address of owner
-  address[] receiverAddresses;
+  // address[] receiverAddresses;
   uint filesize; //1928347 bytes
-  string hashIPFS;
+  bytes23 _hash1;
+  bytes23 _hash2;
+  MasterList masterlist;
 
   modifier restricted() {
     if (msg.sender == owner) _
@@ -11,12 +12,14 @@ contract Sender {
 
 	/*Event warnUser()*/
 
-	function Sender(string hashAddress, uint size, address master) {
+	function Sender(bytes23 hash1, bytes23 hash2, uint size, address masterAdd) {
 		owner = msg.sender;
-		masterList = master;
-		hashIPFS = hashAddress;
+		MasterList masterlist = MasterList(masterAdd);
+		_hash1 = hash1;
+		_hash2 = hash2;
 		filesize = size;
-		masterList.call(bytes4(sha3("assign(uint256, string)")), filesize, hashIPFS);
+		// masterList.call(bytes4(sha3("assign(uint256, string)")), filesize, hashIPFS);
+		MasterList.assign(filesize, _hash1, _hash2);
 	}
 
 	// function addToRecList(address receiver) {

@@ -41,7 +41,7 @@ contract MasterList {
 	}
 
 	//receiver call need to be put inside findReceiver???????
-	function assign(uint filesize, string hashIPFS) {
+	function assign(uint filesize, bytes23 hash1, bytes23 hash2) {
 		address receiver = findReceiver(filesize);
 		msg.sender.call(bytes4(sha3("addToRecList(address)")), receiver);
 		receiver.call(bytes4(sha3("addToHashList(string)")), hashIPFS);
