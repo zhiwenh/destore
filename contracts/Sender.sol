@@ -11,29 +11,29 @@ contract Sender {
 
 	/*Event warnUser()*/
 
-	function Sender(string hashAddress, uint size) {
+	function Sender(string hashAddress, uint size, address master) {
 		owner = msg.sender;
-		masterList = '0x9813498237498273487';
+		masterList = master;
 		hashIPFS = hashAddress;
 		filesize = size;
 		masterList.call(bytes4(sha3("assign(uint256, string)")), filesize, hashIPFS);
 	}
 
-	function addToRecList(address receiver) {
-		receiverAddresses[receiverAddresses.length++] = receiver;
-	}
+	// function addToRecList(address receiver) {
+	// 	receiverAddresses[receiverAddresses.length++] = receiver;
+	// }
 
-	function removeFromRecList (address receiver) {
-		for (var i = 0; i < receiverAddresses.length; i++) {
-			if (receiverAddresses[i] === receiver) delete receiverAddresses[i];
-		}
-	}
+	// function removeFromRecList (address receiver) {
+	// 	for (uint i = 0; i < receiverAddresses.length; i++) {
+	// 		if (receiverAddresses[i] == receiver) delete receiverAddresses[i];
+	// 	}
+	// }
 
-	function destroy() restricted {
-		for (var i = 0; i < receiverAddresses.length; i++){
-			receiverAddresses[i].call(bytes4(sha3("deleteHash(uint256, string)")), filesize, hashIPFS);
-		}
-    suicide(owner);
-	}
+	// function destroy() restricted {
+	// 	for (uint i = 0; i < receiverAddresses.length; i++){
+	// 		receiverAddresses[i].call(bytes4(sha3("deleteHash(uint256, string)")), filesize, hashIPFS);
+	// 	}
+ //    suicide(owner);
+	// }
 
 }
