@@ -38,7 +38,7 @@ contract MasterList {
 				return receivers[i].receiverAddress;
 			}
 		}
-	}		
+	}
 
 	function assign(uint filesize, string hashIPFS){
 		address receiver = this.call(bytes4(sha3("findReceiver(uint256)")), filesize);

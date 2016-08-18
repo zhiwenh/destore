@@ -9,7 +9,7 @@ contract Sender {
     if (msg.sender == owner) _
 	}
 
-	Event warnUser()
+	Event warnUser();
 
 	function Sender(){
 		owner = msg.sender;
@@ -18,8 +18,8 @@ contract Sender {
 
 	function destroy(){
 		//WARN USER TO DOWNLOAD ALL FILES --event
-		
-		
+
+
 
 	}
 
