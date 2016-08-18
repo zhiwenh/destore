@@ -38,4 +38,4 @@ const host = {
   },
 };
 
-module.exports(host);
+module.exports = host;
