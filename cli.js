@@ -9,6 +9,8 @@ program
   .option('push', 'Push File to IPFS')
   .option('check', 'Check Ethereum Connection')
   .option('test', 'test command to test random things')
+  .option('deploy', 'deploy')
+  .option('accounts', 'accounts')
   .parse(process.argv);
 
 if (program.init) {
@@ -28,5 +30,15 @@ if (program.check) {
 
 if (program.test) {
   console.log('test');
-  ethereum.deploy(['testContract']);
+  ethereum.accounts();
+}
+
+if (program.accounts) {
+  console.log('accounts');
+  ethereum.accounts();
+}
+
+if (program.deploy) {
+  console.log('deploy');
+  ethereum.deploy('Test', 'testContract');
 }

@@ -4,7 +4,8 @@ contract Test {
 	// string value2;
 	bytes32 value3;
 
-	function Test() {
+	function Test(uint value) {
+		uint value1 = value;
 		owner = msg.sender;
 	}
 
