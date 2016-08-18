@@ -2,8 +2,7 @@
 
 // compiles Solidity (.sol) files
 const fs = require('fs');
-const solc = require('solc');
-
+const solc = require('solc'); // https://github.com/ethereum/solc-js
 const init = require('./init.js');
 
 const contractsConfig = require('./../config/contracts.js');
@@ -26,14 +25,21 @@ module.exports = (contract, directoryPath) => {
   const contractString = fs.readFileSync(contractPath).toString();
   // const contractString = 'contract mortal { address owner; function mortal() { owner = msg.sender; } function kill() { if (msg.sender == owner) selfdestruct(owner); } } contract greeter is mortal { string greeting; function greeter(string _greeting) public { greeting = _greeting; } function greet() constant returns (string) { return greeting; } }';
 
-  // contractString.replace(/(\r\n|\n|\r)/gm, '');
 
-
-  console.log(contractString);
-  console.log(typeof contractString);
+  // console.log(contractString);
+  // console.log(typeof contractString);
 
   const contractCompiled = solc.compile(contractString, 1);
 
+  if (contractCompiled.errors) {
+    throw new Error('Unable to compile Solidity contract: ' + JSON.stringify(contractCompiled.errors));
+  }
+
   console.log(contractCompiled);
-  return contractString;
+
+  for (let keys in contractCompiled.contracts) {
+    console.log(keys);
+  }
+
+  return contractCompiled;
 };

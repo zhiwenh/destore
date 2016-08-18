@@ -28,18 +28,18 @@ const DeStore = {
 
   // @ directoryPath - string - from root folder
   deploy: function(contract, directoryPath) {
-    // test compile
+    const contractCompiled = compile(contract, directoryPath);
 
-    const contractString = compile(contract, directoryPath);
   },
 
   pushFile: function(hashAddress) {
     if (!hashAddress) hashAddress = 'testhash';
-
     if (this.check()) {
       //
     }
   }
+
+
 
 
 };
