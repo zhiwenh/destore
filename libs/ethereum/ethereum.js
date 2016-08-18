@@ -1,23 +1,23 @@
 'use strict';
 
-// the file that will be required with all the application methods
-
 const Embark = require('embark-framework');
 const Web3 = require('web3');
 
-//
-const init = require('./ethereum/init.js');
-const compile = require('./ethereum/compile.js');
+const init = require('./init.js');
+const compile = require('./compile.js');
 
-const DeStore = {
+function Ethereum() {
+  this._web3 = init();
+
   // initializes the RPC connection with the local Ethereum node
   // call before every method
-  init: function() {
+  this.init = function() {
     this._web3 = init();
-  },
+  };
 
   // checks connection to RPC
-  check: function() {
+  // probably won't need to be used
+  this.check = function() {
     if (this._web3) {
       console.log(this._web3.isConnected());
       return this._web3.isConnected();
@@ -25,27 +25,16 @@ const DeStore = {
       console.log('not initialized');
       return false;
     }
-  },
+  };
 
   // @ contracts - string or array - array of string contract names
   // @ directoryPath - string - directory path to where contract is contained
   //   optional. if not given will be taken from config
-  deploy: function(contract, directoryPath) {
+  this.deploy = function(contract, directoryPath) {
     this.init();
     const contractsCompiled = compile(contract, directoryPath);
-    const
-  },
+    console.log(contractsCompiled);
+  };
+}
 
-  pushFile: function(hashAddress) {
-    if (!hashAddress) hashAddress = 'testhash';
-    if (this.check()) {
-      //
-    }
-  }
-
-
-
-
-};
-
-module.exports = DeStore;
+module.exports = new Ethereum();
