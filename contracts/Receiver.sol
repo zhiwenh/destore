@@ -26,10 +26,13 @@ contract Receiver {
 	}
  
 	//when checked folder and something was deleted or when deliberately deleted file
-	// function delete(string hash, uint filesize) restricted {
-	// 	masterList.call(bytes4(sha3("deleteHash(uint256)")), filesize);
-	// 	delete hashArray[hash];
-	// }
+	//WARNING: NO SECURITY ON THIS FUNCTION
+	function deleteHash(uint filesize, string hashIPFS) {
+		masterList.call(bytes4(sha3("addFilesize(uint256)")), filesize);
+		for (var i = 0; i < hashArray.length; i++) {
+			if(hashArray[i] === hashIPFS) delete hashArray[i];
+		}
+	}
 
 	function addToHashList(string hashIPFS) isMasterList {
 		hashArray[hashArray.length++] = hashIPFS;
