@@ -38,7 +38,7 @@ contract MasterList {
 				return receivers[i].receiverAddress;
 			}
 		}
-	}		
+	}
 
 	//receiver call need to be put inside findReceiver???????
 	function assign(uint filesize, string hashIPFS) {

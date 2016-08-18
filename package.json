@@ -25,6 +25,7 @@
     "commander": "^2.9.0",
     "embark-framework": "^1.2.0",
     "ipfs": "^0.14.3",
+    "solc": "^0.3.6",
     "systeminformation": "^3.0.1",
     "web3": "^0.17.0-alpha"
   },
