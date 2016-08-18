@@ -7,7 +7,7 @@
     "dfs": "./cli.js"
   },
   "scripts": {
-    "start": "electron .app/electron/main.js",
+    "start": "electron ./app/electron/main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
