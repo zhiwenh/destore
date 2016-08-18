@@ -1,17 +1,23 @@
 const web3 = require('web3');
+const fs = require('fs-extra');
+const program = require('commander');
 const systeminformation = require('systeminformation');
 const chokidar = require('chokidar');
-const watchedDir = 'name of folder'; // TODO this is a fake path
+const watchedDir = '';
 const watcher = chokidar.watch(watchedDir, {
   ignored: /[\/\\]\./,
   persistent: true,
 });
+const newFileExists = false;
 
 const user = {
   makeWatchFolder: (desiredPathToDirectory) => {
-    // cd into desiredPathToDirectory
-    // mkdir DeStore
-  };
+    // TODO this first argument, the file path, needs to be checked
+    fs.mkdirs('user/Desktop/destore', (err) => {
+      if (err) return console.error(err);
+      console.log('DeStore folder created successfully');
+    });
+  },
 
   checkNewFile: () => {
     // to be run against watchedDir
@@ -20,6 +26,8 @@ const user = {
 
   commitToIpfs: () => {
     // run the IPFS commands to commit the file to IPFS
+    program
+      .option();
   },
 
   sendFile: () => {
@@ -30,3 +38,5 @@ const user = {
     // alert smart contract that user wants to cease paid storage
   },
 };
+
+module.exports = user;
