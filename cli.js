@@ -1,7 +1,7 @@
 'use strict';
 
 const program = require('commander');
-const DeStore = require('./libs/index.js');
+const ethereum = require('./libs/ethereum/ethereum.js');
 
 program
   .version('0.0.1')
@@ -13,8 +13,8 @@ program
 
 if (program.init) {
   console.log('Initialize');
-  DeStore.init();
-  DeStore.check();
+  ethereum.init();
+  ethereum.check();
 }
 
 if (program.push) {
@@ -23,10 +23,10 @@ if (program.push) {
 
 if (program.check) {
   console.log('check');
-  DeStore.check();
+  ethereum.check();
 }
 
 if (program.test) {
-  console.log('Sender');
-  DeStore.deploy(['Test', 'Test0']);
+  console.log('test');
+  ethereum.deploy(['testContract']);
 }
