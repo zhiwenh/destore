@@ -43,6 +43,7 @@ contract MasterList {
 	//receiver call need to be put inside findReceiver???????
 	function assign(uint filesize, string hashIPFS) {
 		address receiver = this.call(bytes4(sha3("findReceiver(uint256)")), filesize);
+		msg.sender.call(bytes4(sha3("addToRecList(address)")), receiver);
 		receiver.call(bytes4(sha3("addToHashList(string)")), hashIPFS);
 	}
 
@@ -57,6 +58,12 @@ contract MasterList {
 	function removeReceiver() {		
 		for (var i = 0; i < receivers.length; i++){
 			if(receivers[i].receiverAddress === msg.sender) delete receivers[i];
+		}
+	}
+
+	function addFilesize(uint filesize) {
+		for (var i = 0; i < receivers.length; i++){
+			if (receivers[i].receiverAddress === msg.sender) receivers[i].availStorage += filesize;
 		}
 	}
 
