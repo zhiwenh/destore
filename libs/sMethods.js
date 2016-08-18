@@ -1,4 +1,5 @@
 const web3 = require('web3');
+const fs = require('fs');
 const systeminformation = require('systeminformation');
 const chokidar = require('chokidar');
 const watchedDir = 'name of folder'; // TODO this is a fake path
@@ -11,7 +12,7 @@ const user = {
   makeWatchFolder: (desiredPathToDirectory) => {
     // cd into desiredPathToDirectory
     // mkdir DeStore
-  };
+  },
 
   checkNewFile: () => {
     // to be run against watchedDir
@@ -30,3 +31,5 @@ const user = {
     // alert smart contract that user wants to cease paid storage
   },
 };
+
+module.exports = user;
