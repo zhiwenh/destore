@@ -1,4 +1,5 @@
 const web3 = require('web3');
+const fs = require('fs-extra');
 const systeminformation = require('systeminformation');
 const chokidar = require('chokidar');
 const diskspace = require('diskspace');
@@ -36,3 +37,5 @@ const host = {
     // tells the command line to run ipfs get ipfs/fileHash/filename.ext
   },
 };
+
+module.exports(host);
