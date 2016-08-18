@@ -14,16 +14,16 @@ const web3 = init();
 //   optional. if not given will be taken from config
 // returns compiled contracts object
 
-module.exports = (contracts, directoryPath) => {
+module.exports = (contractFiles, directoryPath) => {
   // to handle cases when there's no array of contract files, only contract file
-  if (typeof contracts === 'string') {
-    contracts = [contracts];
+  if (typeof contractFiles === 'string') {
+    contractFiles = [contractFiles];
   }
   if (!directoryPath) directoryPath = contractsConfig.path;
   if (directoryPath[directoryPath.length - 1] !== '/') directoryPath += '/';
 
   const input = {};
-  contracts.forEach(function(contract) {
+  contractFiles.forEach(function(contract) {
     if (!contract.endsWith('.sol')) contract += '.sol';
     const contractPath = directoryPath + contract;
     console.log('contract path: ' + contractPath);
@@ -41,7 +41,6 @@ module.exports = (contracts, directoryPath) => {
   // to have contract data in the proper format
   for (let contractName in output.contracts) {
     const out = output.contracts[contractName];
-    // console.log(contractName);
     contractsCompiled[contractName] = {};
     contractsCompiled[contractName].code = out.bytecode;
     contractsCompiled[contractName].runtimeBytecode = out.runtimeBytecode;
