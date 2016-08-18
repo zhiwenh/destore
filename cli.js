@@ -27,6 +27,6 @@ if (program.check) {
 }
 
 if (program.test) {
-  console.log('test');
-  DeStore.deploy('Sender');
+  console.log('Sender');
+  DeStore.deploy(['Test', 'Test0']);
 }
