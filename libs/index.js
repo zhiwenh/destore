@@ -11,6 +11,7 @@ const compile = require('./ethereum/compile.js');
 
 const DeStore = {
   // initializes the RPC connection with the local Ethereum node
+  // call before every method
   init: function() {
     this._web3 = init();
   },
@@ -26,10 +27,13 @@ const DeStore = {
     }
   },
 
-  // @ directoryPath - string - from root folder
+  // @ contracts - string or array - array of string contract names
+  // @ directoryPath - string - directory path to where contract is contained
+  //   optional. if not given will be taken from config
   deploy: function(contract, directoryPath) {
-    const contractCompiled = compile(contract, directoryPath);
-
+    this.init();
+    const contractsCompiled = compile(contract, directoryPath);
+    const
   },
 
   pushFile: function(hashAddress) {

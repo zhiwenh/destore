@@ -7,39 +7,47 @@ const init = require('./init.js');
 
 const contractsConfig = require('./../config/contracts.js');
 
-// @ contract - string - contract name
-// @ directoryPath - string - directory path to where contract is contained
-//   optional. if not given will be taken from config
-
 const web3 = init();
 
-module.exports = (contract, directoryPath) => {
+// @ contracts - string or array - array of string contract names
+// @ directoryPath - string - directory path to where contract is contained
+//   optional. if not given will be taken from config
+// returns compiled contracts object
+
+module.exports = (contracts, directoryPath) => {
+  // to handle cases when there's no array of contract files, only contract file
+  if (typeof contracts === 'string') {
+    contracts = [contracts];
+  }
   if (!directoryPath) directoryPath = contractsConfig.path;
   if (directoryPath[directoryPath.length - 1] !== '/') directoryPath += '/';
-  if (!contract.endsWith('.sol')) contract += '.sol';
 
-  const contractPath = directoryPath + contract;
+  const input = {};
+  contracts.forEach(function(contract) {
+    if (!contract.endsWith('.sol')) contract += '.sol';
+    const contractPath = directoryPath + contract;
+    console.log('contract path: ' + contractPath);
+    input[contract] = fs.readFileSync(contractPath).toString();
+  });
 
-  console.log(contractPath);
+  const output = solc.compile({sources: input}, 1);
 
-  const contractString = fs.readFileSync(contractPath).toString();
-  // const contractString = 'contract mortal { address owner; function mortal() { owner = msg.sender; } function kill() { if (msg.sender == owner) selfdestruct(owner); } } contract greeter is mortal { string greeting; function greeter(string _greeting) public { greeting = _greeting; } function greet() constant returns (string) { return greeting; } }';
-
-
-  // console.log(contractString);
-  // console.log(typeof contractString);
-
-  const contractCompiled = solc.compile(contractString, 1);
-
-  if (contractCompiled.errors) {
-    throw new Error('Unable to compile Solidity contract: ' + JSON.stringify(contractCompiled.errors));
+  if (output.errors) {
+    throw new Error('Unable to compile Solidity contract: ' + JSON.stringify(output.errors));
   }
 
-  console.log(contractCompiled);
+  const contractsCompiled = {};
 
-  for (let keys in contractCompiled.contracts) {
-    console.log(keys);
+  // to have contract data in the proper format
+  for (let contractName in output.contracts) {
+    const out = output.contracts[contractName];
+    // console.log(contractName);
+    contractsCompiled[contractName] = {};
+    contractsCompiled[contractName].code = out.bytecode;
+    contractsCompiled[contractName].runtimeBytecode = out.runtimeBytecode;
+    contractsCompiled[contractName].info = {};
+    contractsCompiled[contractName].info.abiDefinition = JSON.parse(out.interface);
   }
 
-  return contractCompiled;
+  return contractsCompiled;
 };
