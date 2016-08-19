@@ -7,13 +7,10 @@ const init = require('./init.js');
 
 const contractsConfig = require('./../config/contracts.js');
 
-const web3 = init();
-
 // @ contracts - string or array - array of string contract names
 // @ directoryPath - string - directory path to where contract is contained
 //   optional. if not given will be taken from config
 // returns compiled contracts object
-
 module.exports = (contractFiles, isSolc, directoryPath) => {
   // to handle cases when there's no array of contract files, only contract file
   if (typeof contractFiles === 'string') {
@@ -32,35 +29,25 @@ module.exports = (contractFiles, isSolc, directoryPath) => {
 
   const output = solc.compile({sources: input}, 1);
 
-  console.log(output);
   if (output.errors) {
     throw new Error('Unable to compile Solidity contract: ' + JSON.stringify(output.errors));
   }
 
-  const contractsCompiled = {};
-
   // to have contract data in the proper format
-  if (isSolc === true) {
-    for (let contractName in output.contracts) {
-      const out = output.contracts[contractName];
-      contractsCompiled[contractName] = {};
-      contractsCompiled[contractName].code = out.bytecode;
-      contractsCompiled[contractName].runtimeBytecode = out.runtimeBytecode;
-      contractsCompiled[contractName].info = {};
-      contractsCompiled[contractName].info.abiDefinition = JSON.parse(out.interface);
-    }
-  } else {
-    for (let contractName in output.contracts) {
-      const out = output.contracts[contractName];
-      contractsCompiled[contractName] = {};
-      contractsCompiled[contractName].unlinked_binary = out.bytecode;
-      contractsCompiled[contractName].abi = JSON.parse(out.interface);
-    }
+  const contractsCompiled = {};
+  for (let contractName in output.contracts) {
+    const out = output.contracts[contractName];
+    contractsCompiled[contractName] = {};
+
+    // for ether-pudding
+    contractsCompiled[contractName].unlinked_binary = out.bytecode;
+    contractsCompiled[contractName].abi = JSON.parse(out.interface);
+
+    // for web3
+    contractsCompiled[contractName].code = out.bytecode;
+    contractsCompiled[contractName].runtimeBytecode = out.runtimeBytecode;
+    contractsCompiled[contractName].info = {};
+    contractsCompiled[contractName].info.abiDefinition = JSON.parse(out.interface);
   }
-
-
-
-
-  // console.log(contractsCompiled);
   return contractsCompiled;
 };
