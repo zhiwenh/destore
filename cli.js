@@ -17,7 +17,7 @@ program
 
 if (program.init) {
   console.log('Initialize');
-  Ethereum.init();
+  Ethereum._init();
   Ethereum.check();
 }
 
