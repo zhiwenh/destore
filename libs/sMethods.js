@@ -1,3 +1,5 @@
+'use strict';
+
 const web3 = require('web3');
 const fs = require('fs-extra');
 const path = require('path');
@@ -19,7 +21,7 @@ const user = {
   checkNewFile: () => {
     // to be run against watchedDir
     // checks only for changes and returns a boolean
-    // watcher.on(add)
+    watcher.on(add)
   },
 
   commitToIpfs: () => {

@@ -1,6 +1,8 @@
+'use strict';
+
 const chokidar = require('chokidar');
 
-module.exports = (
+module.exports = {
   const watcher = chokidar.watch('file, dir, glob, or array', {
     ignored: /[\/\\]\./,
     persistent: true,
@@ -66,6 +68,6 @@ module.exports = (
     ignorePermissionErrors: false,
     atomic: true, // or a custom 'atomicity delay', in milliseconds (default 100)
   });
-);
+};
 
 // citation: https://github.com/paulmillr/chokidar

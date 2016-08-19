@@ -1,3 +1,5 @@
+'use strict';
+
 const web3 = require('web3');
 const fs = require('fs-extra');
 const systeminformation = require('systeminformation');
