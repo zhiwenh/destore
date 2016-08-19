@@ -14,7 +14,7 @@ const web3 = init();
 //   optional. if not given will be taken from config
 // returns compiled contracts object
 
-module.exports = (contractFiles, directoryPath) => {
+module.exports = (contractFiles, isSolc, directoryPath) => {
   // to handle cases when there's no array of contract files, only contract file
   if (typeof contractFiles === 'string') {
     contractFiles = [contractFiles];
@@ -32,6 +32,7 @@ module.exports = (contractFiles, directoryPath) => {
 
   const output = solc.compile({sources: input}, 1);
 
+  console.log(output);
   if (output.errors) {
     throw new Error('Unable to compile Solidity contract: ' + JSON.stringify(output.errors));
   }
@@ -39,14 +40,27 @@ module.exports = (contractFiles, directoryPath) => {
   const contractsCompiled = {};
 
   // to have contract data in the proper format
-  for (let contractName in output.contracts) {
-    const out = output.contracts[contractName];
-    contractsCompiled[contractName] = {};
-    contractsCompiled[contractName].code = out.bytecode;
-    contractsCompiled[contractName].runtimeBytecode = out.runtimeBytecode;
-    contractsCompiled[contractName].info = {};
-    contractsCompiled[contractName].info.abiDefinition = JSON.parse(out.interface);
+  if (isSolc === true) {
+    for (let contractName in output.contracts) {
+      const out = output.contracts[contractName];
+      contractsCompiled[contractName] = {};
+      contractsCompiled[contractName].code = out.bytecode;
+      contractsCompiled[contractName].runtimeBytecode = out.runtimeBytecode;
+      contractsCompiled[contractName].info = {};
+      contractsCompiled[contractName].info.abiDefinition = JSON.parse(out.interface);
+    }
+  } else {
+    for (let contractName in output.contracts) {
+      const out = output.contracts[contractName];
+      contractsCompiled[contractName] = {};
+      contractsCompiled[contractName].unlinked_binary = out.bytecode;
+      contractsCompiled[contractName].abi = JSON.parse(out.interface);
+    }
   }
 
+
+
+
+  // console.log(contractsCompiled);
   return contractsCompiled;
 };
