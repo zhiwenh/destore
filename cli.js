@@ -1,7 +1,8 @@
 'use strict';
 
 const program = require('commander');
-const ethereum = require('./libs/ethereum/ethereum.js');
+const Ethereum = require('./libs/ethereum/ethereum.js');
+const Client = require('./libs/client.js');
 
 program
   .version('0.0.1')
@@ -11,12 +12,13 @@ program
   .option('test', 'test command to test random things')
   .option('deploy', 'deploy')
   .option('accounts', 'accounts')
+  .option('run', 'running')
   .parse(process.argv);
 
 if (program.init) {
   console.log('Initialize');
-  ethereum.init();
-  ethereum.check();
+  Ethereum.init();
+  Ethereum.check();
 }
 
 if (program.push) {
@@ -25,20 +27,27 @@ if (program.push) {
 
 if (program.check) {
   console.log('check');
-  ethereum.check();
+  Ethereum.check();
 }
 
 if (program.test) {
   console.log('test');
-  ethereum.accounts();
+  console.log(Client.saveContracts('testContract'));
 }
 
 if (program.accounts) {
   console.log('accounts');
-  ethereum.accounts();
+  Ethereum.accounts();
 }
 
 if (program.deploy) {
   console.log('deploy');
-  ethereum.deploy('Test', 'testContract');
+  // Ethereum.deploy('Test', 'testContract2');
+  Ethereum.deploy2();
+  // Ethereum.embarkDeploy();
+}
+
+if (program.run) {
+  console.log('run');
+  Ethereum.run();
 }
