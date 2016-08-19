@@ -7,7 +7,8 @@
 // @ type - default contract type
 const contractsConfig = {
   path: './contracts/',
-  type: 'Solidity'
+  type: 'Solidity',
+  built: '././../contracts/' // directory path from etherum.js to built
 };
 
 module.exports = contractsConfig;
