@@ -21,7 +21,6 @@ const user = {
   checkNewFile: () => {
     // to be run against watchedDir
     // checks only for changes and returns a boolean
-    watcher.on(add)
   },
 
   commitToIpfs: () => {
