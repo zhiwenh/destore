@@ -1,20 +1,27 @@
 'use strict';
 
 const Embark = require('embark-framework');
+const EmbarkSpec = Embark.Tests;
 const Web3 = require('web3');
+const readYaml = require('read-yaml');
+const Promise = require('bluebird');
 
 const init = require('./init.js');
 const compile = require('./compile.js');
 
+const rpcConfig = require('./../config/rpc.js');
+
+const TestContract = require('./../contracts/Test.sol.js');
+
 function Ethereum() {
   this._web3 = init();
   this._accounts = this._web3.eth.accounts;
-
+  this.contractAddress = {};
   // this._contractsCompiled = null;
 
   // initializes the RPC connection with the local Ethereum node
   // call before every method
-  this._init = function() {
+  this._init = () => {
     this._web3 = init();
 
     // not sure if necesary
@@ -25,7 +32,7 @@ function Ethereum() {
 
   // checks what accounts node controls
   // returns an array of accounts
-  this.accounts = function() {
+  this.accounts = () => {
     this._init();
     console.log(this._web3.eth.accounts);
     return this._web3.eth.accounts;
@@ -33,7 +40,7 @@ function Ethereum() {
 
   // checks connection to RPC
   // probably won't need to be used
-  this.check = function() {
+  this.check = () => {
     if (this._web3) {
       console.log(this._web3.isConnected());
       return this._web3.isConnected();
@@ -48,35 +55,73 @@ function Ethereum() {
   // will contain the dependencies of contract
   // @ directoryPath - string - directory path to where contract is contained
   //   optional. if not given will be taken from config
-  this.deploy = function(contractName, contractFiles, directoryPath) {
+  // currently deploys contract
+  this.deploy = (contractName, contractFiles, directoryPath) => {
     this._init();
     const contractsCompiled = compile(contractFiles, directoryPath);
-    // console.log(contractsCompiled);
     const NewContract = this._web3.eth.contract(contractsCompiled[contractName].info.abiDefinition);
-
     const options = {
       from: this._accounts[0],
       data: contractsCompiled[contractName].code,
-      gas: 0
+      gas: 1000000
       // probably another options
     };
 
-    const callback = function(err, contract) {
-      console.log('callback for contract');
-      if (!err) {
-        console.log('no error');
-        console.log('contract address');
-        console.log(contract.address);
-        console.log(contract);
-      } else {
-        console.log(err);
-      }
-    };
-    const contract = NewContract.new(1, options, callback);
+    // const callback = (err, contract) => {
+    //   console.log('callback for contract');
+    //   if (!err) {
+    //     if (contract.address) {
+    //       console.log('contract');
+    //       // console.log(contract);
+    //       this.contractAddress[contractName] = contract.address;
+    //       console.log(contract.getValue());
+    //     }
+    //   } else {
+    //     console.log(err);
+    //   }
+    // };
+    //
+    // const contract = NewContract.new(1, options, callback);
 
-    // const contractReturn = contract.getValue();
-    // console.log('contract return ' + contractReturn);
-    // console.log(this._contractsCompiled);
+  };
+
+  this.deploy2 = () => {
+    this._init();
+    TestContract.setProvider(rpcConfig.provider);
+    const meta = TestContract.new(50, 50)
+      .then(function(res) {
+        console.log(res);
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+  };
+
+  this.run = () => {
+    this._init();
+    TestContract.setProvider(rpcConfig.provider);
+    const contractAddress = '0xc4357136d1a7ef04886d3902a9d3b42acaadaf34';
+
+    var Test = TestContract.at('0xc4357136d1a7ef04886d3902a9d3b42acaadaf34');
+    // console.log(Test.getValue.call());
+    // Test.setValue(10, {from: this._accounts[0]})
+    //   .then((tx) => {
+    //     console.log('set value ' + tx);
+    //     Test.getValue()
+    //       .then((tx) => {
+    //         console.log(tx);
+    //       })
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+
+    Test.getValue()
+      .then((tx) => {
+        console.log(tx);
+      });
+
+    console.log();
   };
 }
 
