@@ -1,9 +1,5 @@
 'use strict';
-const Web3 = require('web3');
-
 const init = require('./init.js');
-const compile = require('./compile.js');
-
 
 const rpcConfig = require('./../config/config.js').rpc;
 const contractsConfig = require('./../config/config.js').contracts;
@@ -17,12 +13,13 @@ function Ethereum() {
   // initializes the RPC connection with the local Ethereum node
   // call before every method
   this._init = () => {
-    console.log('this._init');
+    // console.log('this._init');
     this._web3 = init();
     if (this.check() === false) {
       throw ('Not connected to RPC');
     } else {
       this._accounts = this._web3.eth.accounts;
+      return this._web3;
     }
   };
 
