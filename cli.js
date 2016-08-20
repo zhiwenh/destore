@@ -98,18 +98,19 @@ if (program.delete) {
 if (program.test) {
   console.log('adding file to ipfs');
   IPFS.init();
-  IPFS.add();
+  // IPFS.add();
 }
 
 if (program.test2) {
   console.log('test2');
   const ipfs = ipfsAPI('localhost', '5001', {protocol: 'http'});
-  ipfs.id()
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((err) => {
-      console.log(err);
-    })
+  console.log(ipfs.id());
+  // ipfs.id()
+  //   .then((res) => {
+  //     console.log(res);
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   })
 
 }

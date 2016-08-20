@@ -6,12 +6,23 @@ const multihashes = require('multihashes');
 // make an ipfs config file
 
 function IPFSObj() {
-  this._node = null;
+  this._ipfs = null;
+  this.publicKey = null;
+  this.id = null;
 
   this.init = () => {
-    this._ipfs = new ipfsAPI();
-
-    console.log(this._node.isOnline());
+    console.log('init');
+    this._ipfs = new ipfsAPI('localhost', '5001', {protocol: 'http'});
+    this._ipfs.id()
+      .then((res) => {
+        console.log('worked');
+        this.publickey = res.publickey;
+        this.id = res.id;
+      })
+      .catch((err) => {
+        console.log(err.code);
+        // throw('Init: Could not connect to IPFS');
+      });
     // console.log(this._node);
   };
 
@@ -26,7 +37,7 @@ function IPFSObj() {
 
   };
 
-  this.add = () => {
+  this.add = (filePath) => {
     const data = {
       path: './../../files/test.txt'
     };
@@ -41,7 +52,7 @@ function IPFSObj() {
     //   }
     // });
 
-    this._node.files.add([data2])
+    this._ipfs.files.add([data2])
       .then((res) => {
         res.forEach(e => {
           console.log(e.path);
