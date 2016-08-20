@@ -57,8 +57,7 @@ function Ethereum() {
       puddingContract = require(contractsConfig.built + contractName + '.sol.js');
     }
     catch(e) {
-      console.log('Invalid contract in deploy');
-      return;
+      throw ('Invalid contract in deploy');
     }
     // need to add more default options
     if (!options) {
@@ -81,7 +80,7 @@ function Ethereum() {
       puddingContract = require(contractsConfig.built + contractName + '.sol.js');
     }
     catch(e) {
-      throw('Invalid contract in deploy');
+      throw ('Invalid contract in exec');
     }
     puddingContract.setProvider(rpcConfig.provider);
     const contract = puddingContract.deployed();
@@ -97,7 +96,7 @@ function Ethereum() {
       puddingContract = require(contractsConfig.built + contractName + '.sol.js');
     }
     catch(e) {
-      throw('Invalid contract in deploy');
+      throw('Invalid contract in execAt');
     }
     puddingContract.setProvider(rpcConfig.provider);
 
