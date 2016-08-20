@@ -13,6 +13,7 @@ program
   .option('check', 'Check Ethereum Connection')
   .option('accounts', 'Get a list of Ethereum accounts')
   .option('test', 'test command to test random things')
+
   .option('save', 'Save a contract with ether-pudding into .sol.js')
   .option('deploy', 'Deploy a pudding contract ')
   .option('exec', 'Execute a deployed pudding contract')
@@ -26,6 +27,10 @@ if (program.init) {
   Ethereum.check();
 }
 
+
+if (program.shray) {
+  Client.saveContracts('testContract')
+}
 
 if (program.check) {
   console.log('check');
