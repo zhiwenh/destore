@@ -48,12 +48,12 @@ if (program.accounts) {
 
 if (program.save) {
   console.log('save');
-  Client.saveContracts('testContract');
+  Client.saveContracts('MasterList');
 }
 
 if (program.deploy) {
   console.log('deploy');
-  Ethereum.deploy('Test', [1, 2])
+  Ethereum.deploy('MasterList')
     .then(function(res) {
       console.log(res.address);
       db.insert({
