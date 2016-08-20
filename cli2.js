@@ -5,6 +5,8 @@ const program = require('commander');
 // const Client = require('./libs/client.js');
 const Host = require('./libs/rMethods.js');
 const User = require('./libs/sMethods.js');
+const Watch = require('./libs/watchMethods.js');
+const path = require('path');
 
 program
   .version('0.0.1')
@@ -24,9 +26,14 @@ if (program.init) {
   Ethereum.check();
 }
 
+//path.basename -- to grab user filename
 if (program.makeWatch) {
   // console.log('')
   User.makeWatchFolder();
+  //get file path
+  var dirPath = path.join(__dirname, './DeStoreWatch');
+  console.log(dirPath);
+  Watch.startWatch(dirPath);
 }
 
 if (program.push) {

@@ -13,7 +13,7 @@ const freeSpaceThreshold = 0.9;
 
 // TODO require "offered" diskspace from host
 
-const host = {
+const Host = {
   getDiskSpace: (offered) => {
     diskspace.check('/', (err, total, free, status) => { // '/' parameter is for *nix machines.
       console.log('diskspace.check status: ', status);
@@ -38,4 +38,4 @@ const host = {
   },
 };
 
-module.exports = host;
+module.exports = Host;
