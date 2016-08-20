@@ -9,10 +9,10 @@ const chokidar = require('chokidar');
 const watchedDir = 'DeStore';
 const newFileExists = false;
 
-const user = {
+const User = {
   makeWatchFolder: () => {
     console.log('Current Working Directory: ', process.cwd());
-    fs.mkdirs('DeStore', (err) => {
+    fs.mkdirs('DeStoreWatch', (err) => {
       if (err) return console.error(err);
       console.log('DeStore folder created successfully');
     });
@@ -40,4 +40,4 @@ const user = {
   },
 };
 
-module.exports = user;
+module.exports = User;
