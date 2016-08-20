@@ -11,6 +11,10 @@ contract Sender {
 		_filesize = filesize;
 		masterInstance.assign(_filesize, _hash1, _hash2);
 	}
+
+	function testSender() constant returns (bytes32, bytes32){
+		return (_hash1, _hash2);
+	}
 }
 
 contract Receiver {
@@ -28,7 +32,7 @@ contract Receiver {
 		return hashArray;
 	}
  
-	function addToHashList(bytes32 hash1, bytes32 hash2) {
+	function addToHashList(bytes23 hash1, bytes23 hash2) {
 		hashArray[hashArray.length++] = hash1;
 		hashArray[hashArray.length++] = hash2;
 	}
@@ -47,8 +51,16 @@ contract MasterList {
   ReceiverList[] receivers;
   Receiver recInstance;
 
+  function MasterList() {
+  	owner = msg.sender;
+  }
+
 	function addReceiver(uint availStorage) {
 			receivers[receivers.length++] = ReceiverList(msg.sender, availStorage);
+	}
+
+	function testReceiver() constant returns (address, uint) {
+		return (receivers[0].receiverAddress, receivers[0].availStorage);
 	}
 
 	function findReceiver(uint filesize) constant returns (address) {
