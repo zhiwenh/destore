@@ -8,7 +8,6 @@ const compile = require('./ethereum/compile.js');
 const Datastore = require('nedb');
 const db = new Datastore({ filename: './../data/data.db', autoload: true });
 
-
 function Client() {
   this.saveContracts = function(contractFiles, directoryPath) {
     const contractsCompiled = compile(contractFiles, directoryPath);

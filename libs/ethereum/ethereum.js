@@ -7,12 +7,8 @@ const compile = require('./compile.js');
 const rpcConfig = require('./../config/config.js').rpc;
 const contractsConfig = require('./../config/config.js').contracts;
 
-const Datastore = require('nedb');
-const db = new Datastore({
-  filename: './../../data/data.db',
-  autoload: true
-});
-
+// methods available
+// check, getAccounts, deploy, exec, execAt
 function Ethereum() {
   this._web3 = init();
   this._accounts = null;
@@ -50,8 +46,11 @@ function Ethereum() {
     // allows user to login to new account
   };
 
+  // @ contractName - name of contract
+  // @ args - array of initial parameters
+  // @ options - contract config options
   // returns a Promise
-  this.deploy = (contractName, options) => {
+  this.deploy = (contractName, args, options) => {
     this._init();
     let puddingContract;
     try {
@@ -69,10 +68,11 @@ function Ethereum() {
     }
     puddingContract.defaults(options);
     puddingContract.setProvider(rpcConfig.provider);
-    const contract = puddingContract.new();
+    const contract = puddingContract.new.apply(puddingContract, args);
     return contract;
   };
 
+  // executes contract with it's deployed address
   // returns Promise
   this.exec = (contractName) => {
     this._init();
@@ -88,7 +88,7 @@ function Ethereum() {
     return contract;
   };
 
-  // exec contract at a specific contract address
+  // execute contract at a specific address
   // returns Promise
   this.execAt = (contractName, contractAddress) => {
     this._init();
