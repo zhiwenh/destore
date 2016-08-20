@@ -13,8 +13,8 @@ const freeSpaceThreshold = 0.9;
 
 // TODO require "offered" diskspace from host
 
-const host = {
-  getDiskSpace: (offered) => {
+class Host {
+  getDiskSpace(offered) {
     diskspace.check('/', (err, total, free, status) => { // '/' parameter is for *nix machines.
       console.log('diskspace.check status: ', status);
 
@@ -27,15 +27,17 @@ const host = {
         return true;
       }
     });
-  },
+  }
 
-  getFile: (fileHash, fileName) => {
+  getFile(fileHash, fileName) {
     const ipfsAddress = 'ipfs cat /ipfs/${fileHash}/${fileName}';
     // program
     //   .command('get file ${ipfsAddress}' )
     //   .description('Host ')
     // tells the command line to run ipfs get ipfs/fileHash/filename.ext
-  },
-};
+  }
+}
+
+const host = new Host();
 
 module.exports = host;
