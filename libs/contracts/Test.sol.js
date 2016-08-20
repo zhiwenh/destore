@@ -264,8 +264,12 @@ var Web3 = require("web3");
           accept(new self(web3_instance));
         }
       };
-
       args.push(tx_params, intermediary);
+<<<<<<< HEAD
+=======
+      console.log(args);
+
+>>>>>>> c1368c2f228a1729f2031ef759b65908aae22b3a
       contract_class.new.apply(contract_class, args);
     });
   };
@@ -371,7 +375,8 @@ var Web3 = require("web3");
       }
     ],
     "unlinked_binary": "0x6060604052604051602080609283395060806040525160008054600160a060020a03191633179055805050605c8060366000396000f3606060405260e060020a6000350463209652558114602e57806355241077146037578063c515205d146041575b005b604a6001545b90565b600435600155602c565b604a6002546034565b60408051918252519081900360200190f3",
-    "updated_at": 1471627685650
+    "updated_at": 1471649296263,
+    "address": "0x848a14a10cf87dab6820dc46da587756c3a29c39"
   }
 };
 
