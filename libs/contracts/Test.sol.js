@@ -264,8 +264,9 @@ var Web3 = require("web3");
           accept(new self(web3_instance));
         }
       };
-
       args.push(tx_params, intermediary);
+      console.log(args);
+
       contract_class.new.apply(contract_class, args);
     });
   };
