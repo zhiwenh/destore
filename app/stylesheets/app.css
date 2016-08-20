@@ -1,17 +1,17 @@
 body {
-  margin-left: 25%;
-  margin-right: 25%;
+  margin-left: 20%;
+  margin-right: 20%;
   margin-top: 10%;
   font-family: "Open Sans", sans-serif;
 }
 
 label {
   display: inline-block;
-  width: 100px;
 }
 
 input {
   width: 500px;
+  margin: 10px;
   padding: 5px;
   font-size: 16px;
 }
@@ -19,6 +19,8 @@ input {
 button {
   font-size: 16px;
   padding: 5px;
+  display: inline-block;
+  margin: 10px;
 }
 
 h1, h2 {
@@ -45,4 +47,12 @@ h3 {
 
 #balance {
   color: black;
+}
+
+.get {
+  display: inline-block;
+}
+
+.set {
+  display: inline-block;
 }
