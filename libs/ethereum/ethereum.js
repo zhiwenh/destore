@@ -4,6 +4,7 @@ const Web3 = require('web3');
 const init = require('./init.js');
 const compile = require('./compile.js');
 
+
 const rpcConfig = require('./../config/config.js').rpc;
 const contractsConfig = require('./../config/config.js').contracts;
 

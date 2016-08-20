@@ -265,8 +265,11 @@ var Web3 = require("web3");
         }
       };
       args.push(tx_params, intermediary);
+<<<<<<< HEAD
+=======
       console.log(args);
 
+>>>>>>> c1368c2f228a1729f2031ef759b65908aae22b3a
       contract_class.new.apply(contract_class, args);
     });
   };

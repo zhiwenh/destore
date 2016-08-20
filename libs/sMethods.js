@@ -10,8 +10,8 @@ const watchedDir = 'DeStore';
 const newFileExists = false;
 
 const user = {
-  makeWatchFolder: (desiredPathToDirectory) => {
-    process.chdir('/Desktop');
+  makeWatchFolder: () => {
+    console.log('Current Working Directory: ', process.cwd());
     fs.mkdirs('DeStore', (err) => {
       if (err) return console.error(err);
       console.log('DeStore folder created successfully');
@@ -23,10 +23,12 @@ const user = {
     // checks only for changes and returns a boolean
   },
 
+  addFile: () => {
+    prompt
+  },
+
   commitToIpfs: () => {
     // run the IPFS commands to commit the file to IPFS
-    program
-      .option();
   },
 
   sendFile: () => {
@@ -34,7 +36,7 @@ const user = {
   },
 
   deleteFile: () => {
-    // alert smart contract that user wants to cease paid storage
+    // replace stored file IPNS with an empty file
   },
 };
 
