@@ -1,20 +1,36 @@
 'use strict';
 const chokidar = require('chokidar');
-// const path = require('path');
+const path = require('path');
 
 const log = console.log.bind(console);
 
-var Watch = {
-  startWatch: (dirPath) => {
-    const watcher = chokidar.watch(dirPath, {
+class Watch {
+  constructor() {
+    this.fileList = {};
+  }
+  
+  startWatch(dir) {
+    const watcher = chokidar.watch(dir, {
       ignored: /[\/\\]\./,
       persistent: true,
     });
+
     watcher
-      .on('add', path => log(`File ${path} has been added`))
-      .on('change', path => log(`File ${path} has been changed`))
-      .on('unlink', path => log(`File ${path} has been removed`));
+      .on('add', pathDir => {
+        log(`File ${pathDir} has been added`);
+        this.fileList[path.basename(pathDir)] = pathDir;
+        console.log(this.fileList)
+      })
+      .on('change', pathDir => {
+        log(`File ${pathDir} has been changed`);
+      })
+      .on('unlink', pathDir => {
+        log(`File ${pathDir} has been removed`);
+        delete this.fileList[path.basename(pathDir)];
+      });
   }
 };
 
-module.exports = Watch;
+var watch = new Watch();
+
+module.exports = watch;
