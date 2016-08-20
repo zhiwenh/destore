@@ -11,7 +11,7 @@ const compile = require('./compile.js');
 
 const rpcConfig = require('./../config/rpc.js');
 
-const TestContract = require('./../contracts/Test.sol.js');
+// const TestContract = require('./../contracts/Test.sol.js');
 
 function Ethereum() {
   this._web3 = init();

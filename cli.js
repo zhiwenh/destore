@@ -13,16 +13,21 @@ program
   .option('deploy', 'deploy')
   .option('accounts', 'accounts')
   .option('run', 'running')
+  .option('shray', 'Shray running')
   .parse(process.argv);
 
 if (program.init) {
   console.log('Initialize');
-  Ethereum.init();
+  Ethereum._init();
   Ethereum.check();
 }
 
 if (program.push) {
   console.log('push');
+}
+
+if (program.shray) {
+  Client.saveContracts('testContract')
 }
 
 if (program.check) {

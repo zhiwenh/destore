@@ -1,83 +1,69 @@
+contract Sender {
+  uint _filesize;
+  bytes23 _hash1;
+  bytes23 _hash2;
+  MasterList masterInstance;
+
+	function Sender(bytes23 hash1, bytes23 hash2, uint filesize, address masterAdd) {
+		masterInstance = MasterList(masterAdd);
+		_hash1 = hash1;
+		_hash2 = hash2;
+		_filesize = filesize;
+		masterInstance.assign(_filesize, _hash1, _hash2);
+	}
+}
+
+contract Receiver {
+
+	MasterList masterInstance;
+	bytes32[] hashArray;
+	uint availStorage;
+
+	function Receiver (uint availStorage, address masterAdd) {
+		masterInstance = MasterList(masterAdd);
+		masterInstance.addReceiver(availStorage);
+	}
+
+	function retrieveStorage() public constant returns (bytes32[]) {
+		return hashArray;
+	}
+ 
+	function addToHashList(bytes32 hash1, bytes32 hash2) {
+		hashArray[hashArray.length++] = hash1;
+		hashArray[hashArray.length++] = hash2;
+	}
+
+}
+
 contract MasterList {
 
-	// mapping (address => uint) receiverStorage; // {0xiwurowiquer:1, 0x9173246342: 5, 0x192837432874: 10}
-	// address[] receiverIndex;
-
-  struct Receiver {
+  struct ReceiverList {
   	address receiverAddress;
   	uint availStorage;
-  	// uint availScore;
   }
 
-  address public owner; //0x019823r0918j231029830982173 -- address of owner
-  Receiver[] public receivers;
-
-	modifier restricted() {
-    if (msg.sender == owner) _
-	}
-
-	//constructor
-	function MasterList() {
-		owner = msg.sender;
-	}
+  address owner;
+  address receiver;
+  ReceiverList[] receivers;
+  Receiver recInstance;
 
 	function addReceiver(uint availStorage) {
-		for(uint i = 0; i < receivers.length; i++) {
-			receivers[receivers.length++] = Receiver(msg.sender, availStorage);
-		}
+			receivers[receivers.length++] = ReceiverList(msg.sender, availStorage);
 	}
 
-	//called by sender to find receiver with given filesize
-	//returns receiverAddress
 	function findReceiver(uint filesize) constant returns (address) {
 		for(uint i = 0; i < receivers.length; i++){
 			if(filesize < receivers[i].availStorage) {
-				//decrease available Storage of receiver
 				receivers[i].availStorage -= filesize;
-				//send receiver somewhere
 				return receivers[i].receiverAddress;
 			}
 		}
 	}
 
-	//receiver call need to be put inside findReceiver???????
 	function assign(uint filesize, bytes23 hash1, bytes23 hash2) {
-		address receiver = findReceiver(filesize);
-		msg.sender.call(bytes4(sha3("addToRecList(address)")), receiver);
-		receiver.call(bytes4(sha3("addToHashList(string)")), hashIPFS);
+		receiver = findReceiver(filesize);
+		recInstance = Receiver(receiver);
+		recInstance.addToHashList(hash1, hash2);
 	}
-
-
-
-
-
-
-
-
-
-	// //when receiver is destroyed, reassigns all files to other receivers
-	// function reassign(string[] hashAddresses, uint256[] filesizes){
-	// 	for (uint i = 0; i < hashAddresses.length; i++) { 
-	// 		address receiver = this.call(bytes4(sha3("findReceiver(uint256)")), filesizes[i]);
-	// 		receiver.call(bytes4(sha3("addToHashList(string)")), hashAddresses[i]);
-	// 	}
-	// }
-
-	// function removeReceiver() {		
-	// 	for (uint i = 0; i < receivers.length; i++){
-	// 		if(receivers[i].receiverAddress == msg.sender) delete receivers[i];
-	// 	}
-	// }
-
-	// function addFilesize(uint filesize) {
-	// 	for (uint i = 0; i < receivers.length; i++){
-	// 		if (receivers[i].receiverAddress == msg.sender) receivers[i].availStorage += filesize;
-	// 	}
-	// }
-
-	// //to self-destruct SC and return money to owner
-	// function destroy() restricted {
-	// 	suicide(owner);
-	// }
 
 }
