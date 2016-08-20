@@ -60,7 +60,6 @@ if (program.deploy) {
     .catch(function(err) {
       console.log(err);
     });
-
 }
 
 if (program.exec) {

@@ -1,8 +1,9 @@
+const IPFS = require('ipfs');
 
-// method to include in IPFS file later
-// pushFile: function(hashAddress) {
-//   if (!hashAddress) hashAddress = 'testhash';
-//   if (this.check()) {
-//     //
-//   }
-// }
+const node = new IPFS();
+
+function IPFSObj() {
+
+}
+
+module.exports = new IPFSObj();
