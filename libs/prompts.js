@@ -46,5 +46,5 @@ const properties = {
 prompt.get(properties, (err, result) => {
   console.log('Command-line input received:');
   console.log('  result: ' + result.yesno);
-  // TODO determine how to capture/act on result object
+  // TODO determine how to capture/act on result objectin
 });
