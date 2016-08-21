@@ -23,6 +23,9 @@ program
   .option('delete', 'Deletes all entries in database')
   .option('test', 'Test all ipfs methods')
   .option('test2')
+  .option('ipfsInit')
+  .option('ipfsAdd')
+  .option('ipfsGet')
   .parse(process.argv);
 
 if (program.init) {
@@ -96,21 +99,41 @@ if (program.delete) {
 }
 
 if (program.test) {
-  console.log('adding file to ipfs');
+  console.log('test ipfs');
   IPFS.init();
-  // IPFS.add();
 }
 
 if (program.test2) {
-  console.log('test2');
-  const ipfs = ipfsAPI('localhost', '5001', {protocol: 'http'});
-  console.log(ipfs.id());
-  // ipfs.id()
-  //   .then((res) => {
-  //     console.log(res);
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //   })
+
+}
+
+if (program.ipfsInit) {
+  console.log('ipfsInit');
+  IPFS.init();
+}
+
+if (program.ipfsAdd) {
+  console.log('ipfsAdd');
+  IPFS.init();
+
+  const happy = './user/files/happy';
+  const test = './user/files/files';
+  const download = './user/download/download';
+
+  IPFS.addFiles([happy, test, download])
+    .then(res => {
+      console.log(res);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+
+}
+
+if (program.ipfsGet) {
+  IPFS.init();
+
+  console.log('ipfsGet');
+  IPFS.getFile('QmWb8sa2MRKr73LhXK5HwdPGtHB6xGkdNsexpKnSnyaAta');
 
 }
