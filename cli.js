@@ -26,6 +26,7 @@ program
   .option('ipfsInit')
   .option('ipfsAdd')
   .option('ipfsGet')
+  .option('ipfsTest')
   .parse(process.argv);
 
 if (program.init) {
@@ -108,21 +109,22 @@ if (program.test2) {
 }
 
 if (program.ipfsInit) {
-  console.log('ipfsInit');
+  console.log('===== ipfsInit ====');
   IPFS.init();
 }
 
-if (program.ipfsAdd) {
-  console.log('ipfsAdd');
+if (program.ipfsTest) {
+  console.log('===== init =====');
   IPFS.init();
 
+  console.log('===== ipfsAdd =====');
   const happy = './user/files/happy';
   const test = './user/files/files';
   const png = './user/files/kb.png';
   const download = './user/download/download';
   const taylor = './user/files/together.mp3';
 
-  IPFS.addFiles([happy, test, png, download, taylor])
+  IPFS.addFiles([happy, test, png, download])
     .then(res => {
       console.log(res);
     })
@@ -130,18 +132,13 @@ if (program.ipfsAdd) {
       console.log(err);
     });
 
-}
-
-if (program.ipfsGet) {
-  IPFS.init();
-
-  const hashes = [
-    'QmWb8sa2MRKr73LhXK5HwdPGtHB6xGkdNsexpKnSnyaAta',
-    'QmQp1UM6jVQ85sFiLj2TSHfenA1DYyMKhDSTEt9q9zA4u1',
-    'QmPz54CotK8DLCjsLVMHUfFpGD293qE4tRfEHgtcZoQMAc'
-  ];
-  console.log('ipfsGet');
-  const writePath = __dirname + '/taylor.mp3';
-  IPFS.download('QmaU99Ebj1SJke7kthoJseocx7dBZfCcYeX5NfesFQ8Yq4', writePath);
-
+  console.log('===== ipfsGet =====');
+  const writePath = __dirname + '/kb-logo.png';
+  IPFS.download('QmPz54CotK8DLCjsLVMHUfFpGD293qE4tRfEHgtcZoQMAc', writePath)
+    .then((res) => {
+      console.log(res[0]);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
