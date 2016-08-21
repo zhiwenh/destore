@@ -11,8 +11,8 @@ const newFileExists = false;
 
 class User {
   makeWatchFolder() {
-    console.log('Current Working Directory: ', process.cwd());
-    fs.mkdirs('DeStoreWatch', (err) => {
+    // console.log('Current Working Directory: ', process.cwd());
+    fs.mkdirs('.fileStorage', (err) => {
       if (err) return console.error(err);
       console.log('DeStore folder created successfully');
     });

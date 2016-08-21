@@ -8,19 +8,18 @@ const path = nodeRequire('path');
 const Config = require('electron-config');
 const config = new Config();
 const fs = require('fs')
-//storage.keys -- shows which keys there are
-//storage.remove -- removes from local storage
-//storage.set('foobar', { foo: 'bar' }, function(error) {
-//   if (error) throw error;
-// });
-//storage.get -- gets from local storage
-//storage.clear -- clears local storage
 
 var hash;
 var recInstance;
 var masterInstance;
 var senderInstance;
 var i = 0;
+
+//Initializes daemon when on page
+IPFS.daemon();
+
+//Makes encrypt/download folder (hidden)
+
 
 $("button.addMasterList").click(function() {
 		Ethereum.deploy('MasterList')
@@ -40,8 +39,8 @@ $("button.addHost").click(function() {
 $("button.mkdir").click(function() {
 	User.makeWatchFolder();
 	//get file path
-	var dirPath = path.join(__dirname, '../../DeStoreWatch');
-	Watch.startWatch(dirPath);
+	// var dirPath = path.join(__dirname, '../../DeStoreWatch');
+	// Watch.startWatch(dirPath);
 });
 
 $("button.addUser").click(function() {
@@ -86,7 +85,6 @@ $("button.test").click(function() {
 
 	$("button.clear").click(function() {
 		// config.clear('fileList');
-		IPFS.daemon();
 	});
 
 	function getFileSize(filename) {
@@ -126,6 +124,12 @@ $("button.test").click(function() {
 		  if (error) throw error;
 		});
 	}
+
+	// function mkdir(dir) {
+	//   if (!fs.existsSync(dir)){
+	//       fs.mkdirSync(dir);
+	//   }
+	// }
 
 	document.body.ondrop = (ev) => {
 		ev.preventDefault();

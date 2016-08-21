@@ -31,6 +31,7 @@
     "es6-promisify": "^4.1.0",
     "ether-pudding": "^3.1.2",
     "fs-extra": "^0.30.0",
+    "get-folder-size": "^1.0.0",
     "ipfs": "^0.14.3",
     "ipfs-api": "^7.0.0",
     "multihashes": "^0.2.2",
