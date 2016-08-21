@@ -1,3 +1,4 @@
+'use strict';
 const ipfsAPI = require('ipfs-api');
 // const multihashes = require('multihashes');
 const fs = require('fs');
@@ -66,23 +67,42 @@ class IPFSObj {
     return promisify(addPaths)(filePaths);
   }
 
-  // @ hashAddress of the file
-  getFile(hashAddress) {
-    const writeStream = fs.createWriteStream('./write');
-    this._ipfs.files.get(hashAddress)
-      .then((res) => {
-        console.log(res);
-        // res.pipe(writeStream)
+  // @ hashAddress - string - of the file
+  // @ writePath - string - path in which to write the file to
+  download(hashAddress, writePath) {
+    try {
+      fs.accessSync(writePath);
+    } catch(e) {
+      // fs.mkdirSync(writePath);
+      fs.closeSync(fs.openSync(writePath, 'w'));
+    }
+    const writeStream = fs.createWriteStream(writePath);
 
-        res.on('data', function(chunk) {
-          console.log(chunk);
-          chunk.pipe(res);
+    const streamPromise = (hashAddress, callback) => {
+      this._ipfs.cat(hashAddress)
+        .then((stream) => {
+          stream.pipe(writeStream);
+          let res = '';
+
+          stream.on('data', function(chunk) {
+            console.log(chunk.toString());
+            res += chunk.toString();
+          });
+
+          stream.on('error', function(err) {
+            throw(err);
+          });
+
+          stream.on('end', function() {
+            callback(res);
+          });
+        })
+        .catch((err) => {
+          throw(err);
         });
-        // console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    };
+
+    return promisify(streamPromise)(hashAddress);
   }
 
 }

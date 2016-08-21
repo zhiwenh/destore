@@ -118,9 +118,11 @@ if (program.ipfsAdd) {
 
   const happy = './user/files/happy';
   const test = './user/files/files';
+  const png = './user/files/kb.png';
   const download = './user/download/download';
+  const taylor = './user/files/together.mp3';
 
-  IPFS.addFiles([happy, test, download])
+  IPFS.addFiles([happy, test, png, download, taylor])
     .then(res => {
       console.log(res);
     })
@@ -133,7 +135,13 @@ if (program.ipfsAdd) {
 if (program.ipfsGet) {
   IPFS.init();
 
+  const hashes = [
+    'QmWb8sa2MRKr73LhXK5HwdPGtHB6xGkdNsexpKnSnyaAta',
+    'QmQp1UM6jVQ85sFiLj2TSHfenA1DYyMKhDSTEt9q9zA4u1',
+    'QmPz54CotK8DLCjsLVMHUfFpGD293qE4tRfEHgtcZoQMAc'
+  ];
   console.log('ipfsGet');
-  IPFS.getFile('QmWb8sa2MRKr73LhXK5HwdPGtHB6xGkdNsexpKnSnyaAta');
+  const writePath = __dirname + '/taylor.mp3';
+  IPFS.download('QmaU99Ebj1SJke7kthoJseocx7dBZfCcYeX5NfesFQ8Yq4', writePath);
 
 }
