@@ -3,6 +3,7 @@ const web3 = Ethereum.init();
 const Host = nodeRequire('../../libs/HostMethods.js');
 const User = nodeRequire('../../libs/UserMethods.js');
 const Watch = nodeRequire('../../libs/watchMethods.js');
+const IPFS = nodeRequire('../../libs/ipfs/ipfs.js');
 const path = nodeRequire('path');
 const Config = require('electron-config');
 const config = new Config();
@@ -84,7 +85,8 @@ $("button.test").click(function() {
 	});
 
 	$("button.clear").click(function() {
-		config.clear('fileList');
+		// config.clear('fileList');
+		IPFS.daemon();
 	});
 
 	function getFileSize(filename) {

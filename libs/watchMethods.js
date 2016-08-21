@@ -30,8 +30,4 @@ class Watch {
 	}
 };
 
-
-
-var watch = new Watch();
-
-module.exports = watch;
+module.exports = new Watch();

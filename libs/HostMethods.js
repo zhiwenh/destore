@@ -38,6 +38,5 @@ class Host {
   }
 }
 
-const host = new Host();
 
-module.exports = host;
+module.exports = new Host();
