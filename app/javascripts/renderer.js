@@ -3,8 +3,8 @@ const web3 = Ethereum.init();
 const Host = nodeRequire('../../libs/HostMethods.js');
 const User = nodeRequire('../../libs/UserMethods.js');
 const Watch = nodeRequire('../../libs/watchMethods.js');
+const IPFS = nodeRequire('../../libs/ipfs/ipfs.js');
 const path = nodeRequire('path');
-const storage = require('electron-json-storage');
 const Config = require('electron-config');
 const config = new Config();
 const fs = require('fs')
@@ -84,6 +84,11 @@ $("button.test").click(function() {
 		console.log(config.get('fileList'));
 	});
 
+	$("button.clear").click(function() {
+		// config.clear('fileList');
+		IPFS.daemon();
+	});
+
 	function getFileSize(filename) {
 			var stats = fs.statSync(filename);
 			var fileSizeInBytes = stats["size"];
@@ -93,6 +98,7 @@ $("button.test").click(function() {
 	document.ondragover = document.ondrop = (ev) => {
 		ev.preventDefault();
 	}
+	
 	var filePathArray, fileSizeArray, filePath, fileSize;
 	$("#dropbox").on("drop", function(ev) {
 		ev.preventDefault();
