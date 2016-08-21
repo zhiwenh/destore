@@ -5,6 +5,8 @@ const fs = require('fs');
 const promisify = require('es6-promisify');
 const stream = require('stream');
 
+const spawn = require('child_process').spawn;
+
 const networkConfig = require('./../config/config.js').network;
 
 // make an ipfs config file
@@ -18,6 +20,7 @@ const networkConfig = require('./../config/config.js').network;
 class IPFS {
   constructor() {
     this._ipfs = null;
+    this.connect = false;
     this.publicKey = null;
     this.id = null;
   }
@@ -34,6 +37,7 @@ class IPFS {
       .then((res) => {
         this.publickey = res.publickey;
         this.id = res.id;
+        this.connect = true;
       })
       .catch((err) => {
         console.log(err.code);
@@ -42,6 +46,26 @@ class IPFS {
     return this._ipfs;
   }
 
+  // call ipfs daemon --manage-fdlimit
+  daemon() {
+    const ipfsDaemon = spawn('ipfs', ['daemon', '--manage-fdlimit']);
+
+    ipfsDaemon.stdout.on('data', (data) => {
+      console.log(`stdout: ${data}`);
+    });
+
+    ipfsDaemon.stderr.on('data', (data) => {
+      console.log(`stderr: ${data}`);
+    });
+
+    ipfsDaemon.on('error', (error) => {
+      console.log(error);
+    });
+
+    ipfsDaemon.on('close', (code) => {
+      console.log(`child process exited with code ${code}`);
+    });
+  }
   // @ filesPaths - string or array containing the paths to the files
   // returns a Promise
   addFiles(filePaths) {
