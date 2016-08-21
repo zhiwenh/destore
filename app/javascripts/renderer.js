@@ -1,5 +1,5 @@
 const Ethereum = nodeRequire('../../libs/ethereum/ethereum.js');
-const web3 = Ethereum._init();
+const web3 = Ethereum.init();
 const Host = nodeRequire('../../libs/HostMethods.js');
 const User = nodeRequire('../../libs/UserMethods.js');
 const Watch = nodeRequire('../../libs/watchMethods.js');
@@ -67,7 +67,7 @@ $("button.test").click(function() {
 		var hash2 = hash.substring(23-10,46-10);
 		senderInstance.testSender(hash1, hash2).then(function(res){
 			console.log('Latest Hash: ', web3.toAscii(res[0])+web3.toAscii(res[1]));
-			
+
 		});
 	});
 
@@ -117,7 +117,7 @@ $("button.test").click(function() {
 	});
 
 	function remove() {
-		storage.get('fileList', function(error, res){ 
+		storage.get('fileList', function(error, res){
 			if(error) console.log(error);
 		})
 		storage.set('fileList', { name: fileArray, size: fileSize }, function(error) {
