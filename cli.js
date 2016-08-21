@@ -133,7 +133,12 @@ if (program.ipfsAdd) {
 if (program.ipfsGet) {
   IPFS.init();
 
+  const hashes = [
+    'QmWb8sa2MRKr73LhXK5HwdPGtHB6xGkdNsexpKnSnyaAta',
+    'QmQp1UM6jVQ85sFiLj2TSHfenA1DYyMKhDSTEt9q9zA4u1',
+    'QmPz54CotK8DLCjsLVMHUfFpGD293qE4tRfEHgtcZoQMAc'
+  ]
   console.log('ipfsGet');
-  IPFS.getFile('QmWb8sa2MRKr73LhXK5HwdPGtHB6xGkdNsexpKnSnyaAta');
+  IPFS.getFile(hashes);
 
 }

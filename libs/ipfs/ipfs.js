@@ -1,3 +1,4 @@
+'use strict';
 const ipfsAPI = require('ipfs-api');
 // const multihashes = require('multihashes');
 const fs = require('fs');
@@ -69,16 +70,21 @@ class IPFSObj {
   // @ hashAddress of the file
   getFile(hashAddress) {
     const writeStream = fs.createWriteStream('./write');
-    this._ipfs.files.get(hashAddress)
-      .then((res) => {
-        console.log(res);
-        // res.pipe(writeStream)
+    this._ipfs.cat(hashAddress)
+      .then((stream) => {
+        let res = '';
 
-        res.on('data', function(chunk) {
-          console.log(chunk);
-          chunk.pipe(res);
+        stream.on('data', function(chunk) {
+          res += chunk.toString();
         });
-        // console.log(res);
+
+        stream.on('error', function(err) {
+          console.log(err);
+        });
+
+        stream.on('end', function() {
+          console.log(res);
+        });
       })
       .catch((err) => {
         console.log(err);
