@@ -27,6 +27,7 @@ program
   .option('ipfsAdd')
   .option('ipfsGet')
   .option('ipfsTest')
+  .option('ipfsDaemon')
   .parse(process.argv);
 
 if (program.init) {
@@ -113,6 +114,10 @@ if (program.ipfsInit) {
   IPFS.init();
 }
 
+if (program.ipfsDaemon) {
+  console.log('===== ipfs deamon====');
+  IPFS.daemon();
+}
 if (program.ipfsTest) {
   console.log('===== init =====');
   IPFS.init();
