@@ -67,28 +67,42 @@ class IPFSObj {
     return promisify(addPaths)(filePaths);
   }
 
-  // @ hashAddress of the file
-  getFile(hashAddress) {
-    const writeStream = fs.createWriteStream('./write');
-    this._ipfs.cat(hashAddress)
-      .then((stream) => {
-        let res = '';
+  // @ hashAddress - string - of the file
+  // @ writePath - string - path in which to write the file to
+  download(hashAddress, writePath) {
+    try {
+      fs.accessSync(writePath);
+    } catch(e) {
+      // fs.mkdirSync(writePath);
+      fs.closeSync(fs.openSync(writePath, 'w'));
+    }
+    const writeStream = fs.createWriteStream(writePath);
 
-        stream.on('data', function(chunk) {
-          res += chunk.toString();
-        });
+    const streamPromise = (hashAddress, callback) => {
+      this._ipfs.cat(hashAddress)
+        .then((stream) => {
+          stream.pipe(writeStream);
+          let res = '';
 
-        stream.on('error', function(err) {
-          console.log(err);
-        });
+          stream.on('data', function(chunk) {
+            console.log(chunk.toString());
+            res += chunk.toString();
+          });
 
-        stream.on('end', function() {
-          console.log(res);
+          stream.on('error', function(err) {
+            throw(err);
+          });
+
+          stream.on('end', function() {
+            callback(res);
+          });
+        })
+        .catch((err) => {
+          throw(err);
         });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    };
+
+    return promisify(streamPromise)(hashAddress);
   }
 
 }
