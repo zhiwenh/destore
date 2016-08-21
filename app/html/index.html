@@ -1,42 +1,43 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
-    <title>HIPStor</title>
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link href="../stylesheets/app.css" rel='stylesheet' type='text/css'>
-    <script>
-        window.nodeRequire = require;
-        delete window.require;
-        delete window.exports;
-        delete window.module;
-    </script>
-    <script src="../vendors/jquery.min.js"></script>
-    <!-- <script src="../javascripts/renderer.js"></script> -->
+	<meta charset="UTF-8">
+	<title>HIPStor</title>
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+	<link href="../stylesheets/app.css" rel='stylesheet' type='text/css'>
+	<script>
+		window.nodeRequire = require;
+		delete window.require;
+		delete window.exports;
+		delete window.module;
+	</script>
+	<script src="../vendors/jquery.min.js"></script>
+	<!-- <script src="../javascripts/renderer.js"></script> -->
 
-    <!-- <script src="../javascripts/app.js"></script> -->
+	<!-- <script src="../javascripts/app.js"></script> -->
   </head>
   <body>
 
-    <h1>HIPStor</h1>
-    <br>
-    abcdefghijklmnopqrstuvw1bcdefghijklmnopqrstuv1
-    <br><label for="hash">File Hash: </label><input type="text" id="hash" placeholder="Enter item hash..." value="abcdefghijklmnopqrstuvw1bcdefghijklmnopqrstuv1"></input>
-    <br><label for="sender">Sender Filesize: </label><input type="text" id="sender" placeholder="Enter filesize..."></input>
-    <br><label for="receiver">Receiver Storage: </label><input type="text" id="receiver" placeholder="Enter total storage..."></input>
-    <br><br><button class="test">Receiver Test</button>
-    <button class="test2">Sender Test</button>
-    <button class="test3">Receiver File Test</button>
-    <!-- <button class="add">Add Master List</button> -->
-    <button class="addSender">Add Sender</button>
-    <button class="addMasterList">Add Master List</button>
-    <button class="addReceiver">Add Receiver</button>
-    <br><br>
-    <span id="status"></span>
+	<h1>HIPStor</h1>
+	<div id="dropbox">Drop File Here</div>
+	<br>    
+	
+	<br><br><button class="addMasterList">Add Master List Smart Contract</button> <- INITIATES
+	<br><br><br><br><button class="addHost">Add Host Smart Contract</button>
+	<br><label for="host">Host Storage: </label><input type="text" id="host" placeholder="Enter total storage..."></input>
+	<br><br><br><br><button class="mkdir">Make Watched Directory</button>
+	<br><br><button class="addUser">Add User Smart Contract</button>
+	<br><label for="hash">File Hash: </label><input type="text" id="hash" placeholder="Enter item hash..." value="abcdefghijklmnopqrstuvw1bcdefghijklmnopqrstuv1"></input>
+	<br><label for="user">User File Filesize: </label><input type="text" id="user" placeholder="Enter filesize..."></input>
+	<br><br><br><br><button class="test">Checks First Host Storage</button>
+	<br><button class="test2">Checks Hash from User</button>
+	<br><button class="test3">Retrieves Hash from Host</button>
+	<br><button class="test4">Test</button>
+	<br><br>
+	<span id="status"></span>
   </body>
 
   <script>
-    // You can also require other files to run in this process
-    nodeRequire('../javascripts/renderer.js');
+	nodeRequire('../javascripts/renderer.js');
   </script>
 </html>

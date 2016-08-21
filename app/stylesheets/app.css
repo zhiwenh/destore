@@ -56,3 +56,17 @@ h3 {
 .set {
   display: inline-block;
 }
+
+#dropbox {
+  width: 200px;
+  height: 200px;
+  background-color: red;
+  float: right;
+  border-radius: 6px;
+  border: 3px solid black;
+  text-align: center;
+  line-height: 200px;
+  font-weight: 700;
+  color: white;
+  font-size: 20px;
+}
