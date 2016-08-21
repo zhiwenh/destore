@@ -3,13 +3,16 @@
 const program = require('commander');
 // const Ethereum = require('./libs/ethereum/ethereum.js');
 // const Client = require('./libs/client.js');
-const Host = require('./libs/rMethods.js');
-const User = require('./libs/sMethods.js');
+const Host = require('./libs/HostMethods.js');
+const User = require('./libs/UserMethods.js');
+const Watch = require('./libs/watchMethods.js');
+const path = require('path');
 
 program
   .version('0.0.1')
   .option('init', 'Initialize')
   .option('makeWatch', 'Make Watch Folder')
+  .option('checkList', 'Checks the file storage')
   .option('push', 'Push File to IPFS')
   .option('check', 'Check Ethereum Connection')
   .option('test', 'test command to test random things')
@@ -24,9 +27,18 @@ if (program.init) {
   Ethereum.check();
 }
 
+//TODO: filelist is not populating - resets
 if (program.makeWatch) {
   // console.log('')
   User.makeWatchFolder();
+  //get file path
+  var dirPath = path.join(__dirname, './DeStoreWatch');
+  console.log(dirPath);
+  Watch.startWatch(dirPath);
+}
+
+if(program.checkList) {
+  console.log('File List: ', Watch.fileList);
 }
 
 if (program.push) {

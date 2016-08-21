@@ -9,35 +9,37 @@ const chokidar = require('chokidar');
 const watchedDir = 'DeStore';
 const newFileExists = false;
 
-const user = {
-  makeWatchFolder: () => {
+class User {
+  makeWatchFolder() {
     console.log('Current Working Directory: ', process.cwd());
-    fs.mkdirs('DeStore', (err) => {
+    fs.mkdirs('DeStoreWatch', (err) => {
       if (err) return console.error(err);
       console.log('DeStore folder created successfully');
     });
-  },
+  }
 
-  checkNewFile: () => {
+  checkNewFile() {
     // to be run against watchedDir
     // checks only for changes and returns a boolean
-  },
+  }
 
-  addFile: () => {
-    prompt
-  },
+  addFile() {
+    
+  }
 
-  commitToIpfs: () => {
+  commitToIpfs() {
     // run the IPFS commands to commit the file to IPFS
-  },
+  }
 
-  sendFile: () => {
+  sendFile() {
     // sends the IPFS address to the smart contract
-  },
+  }
 
-  deleteFile: () => {
+  deleteFile() {
     // replace stored file IPNS with an empty file
-  },
-};
+  }
+}
+
+const user = new User();
 
 module.exports = user;
