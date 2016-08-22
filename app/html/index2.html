@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<meta charset="UTF-8">
+	<title>Destore: Decentralized File Storage</title>
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">
+	<link href="../stylesheets/app.css" rel="stylesheet" type="text/css">
+	<script>
+		window.nodeRequire = require;
+		delete window.require;
+		delete window.exports;
+		delete window.module;
+	</script>
+	<script src="../vendors/jquery.min.js"></script>
+	<!-- <script src="../javascripts/renderer.js"></script> -->
+
+	<!-- <script src="../javascripts/app.js"></script> -->
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="jumbotron">
+        <h1>destore</h1>
+        <p>Decentralized file storage built with Ethereum and IPFS</p>
+        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+      </div> <!-- jumbotron -->
+      <div class="row" id="signup">
+        <h3>Sign Up</h3>
+        <div class="row">
+          <div id="signup-fields">
+            <label>
+              Please enter the Ethereum account (public key) you would like associated with your Destore account:
+            </label>
+            <input type="text" maxlength="42" />
+            <label class="radio-inline">
+              User
+              <input type="radio" name="account-type">
+            </label>
+            <label class="radio-inline">
+              Host
+              <input type="radio" name="account-type">
+            </label>
+            <label>
+              Please enter the amount of space, in gigabytes, that you would like to make available for storage:
+            </label>
+            <input type="text" />
+          </div>
+        </div>
+      </div>
+      <div class="row" id="user">
+
+      </div>
+      <div class="row" id="host">
+
+      </div>
+    </div>
+  </body>
+</html>
