@@ -12,7 +12,6 @@ class Ethereum {
     this._accounts = null;
   }
 
-
   // initializes the RPC connection with the local Ethereum node
   // call before every method
   init() {
@@ -43,8 +42,9 @@ class Ethereum {
     return this._web3.eth.accounts;
   }
 
-  addAccount() {
-    // allows user to login to new account
+  unlock(address, password) {
+    this.init();
+    this._web3.personal.unlockAccount(address, password);
   }
 
   // @ contractName - name of contract

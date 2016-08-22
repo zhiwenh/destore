@@ -28,6 +28,7 @@ program
   .option('ipfsGet')
   .option('ipfsTest')
   .option('ipfsDaemon')
+  .option('ethTest')
   .parse(process.argv);
 
 if (program.init) {
@@ -146,4 +147,8 @@ if (program.ipfsTest) {
     .catch((err) => {
       console.log(err);
     });
+}
+
+if (program.ethTest) {
+  Ethereum.unlock('0x1e97d4a2597bc9cee0fbd47a6c1297145e586402', 'hello');
 }

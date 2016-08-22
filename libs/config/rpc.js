@@ -11,7 +11,7 @@ const rpcConfig = {
   provider: new Web3.providers.HttpProvider('http://' + 'localhost' + ':' + '8545')
 };
 
-if (rpcConfig.host === 'localhost') {
+if (rpcConfig.host !== 'localhost') {
   const host = rpcConfig.host;
   const port = rpcConfig.port;
   rpcConfig.provider = new Web3.providers.HttpProvider('http://' + host + ':' + port);
