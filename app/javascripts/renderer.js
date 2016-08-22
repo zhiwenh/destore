@@ -35,6 +35,7 @@ if(filePathArray) {
 		$('#fileTable').append('<div class="file" id="file' + i + '">'+ path.basename(filePath) +'<button class="send">Send</button><button class="delete">Delete</button></div>');
 	}
 }
+//TODO: MAKE A SEND ALL FUNCTION
 
 
 $("button.addMasterList").click(function() {
@@ -152,10 +153,13 @@ $("button.test").click(function() {
 		console.log(index);
 		console.log(filePathArray[index]);
 		//filePathArray[index] is the filePath
-		IPFS.addFiles(filePathArray[index]).then(function(res) {
-			console.log(res);
-		});
-		// });
+		IPFS.addFiles(filePathArray[index])
+    .then(res => {
+      console.log(res);
+    })
+    .catch(err => {
+      console.log('ERROR', err);
+    });
 	});
 
 	$('body').on('click', '.delete', function() {
