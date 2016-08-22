@@ -3,8 +3,8 @@
   <head>
 	<meta charset="UTF-8">
 	<title>HIPStor</title>
-	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-	<link href="../stylesheets/app.css" rel='stylesheet' type='text/css'>
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">
+	<link href="../stylesheets/app.css" rel="stylesheet" type="text/css">
 	<script>
 		window.nodeRequire = require;
 		delete window.require;
@@ -17,30 +17,42 @@
 	<!-- <script src="../javascripts/app.js"></script> -->
   </head>
   <body>
-
-	<h1>HIPStor</h1>
-	<div id="dropbox">Drop File Here</div>
-	<br><br><br><br><br><br><br><br>
-	<div id="fileTable"></div>
-	<br>    
-	
-	<br><br><button class="addMasterList">Add Master List Smart Contract</button> <- INITIATES
-	<br><br><br><br><button class="addHost">Add Host Smart Contract</button>
-	<br><label for="host">Host Storage: </label><input type="text" id="host" placeholder="Enter total storage..."></input>
-	<br><br><br><br><button class="mkdir">Make Watched Directory</button>
-	<br><br><button class="addUser">Add User Smart Contract</button>
-	<br><label for="hash">File Hash: </label><input type="text" id="hash" placeholder="Enter item hash..." value="abcdefghijklmnopqrstuvw1bcdefghijklmnopqrstuv1"></input>
-	<br><label for="user">User File Filesize: </label><input type="text" id="user" placeholder="Enter filesize..."></input>
-	<br><br><br><br><button class="test">Checks First Host Storage</button>
-	<br><button class="test2">Checks Hash from User</button>
-	<br><button class="test3">Retrieves Hash from Host</button>
-	<br><button class="test4">Test</button>
-	<button class="clear">Clear</button>
-	<br><br>
-	<span id="status"></span>
+	  <h1>HIPStor</h1>
+	  <div id="dropbox">
+      Drop File Here
+    </div>
+	  <br><br><br><br><br><br><br><br>
+	  <div id="fileTable">
+    </div>
+	  <br><br><br>
+    <button class="addMasterList">Add Master List Smart Contract</button> THIS INITIATES
+	  <br><br><br><br>
+    <button class="addHost">Add Host Smart Contract</button>
+	  <br>
+    <label for="host">Host Storage: </label>
+    <input type="text" id="host" placeholder="Enter total storage..."/>
+	  <br><br><br><br><button class="mkdir">Make Watched Directory</button>
+	  <br><br><button class="addUser">Add User Smart Contract</button>
+    <br>
+    <label for="hash">File Hash: </label>
+    <input type="text" id="hash" placeholder="Enter item hash..." value="abcdefghijklmnopqrstuvw1bcdefghijklmnopqrstuv1"/>
+    <br>
+    <label for="user">User File Filesize: </label>
+    <input type="text" id="user" placeholder="Enter filesize..."/>
+    <br><br><br><br>
+    <button class="test">Checks First Host Storage</button>
+    <br>
+    <button class="test2">Checks Hash from User</button>
+    <br>
+    <button class="test3">Retrieves Hash from Host</button>
+    <br>
+    <button class="test4">Test</button>
+    <button class="clear">Clear</button>
+    <br><br>
+    <span id="status"></span>
   </body>
 
   <script>
-	nodeRequire('../javascripts/renderer.js');
+    nodeRequire('../javascripts/renderer.js');
   </script>
 </html>
