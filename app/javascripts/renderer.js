@@ -262,6 +262,10 @@ $('body').on('click', '.delete', function() {
   $(this).closest('.file').remove();
 });
 
+$('body').on('click', '.clearML', function() {
+	masterInstance.clearReceivers();
+});
+
 // function remove() {
 // 	storage.get('fileList', function(error, res){
 // 		if(error) console.log(error);
