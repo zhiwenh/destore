@@ -70,3 +70,18 @@ h3 {
   color: white;
   font-size: 20px;
 }
+
+.file {
+  display: absolute;
+  height: 50px;
+  background-color: green;
+  border-radius: 5px;
+}
+
+.delete {
+  display: relative;
+}
+
+.send {
+  display: relative;
+}
