@@ -12,7 +12,8 @@ const getSize = nodeRequire('get-folder-size');
 
 var hash;
 var recInstance;
-var masterInstance = { address: '0x721a8648bd1ed6ab667575566e95445a823fce44'};
+var masterInstance = {address: '0x32b8ff87ff6504163cdc8390c31b9c7c2e58725a'};
+
 var senderInstance;
 
 
@@ -35,7 +36,6 @@ User.mkdir('.fileStorage');
 filePathArray = config.get('fileList.path');
 fileSizeArray = config.get('fileList.size');
 fileHashArray = config.get('fileList.hash');
-// fileIpfsArray = config.get('fileList.address');
 fileContractArray = config.get('fileList.contract');
 
 // fileIpfsArray = config.get('fileList.address');
@@ -126,9 +126,10 @@ $("button.test3").click(function() {
       console.log(ipfsHash);
       console.log('RECEIVED FILE HASH: '+ ipfsHash.length);
       console.log('RECEIVED FILE HASH'+ ipfsHash);
-      IPFS.download(ipfsHash, path.join(__dirname + '/../../Downloaded/' + ipfsHash))
-      .then(function(res) {console.log(res);})
-      .catch(function(err) {console.log('ERROR: ', err);});
+      const writePath = path.join(__dirname + '/../../.fileStorage/' + ipfsHash);
+      IPFS.download(ipfsHash, writePath)
+        .then(function(res) {console.log(res);})
+        .catch(function(err) {console.log('ERROR: ', err);});
     }
   });
 });
@@ -255,7 +256,8 @@ $('body').on('click', '.delete', function() {
   config.set('fileList', {
     path: filePathArray,
     size: fileSizeArray,
-    hash: filePathArray
+    hash: filePathArray,
+    contract: fileContractArray
   });
   $(this).closest('.file').remove();
 });
