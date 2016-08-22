@@ -5,23 +5,23 @@ const User = nodeRequire('../../libs/UserMethods.js');
 const Watcher = nodeRequire('../../libs/watcherMethods.js');
 const IPFS = nodeRequire('../../libs/ipfs/ipfs.js');
 const path = nodeRequire('path');
-const Config = require('electron-config');
+const Config = nodeRequire('electron-config');
 const config = new Config();
-const fs = require('fs');
-const getSize = require('get-folder-size');
+const fs = nodeRequire('fs');
+const getSize = nodeRequire('get-folder-size');
 
 var hash;
 var recInstance;
 var masterInstance;
 var senderInstance;
 var i = 0;
-var index, filePathArray, fileSizeArray, filePath, fileSize, folder, fileCount;
+var index, filePathArray, fileSizeArray, filePath, fileSize, folder, count;
 
+if(config.get('key')=={sup:'sup'}) console.log('GETTTT', config.get('key'));
 
 //Initializes daemon when on page
 IPFS.init();
 IPFS.daemon();
-
 
 //Makes encrypt/download folder (hidden) if not made
 User.mkdir();
@@ -30,12 +30,15 @@ User.mkdir();
 filePathArray = config.get('fileList.path');
 fileSizeArray = config.get('fileList.size');
 if(filePathArray) {
-	for(var i = 0; i < filePathArray.length; i++) {
-		filePath = filePathArray[i];
-		$('#fileTable').append('<div class="file" id="file' + i + '">'+ path.basename(filePath) +'<button class="send">Send</button><button class="delete">Delete</button></div>');
+	for(count = 0; count < filePathArray.length; count++) {
+		if(filePathArray[count]) {
+				filePath = filePathArray[count];
+			$('#fileTable').append('<div class="file" id="file' + count + '">'+ path.basename(filePath) +'<button class="send">Send</button><button class="delete">Delete</button></div>');
+		}
 	}
 }
 //TODO: MAKE A SEND ALL FUNCTION
+//TODO: ON CLOSE, take out all undefined
 
 
 $("button.addMasterList").click(function() {
@@ -125,7 +128,7 @@ $("button.test").click(function() {
 	$("#dropbox").on("drop", function(ev) {
 		ev.preventDefault();
 		$('#dropbox').css('background-color', 'red')
-		if(!fileCount) fileCount = 0;
+		if(!count) count = 0;
 		filePath = ev.originalEvent.dataTransfer.files[0].path;
 		getSize(filePath, function(err, res) {
 			fileSize = res;
@@ -141,9 +144,9 @@ $("button.test").click(function() {
 			//saves filepath and filesize to local storage
 			config.set('fileList', { path: filePathArray, size: fileSizeArray });
 			//create html element for each file
-			$('#fileTable').append('<div class="file" id="file' + fileCount + '">'+ path.basename(filePath) +'<button class="send">Send</button><button class="delete">Delete</button></div>');
+			$('#fileTable').append('<div class="file" id="file' + count + '">'+ path.basename(filePath) +'<button class="send">Send</button><button class="delete">Delete</button></div>');
 			console.log('FILE: ', filePath, ' SIZE: ', fileSize);
-			fileCount++;
+			count++;
 		});		
 	});
 
@@ -163,18 +166,34 @@ $("button.test").click(function() {
 	});
 
 	$('body').on('click', '.delete', function() {
-		console.log('CLICKED DELETE');
+		index = $(this).closest('.file').prop('id').replace(/file/,"");
+		filePathArray = config.get('fileList.path');
+		fileSizeArray = config.get('fileList.size');
+		console.log(index);
+		console.log(filePathArray);
+		filePathArray[index] = undefined;
+		fileSizeArray[index] = undefined;
+		console.log(filePathArray);
+		config.set('fileList', { path: filePathArray, size: fileSizeArray });
+		$(this).closest('.file').remove();
 	});
 
-	function remove() {
-		storage.get('fileList', function(error, res){
-			if(error) console.log(error);
-		});
-		storage.set('fileList', { path: fileArray, size: fileSize }, function(error) {
-		  if (error) throw error;
-		});
-	}
+	// function remove() {
+	// 	storage.get('fileList', function(error, res){
+	// 		if(error) console.log(error);
+	// 	});
+	// 	storage.set('fileList', { path: fileArray, size: fileSize }, function(error) {
+	// 	  if (error) throw error;
+	// 	});
+	// }
 
 	document.body.ondrop = (ev) => {
 		ev.preventDefault();
 	};
+
+	window.onbeforeunload = (ev) => {
+		ev.preventDefault();
+		config.set('check', {
+			sup: 'sup'
+		});
+	}
