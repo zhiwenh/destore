@@ -78,4 +78,10 @@ contract MasterList {
 		recInstance.addToHashList(hash1, hash2);
 	}
 
+	function clearReceivers() {
+		for(uint i = 0; i < receivers.length; i++){
+			delete receivers[i];
+		}
+	}
+
 }
