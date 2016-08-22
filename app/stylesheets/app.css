@@ -71,12 +71,16 @@ h3 {
   font-size: 20px;
 }
 
-.file {
+/*.file {
   display: absolute;
+  font-weight:;
+  color: white;
+  line-height: 0px;
+
   height: 50px;
   background-color: green;
   border-radius: 5px;
-}
+}*/
 
 .delete {
   display: relative;
@@ -84,4 +88,16 @@ h3 {
 
 .send {
   display: relative;
+}
+
+#fileTable {
+  background-color: green;
+  font-size: 12px;
+  color: white;
+  margin: 10px 0 10px 10px;
+  border: 1px solid black;
+  padding: 10px;
+  border-radius: 5px;
+  width: 185px;
+  float: right;
 }

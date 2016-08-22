@@ -15,15 +15,26 @@ var recInstance;
 var masterInstance;
 var senderInstance;
 var i = 0;
+var index, filePathArray, fileSizeArray, filePath, fileSize, folder, fileCount;
+
 
 //Initializes daemon when on page
+// IPFS.init();
 // IPFS.daemon();
 
-//Makes encrypt/download folder (hidden)
-// User.mkdir();
+
+//Makes encrypt/download folder (hidden) if not made
+User.mkdir();
 
 //load from localstorage to page on startup
-
+filePathArray = config.get('fileList.path');
+fileSizeArray = config.get('fileList.size');
+if(filePathArray) {
+	for(var i = 0; i < filePathArray.length; i++) {
+		filePath = filePathArray[i];
+		$('#fileTable').append('<div class="file" id="file' + fileCount + '">'+ path.basename(filePath) +'<button class="send">Send</button><button class="delete">Delete</button></div>');
+	}
+}
 
 
 $("button.addMasterList").click(function() {
@@ -89,6 +100,7 @@ $("button.test").click(function() {
 
 	$("button.clear").click(function() {
 		config.clear('fileList');
+		$('#fileTable').html("");
 	});
 
 	function getFileSize(filename) {
@@ -101,9 +113,9 @@ $("button.test").click(function() {
 		ev.preventDefault();
 	};
 	
-	var filePathArray, fileSizeArray, filePath, fileSize, folder;
 	$("#dropbox").on("drop", function(ev) {
 		ev.preventDefault();
+		if(!fileCount) fileCount = 0;
 		filePath = ev.originalEvent.dataTransfer.files[0].path;
 		getSize(filePath, function(err, res) {
 			fileSize = res;
@@ -111,19 +123,27 @@ $("button.test").click(function() {
 				filePathArray = [];
 				fileSizeArray = [];
 			} else {
-				filePathArray = config.get('fileList.name');
-				fileSizeArray = config.get('fileList.name');
+				filePathArray = config.get('fileList.path');
+				fileSizeArray = config.get('fileList.size');
 			}
 			filePathArray.push(filePath);
 			fileSizeArray.push(fileSize);
-			config.set('fileList', { name: filePathArray, size: fileSizeArray });
-			$('#dropbox').append('<div class="file"><button class="send">Send</button><button class="delete">Delete</button></div>');
+			//saves filepath and filesize to local storage
+			config.set('fileList', { path: filePathArray, size: fileSizeArray });
+			//create html element for each file
+			$('#fileTable').append('<div class="file" id="file' + fileCount + '">'+ path.basename(filePath) +'<button class="send">Send</button><button class="delete">Delete</button></div>');
 			console.log('FILE: ', filePath, ' SIZE: ', fileSize);
+			fileCount++;
 		});		
 	});
 
 	$('body').on('click', '.send', function() {
-		console.log('CLICKED SEND');
+		index = $(this).closest('.file').prop('id').replace(/file/,"");
+		filePathArray = config.get('fileList.path');
+		console.log(filePathArray[index]);
+		// IPFS.addFiles(filePathArray[index]).then(function(err, res) {
+		// 	console.log(res);
+		// });
 	});
 
 	$('body').on('click', '.delete', function() {
@@ -134,16 +154,10 @@ $("button.test").click(function() {
 		storage.get('fileList', function(error, res){
 			if(error) console.log(error);
 		});
-		storage.set('fileList', { name: fileArray, size: fileSize }, function(error) {
+		storage.set('fileList', { path: fileArray, size: fileSize }, function(error) {
 		  if (error) throw error;
 		});
 	}
-
-	// function mkdir(dir) {
-	//   if (!fs.existsSync(dir)){
-	//       fs.mkdirSync(dir);
-	//   }
-	// }
 
 	document.body.ondrop = (ev) => {
 		ev.preventDefault();
