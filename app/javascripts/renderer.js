@@ -154,17 +154,17 @@ document.ondragover = document.ondrop = (ev) => {
   ev.preventDefault();
 };
 
-$('#dropbox').on('dragover', (ev) => {
-  $('#dropbox').css('background-color', '#ea9393')
+$('.upload-drop-zone').on('dragover', (ev) => {
+  $('.upload-drop-zone').css('background-color', '#4c83db')
 });
 
-$('#dropbox').on('dragleave', (ev) => {
-  $('#dropbox').css('background-color', 'red')
+$('.upload-drop-zone').on('dragleave', (ev) => {
+  $('.upload-drop-zone').css('background-color', 'white')
 });
 
-$("#dropbox").on("drop", (ev) => {
+$(".upload-drop-zone").on("drop", (ev) => {
   ev.preventDefault();
-  $('#dropbox').css('background-color', 'red')
+  $('.upload-drop-zone').css('background-color', 'white')
   if (!count) count = 0;
   filePath = ev.originalEvent.dataTransfer.files[0].path;
   getSize(filePath, (err, res) => {
