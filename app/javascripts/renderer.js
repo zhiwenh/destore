@@ -19,8 +19,8 @@ var index, filePathArray, fileSizeArray, filePath, fileSize, folder, fileCount;
 
 
 //Initializes daemon when on page
-// IPFS.init();
-// IPFS.daemon();
+IPFS.init();
+IPFS.daemon();
 
 
 //Makes encrypt/download folder (hidden) if not made
@@ -32,7 +32,7 @@ fileSizeArray = config.get('fileList.size');
 if(filePathArray) {
 	for(var i = 0; i < filePathArray.length; i++) {
 		filePath = filePathArray[i];
-		$('#fileTable').append('<div class="file" id="file' + fileCount + '">'+ path.basename(filePath) +'<button class="send">Send</button><button class="delete">Delete</button></div>');
+		$('#fileTable').append('<div class="file" id="file' + i + '">'+ path.basename(filePath) +'<button class="send">Send</button><button class="delete">Delete</button></div>');
 	}
 }
 
@@ -112,9 +112,18 @@ $("button.test").click(function() {
 	document.ondragover = document.ondrop = (ev) => {
 		ev.preventDefault();
 	};
+
+	$('#dropbox').on('dragover', function(ev) {
+		$('#dropbox').css('background-color', '#ea9393')
+	});
+
+	$('#dropbox').on('dragleave', function(ev) {
+		$('#dropbox').css('background-color', 'red')
+	});
 	
 	$("#dropbox").on("drop", function(ev) {
 		ev.preventDefault();
+		$('#dropbox').css('background-color', 'red')
 		if(!fileCount) fileCount = 0;
 		filePath = ev.originalEvent.dataTransfer.files[0].path;
 		getSize(filePath, function(err, res) {
@@ -140,9 +149,12 @@ $("button.test").click(function() {
 	$('body').on('click', '.send', function() {
 		index = $(this).closest('.file').prop('id').replace(/file/,"");
 		filePathArray = config.get('fileList.path');
+		console.log(index);
 		console.log(filePathArray[index]);
-		// IPFS.addFiles(filePathArray[index]).then(function(err, res) {
-		// 	console.log(res);
+		//filePathArray[index] is the filePath
+		IPFS.addFiles(filePathArray[index]).then(function(res) {
+			console.log(res);
+		});
 		// });
 	});
 
