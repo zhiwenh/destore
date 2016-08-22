@@ -16,13 +16,13 @@ var masterInstance;
 var senderInstance;
 
 let i = 0;
-var index, filePathArray, fileSizeArray, filePath, fileSize, folder, count = 0;
+var index, filePathArray, fileSizeArray, fileHashArray, filePath, fileSize, folder, count = 0;
 
 // if(config.get('key')=={sup:'sup'}) console.log('GETTTT', config.get('key'));
 
 //Initializes daemon when on page
-// IPFS.init();
-// IPFS.daemon();
+IPFS.init();
+IPFS.daemon();
 
 //Makes encrypt/download folder (hidden) if not made
 User.mkdir('.fileStorage');
@@ -30,7 +30,7 @@ User.mkdir('.fileStorage');
 //load from localstorage to page on startup
 filePathArray = config.get('fileList.path');
 fileSizeArray = config.get('fileList.size');
-fileHashArray = config.get('fileList.size');
+fileHashArray = config.get('fileList.hash');
 if(filePathArray) {
 	//removes all null/undefined from arrays
 	while (count < filePathArray.length) {
@@ -148,14 +148,17 @@ $("#dropbox").on("drop", (ev) => {
     if(config.get('fileList')===undefined) {
       filePathArray = [];
       fileSizeArray = [];
+      fileHashArray = [];
     } else {
       filePathArray = config.get('fileList.path');
       fileSizeArray = config.get('fileList.size');
+      fileHashArray = config.get('fileList.hash');
     }
     filePathArray.push(filePath);
     fileSizeArray.push(fileSize);
+    fileHashArray.push(undefined);
     //saves filepath and filesize to local storage
-    config.set('fileList', { path: filePathArray, size: fileSizeArray });
+    config.set('fileList', { path: filePathArray, size: fileSizeArray, hash: fileHashArray  });
     //create html element for each file
     $('#fileTable').append('<div class="file" id="file' + count + '">'+ path.basename(filePath) +'<button class="send">Send</button><button class="delete">Delete</button></div>');
     console.log('FILE: ', filePath, ' SIZE: ', fileSize);
@@ -163,7 +166,7 @@ $("#dropbox").on("drop", (ev) => {
   });
 });
 
-$('body').on('click', '.send', () => {
+$('body').on('click', '.send', function() {
   index = $(this).closest('.file').prop('id').replace(/file/,"");
   filePathArray = config.get('fileList.path');
   console.log(index);
@@ -174,20 +177,36 @@ $('body').on('click', '.send', () => {
     console.log(res);
   })
   .catch(err => {
-    console.log('ERROR', err);
+    fileHashArray[index] = err[0].hash;
+ 		console.log(fileHashArray)
+		config.set('fileList.hash', fileHashArray);
   });
+  $(this).replaceWith('<button class="retrieve">Retrieve</button>');
 });
 
-$('body').on('click', '.delete', () => {
+$('body').on('click', '.retrieve', function() {
+	User.mkdir('Downloaded');
+	index = $(this).closest('.file').prop('id').replace(/file/,"");
+	fileHashArray = config.get('fileList.hash');
+	filePathArray = config.get('fileList.path');
+	console.log(path.join(__dirname + '/../../Downloaded' + path.basename(filePathArray[index])));
+	IPFS.download(fileHashArray[index], path.join(__dirname + '/../../Downloaded/' + path.basename(filePathArray[index])))
+		.then((res)=> console.log(res))
+		.catch(res => console.log('ERROR: ', res));
+ });
+
+$('body').on('click', '.delete', function() {
   index = $(this).closest('.file').prop('id').replace(/file/,"");
   filePathArray = config.get('fileList.path');
   fileSizeArray = config.get('fileList.size');
+  fileHashArray = config.get('fileList.size');
   console.log(index);
   console.log(filePathArray);
   filePathArray[index] = undefined;
   fileSizeArray[index] = undefined;
+  fileHashArray[index] = undefined;
   console.log(filePathArray);
-  config.set('fileList', { path: filePathArray, size: fileSizeArray });
+  config.set('fileList', { path: filePathArray, size: fileSizeArray, hash: filePathArray });
   $(this).closest('.file').remove();
 });
 
@@ -210,4 +229,3 @@ window.onbeforeunload = (ev) => {
     sup: 'sup'
   });
 }
->>>>>>> 105401a95c9d27119c981024cf591ed4d86ae61b
