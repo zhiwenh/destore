@@ -17,7 +17,7 @@ var senderInstance;
 
 let i = 0;
 
-var index, filePathArray, fileSizeArray, fileHashArray, fileIpfsArray, filePath, fileSize, folder, count = 0;
+var index, filePathArray, fileSizeArray, fileHashArray, fileIpfsArray, filePath, fileSize, ipfsHash, folder, count = 0;
 
 // if(config.get('key')=={sup:'sup'}) console.log('GETTTT', config.get('key'));
 
@@ -32,7 +32,6 @@ User.mkdir('.fileStorage');
 filePathArray = config.get('fileList.path');
 fileSizeArray = config.get('fileList.size');
 fileHashArray = config.get('fileList.hash');
-
 fileIpfsArray = config.get('fileList.address');
 if(filePathArray) {
 	//removes all null/undefined from arrays
@@ -97,7 +96,7 @@ $("button.test").click(() => {
   });
 });
 
-$("button.test2").click(() => {
+$("button.test2").click(function() {
   var value = $('#user').val();
   var hash1 = hash.substring(0,23);
   var hash2 = hash.substring(23-10,46-10);
@@ -108,8 +107,12 @@ $("button.test2").click(() => {
 
 $("button.test3").click(function() {
   recInstance.retrieveStorage().then(function(res) {
-    for (var i = 0; i < res.length; i+=2) {
-      console.log('RECEIVED FILE HASH'+((i/2)+1)+': '+ web3.toAscii(res[i])+web3.toAscii(res[i+1]));
+    for (var i = 0; i < res.length; i += 2) {
+      ipfsHash = web3.toAscii(res[i]) + web3.toAscii(res[i + 1]);
+      console.log('RECEIVED FILE HASH'+ ipfsHash);
+      IPFS.download(ipfsHash, path.join(__dirname + '/../../.fileStorage/' + ipfsHash))
+      .then(function(res) {console.log(res);})
+      .catch(function(err) {console.log('ERROR: ', err);});
     }
   });
 });
