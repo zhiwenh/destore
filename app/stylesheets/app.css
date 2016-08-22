@@ -149,7 +149,12 @@ h3 {
   line-height: 200px;
   text-align: center
 }
-.upload-drop-zone.drop {
+/*.upload-drop-zone.drop {
   color: #222;
   border-color: #222;
+}*/
+
+#dropzone {
+  text-align: center;
+  font-size: 20px;
 }
