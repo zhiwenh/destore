@@ -13,7 +13,9 @@ const getSize = nodeRequire('get-folder-size');
 var hash;
 var recInstance;
 var masterInstance = {address: '0x32b8ff87ff6504163cdc8390c31b9c7c2e58725a'};
+
 var senderInstance;
+
 
 let i = 0;
 
@@ -44,7 +46,7 @@ if (filePathArray) {
       filePathArray.splice(count, 1);
       fileSizeArray.splice(count, 1);
       fileHashArray.splice(count, 1);
-      fileContractArray.splice(count, 1);
+      // fileContractArray.splice(count, 1);
       // fileIpfsArray.splice(count, 1);
       // console.log('Removed 1', filePathArray);
     } else count++;
@@ -115,9 +117,6 @@ $("button.test2").click(function() {
   });
 });
 
-//QmUjMcDNG3jJbex2wUD7soHYXXinwa9cSuDVoZLy15U6P9
-//QmUjMcDNG3jJbex2wUD7soHYXXinwa9cSuDVoZLy15U6P9
-
 $("button.test3").click(function() {
   recInstance.retrieveStorage().then(function(res) {
     for (var i = 0; i < res.length; i += 2) {
@@ -129,8 +128,8 @@ $("button.test3").click(function() {
       console.log('RECEIVED FILE HASH'+ ipfsHash);
       const writePath = path.join(__dirname + '/../../.fileStorage/' + ipfsHash);
       IPFS.download(ipfsHash, writePath)
-      .then(function(res) {console.log(res);})
-      .catch(function(err) {console.log('ERROR: ', err);});
+        .then(function(res) {console.log(res);})
+        .catch(function(err) {console.log('ERROR: ', err);});
     }
   });
 });
