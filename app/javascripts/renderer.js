@@ -32,7 +32,7 @@ User.mkdir('.fileStorage');
 filePathArray = config.get('fileList.path');
 fileSizeArray = config.get('fileList.size');
 fileHashArray = config.get('fileList.hash');
-fileIpfsArray = config.get('fileList.address');
+// fileIpfsArray = config.get('fileList.address');
 if(filePathArray) {
 	//removes all null/undefined from arrays
 	while (count < filePathArray.length) {
@@ -40,7 +40,7 @@ if(filePathArray) {
 			filePathArray.splice(count,1);
 			fileSizeArray.splice(count,1);
 			fileHashArray.splice(count,1);
-      fileIpfsArray.splice(count,1);
+      // fileIpfsArray.splice(count,1);
 			// console.log('Removed 1', filePathArray);
 		} else count ++;
 		// console.log('LOOOP')
