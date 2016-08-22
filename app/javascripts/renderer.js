@@ -15,7 +15,7 @@ var recInstance;
 var masterInstance;
 var senderInstance;
 var i = 0;
-var index, filePathArray, fileSizeArray, filePath, fileSize, folder, count;
+var index, filePathArray, fileSizeArray, filePath, fileSize, folder, count = 0;
 
 if(config.get('key')=={sup:'sup'}) console.log('GETTTT', config.get('key'));
 
@@ -30,6 +30,17 @@ User.mkdir();
 filePathArray = config.get('fileList.path');
 fileSizeArray = config.get('fileList.size');
 if(filePathArray) {
+	//removes all null/undefined from arrays
+	while (count < filePathArray.length) {
+		if(!filePathArray[count]) {
+			filePathArray.splice(count,1);
+			fileSizeArray.splice(count,1);
+			console.log('Removed 1', filePathArray);
+		} else count ++;
+		console.log('LOOOP')
+	}
+	config.set('fileList', {path: filePathArray, size: fileSizeArray});
+	//adds each file to DOM
 	for(count = 0; count < filePathArray.length; count++) {
 		if(filePathArray[count]) {
 				filePath = filePathArray[count];
@@ -190,10 +201,3 @@ $("button.test").click(function() {
 	document.body.ondrop = (ev) => {
 		ev.preventDefault();
 	};
-
-	window.onbeforeunload = (ev) => {
-		ev.preventDefault();
-		config.set('check', {
-			sup: 'sup'
-		});
-	}
