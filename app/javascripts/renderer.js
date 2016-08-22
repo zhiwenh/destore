@@ -17,7 +17,7 @@ var senderInstance;
 var i = 0;
 var index, filePathArray, fileSizeArray, fileHashArray, filePath, fileSize, folder, count = 0;
 
-if(config.get('key')=={sup:'sup'}) console.log('GETTTT', config.get('key'));
+// if(config.get('key')=={sup:'sup'}) console.log('GETTTT', config.get('key'));
 
 //Initializes daemon when on page
 IPFS.init();
@@ -188,18 +188,27 @@ $("button.test").click(function() {
 
 	$('body').on('click', '.retrieve', function() {
 		User.mkdir('Downloaded');
+		index = $(this).closest('.file').prop('id').replace(/file/,"");
+		fileHashArray = config.get('fileList.hash');
+		filePathArray = config.get('fileList.path');
+		console.log(path.join(__dirname + '/../../Downloaded' + path.basename(filePathArray[index])));
+		IPFS.download(fileHashArray[index], path.join(__dirname + '/../../Downloaded/' + path.basename(filePathArray[index])))
+			.then((res)=> console.log(res))
+			.catch(res => console.log('ERROR: ', res));
 	});
 
 	$('body').on('click', '.delete', function() {
 		index = $(this).closest('.file').prop('id').replace(/file/,"");
 		filePathArray = config.get('fileList.path');
 		fileSizeArray = config.get('fileList.size');
+		fileHashArray = config.get('fileList.size');
 		console.log(index);
 		console.log(filePathArray);
 		filePathArray[index] = undefined;
 		fileSizeArray[index] = undefined;
+		fileHashArray[index] = undefined;
 		console.log(filePathArray);
-		config.set('fileList', { path: filePathArray, size: fileSizeArray });
+		config.set('fileList', { path: filePathArray, size: fileSizeArray, hash: fileHashArray });
 		$(this).closest('.file').remove();
 	});
 
