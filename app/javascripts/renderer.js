@@ -16,7 +16,7 @@ var masterInstance;
 var senderInstance;
 
 let i = 0;
-var index, filePathArray, fileSizeArray, filePath, fileSize, folder, count = 0;
+var index, filePathArray, fileSizeArray, fileHashArray, fileIpfsArray, filePath, fileSize, folder, count = 0;
 
 // if(config.get('key')=={sup:'sup'}) console.log('GETTTT', config.get('key'));
 
@@ -30,7 +30,8 @@ User.mkdir('.fileStorage');
 //load from localstorage to page on startup
 filePathArray = config.get('fileList.path');
 fileSizeArray = config.get('fileList.size');
-fileHashArray = config.get('fileList.size');
+fileHashArray = config.get('fileList.hash');
+fileIpfsArray = config.get('fileList.address');
 if(filePathArray) {
 	//removes all null/undefined from arrays
 	while (count < filePathArray.length) {
@@ -38,11 +39,12 @@ if(filePathArray) {
 			filePathArray.splice(count,1);
 			fileSizeArray.splice(count,1);
 			fileHashArray.splice(count,1);
+      fileIpfsArray.splice(count,1);
 			// console.log('Removed 1', filePathArray);
 		} else count ++;
 		// console.log('LOOOP')
 	}
-	config.set('fileList', {path: filePathArray, size: fileSizeArray, hash: fileHashArray});
+	config.set('fileList', {path: filePathArray, size: fileSizeArray, hash: fileHashArray, address: fileIpfsArray});
 	//adds each file to DOM
 	for(count = 0; count < filePathArray.length; count++) {
 		if(filePathArray[count]) {
@@ -53,7 +55,6 @@ if(filePathArray) {
 }
 //TODO: MAKE A SEND ALL FUNCTION
 //TODO: ON CLOSE, take out all undefined
-
 
 $("button.addMasterList").click(() => {
   Ethereum.deploy('MasterList')
@@ -103,8 +104,8 @@ $("button.test2").click(() => {
   });
 });
 
-$("button.test3").click(() => {
-  recInstance.retrieveStorage().then(function(res){
+$("button.test3").click(function() {
+  recInstance.retrieveStorage().then(function(res) {
     for (var i = 0; i < res.length; i+=2) {
       console.log('RECEIVED FILE HASH'+((i/2)+1)+': '+ web3.toAscii(res[i])+web3.toAscii(res[i+1]));
     }
@@ -209,5 +210,4 @@ window.onbeforeunload = (ev) => {
   config.set('check', {
     sup: 'sup'
   });
-}
->>>>>>> 105401a95c9d27119c981024cf591ed4d86ae61b
+};
