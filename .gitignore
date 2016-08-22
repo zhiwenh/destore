@@ -4,3 +4,4 @@ npm-debug.log
 libs/contracts
 data/data.db
 Downloaded
+.fileStorage/

@@ -34,7 +34,7 @@ User.mkdir('.fileStorage');
 filePathArray = config.get('fileList.path');
 fileSizeArray = config.get('fileList.size');
 fileHashArray = config.get('fileList.hash');
-<<<<<<< HEAD
+// fileIpfsArray = config.get('fileList.address');
 fileContractArray = config.get('fileList.contract');
 
 // fileIpfsArray = config.get('fileList.address');
@@ -45,6 +45,7 @@ if (filePathArray) {
       filePathArray.splice(count, 1);
       fileSizeArray.splice(count, 1);
       fileHashArray.splice(count, 1);
+      fileContractArray.splice(count, 1);
       // fileIpfsArray.splice(count, 1);
       // console.log('Removed 1', filePathArray);
     } else count++;
@@ -64,29 +65,8 @@ if (filePathArray) {
       $('#fileTable').append('<div class="file" id="file' + count + '">' + path.basename(filePath) + '<button class="send">Send</button><button class="delete">Delete</button></div>');
     }
   }
-=======
 fileIpfsArray = config.get('fileList.address');
-if(filePathArray) {
-	//removes all null/undefined from arrays
-	while (count < filePathArray.length) {
-		if(!filePathArray[count]) {
-			filePathArray.splice(count,1);
-			fileSizeArray.splice(count,1);
-			fileHashArray.splice(count,1);
-      fileIpfsArray.splice(count,1);
-			// console.log('Removed 1', filePathArray);
-		} else count ++;
-		// console.log('LOOOP')
-	}
-	config.set('fileList', {path: filePathArray, size: fileSizeArray, hash: fileHashArray, address: fileIpfsArray});
-	//adds each file to DOM
-	for(count = 0; count < filePathArray.length; count++) {
-		if(filePathArray[count]) {
-				filePath = filePathArray[count];
-			$('#fileTable').append('<div class="file" id="file' + count + '">'+ path.basename(filePath) +'<button class="send">Send</button><button class="delete">Delete</button></div>');
-		}
-	}
->>>>>>> 680c8bf5a3682acd323fd25882d3e288ad611924
+
 }
 //TODO: MAKE A SEND ALL FUNCTION
 //TODO: ON CLOSE, take out all undefined
@@ -117,12 +97,7 @@ $("button.addHost").click(() => {
 $("button.addUser").click(() => {
   hash = $('#hash').val();
   var filesize = $('#user').val();
-  var hash1 = hash.substring(0, 23);
-  var hash2 = hash.substring(23, 46);
-  Ethereum.deploy('Sender', [hash1, hash2, filesize, masterInstance.address])
-    .then(function(instance) {
-      senderInstance = instance;
-    });
+  deploySender(hash, filesize);
 });
 
 $("button.test").click(() => {
@@ -141,18 +116,21 @@ $("button.test2").click(function() {
   });
 });
 
+//QmUjMcDNG3jJbex2wUD7soHYXXinwa9cSuDVoZLy15U6P9
+//QmUjMcDNG3jJbex2wUD7soHYXXinwa9cSuDVoZLy15U6P9
+
 $("button.test3").click(function() {
   recInstance.retrieveStorage().then(function(res) {
     for (var i = 0; i < res.length; i += 2) {
-<<<<<<< HEAD
-      console.log('RECEIVED FILE HASH' + ((i / 2) + 1) + ': ' + web3.toAscii(res[i]) + web3.toAscii(res[i + 1]));
-=======
-      ipfsHash = web3.toAscii(res[i]) + web3.toAscii(res[i + 1]);
+      ipfsHash = (web3.toAscii(res[i]) + web3.toAscii(res[i + 1]));
+      // ipfsHash = ipfsHash.replace(/![A-Za-z0-9]/, "");
+      ipfsHash = ipfsHash.split('').filter(item => { return item.match(/[A-Za-z0-9]/); }).join('');
+      console.log(ipfsHash);
+      console.log('RECEIVED FILE HASH: '+ ipfsHash.length);
       console.log('RECEIVED FILE HASH'+ ipfsHash);
-      IPFS.download(ipfsHash, path.join(__dirname + '/../../.fileStorage/' + ipfsHash))
+      IPFS.download(ipfsHash, path.join(__dirname + '/../../.fileStorage/' + 'ipfsHash'))
       .then(function(res) {console.log(res);})
       .catch(function(err) {console.log('ERROR: ', err);});
->>>>>>> 680c8bf5a3682acd323fd25882d3e288ad611924
     }
   });
 });
@@ -164,6 +142,7 @@ $("button.test4").click(() => {
 $("button.clear").click(() => {
   config.clear('fileList');
   $('#fileTable').html("");
+  count = 0;
 });
 
 const getFileSize = (filename) => {
@@ -224,7 +203,7 @@ $('body').on('click', '.send', function() {
   index = $(this).closest('.file').prop('id').replace(/file/, "");
   filePathArray = config.get('fileList.path');
   console.log(index);
-  console.log(filePathArray[index]);
+  console.log('ARRAY', filePathArray);
   //filePathArray[index] is the filePath
   IPFS.addFiles(filePathArray[index])
     .then(res => {

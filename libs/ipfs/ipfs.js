@@ -72,6 +72,7 @@ class IPFS {
     if (typeof filePaths === 'string') {
       filePaths = [filePaths];
     }
+    console.log(filePaths)
 
     const fileBuffers = filePaths.map((path) => {
       return fs.readFileSync(path);
@@ -97,6 +98,8 @@ class IPFS {
   // @ writePath - string - path in which to write the file to
   // returns Promise with the response as an array of all buffer chunks
   download(hashAddress, writePath) {
+    console.log('INSIDE', hashAddress)
+    console.log(writePath)
     try {
       fs.accessSync(writePath);
     } catch(e) {
