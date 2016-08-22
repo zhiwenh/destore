@@ -61,7 +61,7 @@ h3 {
 #dropbox {
   width: 200px;
   height: 200px;
-  background-color: red;
+  background-color: #fff;
   float: right;
   border-radius: 6px;
   border: 3px solid black;
@@ -104,6 +104,7 @@ h3 {
 }
 
 .btn-primary.gradient {
+  border-radius: 6px;
 	background: -moz-linear-gradient(top,  #33a6cc 50%, #0099cc 50%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(50%,#33a6cc), color-stop(50%,#0099cc)); /* Chrome,Safari4+ */
 	background: -webkit-linear-gradient(top,  #33a6cc 50%,#0099cc 50%); /* Chrome10+,Safari5.1+ */

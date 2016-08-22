@@ -21,8 +21,8 @@
       <div class="jumbotron">
         <h1>destore</h1>
         <p>Decentralized file storage built with Ethereum and IPFS</p>
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
-      </div> <!-- jumbotron -->
+        <p><a class="btn btn-primary btn-lg" href="#" role="button">Sign Up!</a></p>
+      </div>
       <hr />
       <div class="row" id="signup">
         <h3>Sign Up</h3>
@@ -49,13 +49,14 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> <!-- SIGN UP -->
       <hr />
       <div class="row" id="user">
         <h3>User</h3>
         <div class="row" id="dropzone">
           <div class="panel panel-default">
-            <div class="panel-heading"><strong>Upload Files</strong>
+            <div class="panel-heading">
+              <strong>Destore File</strong>
             </div>
             <div class="panel-body">
               <h4>Drag and drop files below</h4>
@@ -65,11 +66,20 @@
             </div>
           </div>
         </div>
-      </div>
+        <div class="row">
+          <button type="button" class="btn btn-primary btn-lg gradient"> List of Files </button>
+          <button type="button" class="btn btn-primary btn-lg gradient"> Retrieve Files </button>
+          <button type="button" class="btn btn-primary btn-lg gradient"> Delete Files </button>
+        </div>
+      </div> <!-- USER -->
       <hr />
       <div class="row" id="host">
         <h3>Host</h3>
-      </div>
+        <button type="button" class="btn btn-primary btn-lg gradient"> Download Available Files </button>
+      </div> <!-- HOST -->
     </div>
   </body>
+  <script>
+    nodeRequire('../javascripts/renderer.js');
+  </script>
 </html>
