@@ -15,7 +15,7 @@ var recInstance;
 var masterInstance;
 var senderInstance;
 var i = 0;
-var index, filePathArray, fileSizeArray, filePath, fileSize, folder, count = 0;
+var index, filePathArray, fileSizeArray, fileHashArray, filePath, fileSize, folder, count = 0;
 
 if(config.get('key')=={sup:'sup'}) console.log('GETTTT', config.get('key'));
 
@@ -29,17 +29,19 @@ User.mkdir();
 //load from localstorage to page on startup
 filePathArray = config.get('fileList.path');
 fileSizeArray = config.get('fileList.size');
+fileHashArray = config.get('fileList.size');
 if(filePathArray) {
 	//removes all null/undefined from arrays
 	while (count < filePathArray.length) {
 		if(!filePathArray[count]) {
 			filePathArray.splice(count,1);
 			fileSizeArray.splice(count,1);
-			console.log('Removed 1', filePathArray);
+			fileHashArray.splice(count,1);
+			// console.log('Removed 1', filePathArray);
 		} else count ++;
-		console.log('LOOOP')
+		// console.log('LOOOP')
 	}
-	config.set('fileList', {path: filePathArray, size: fileSizeArray});
+	config.set('fileList', {path: filePathArray, size: fileSizeArray, hash: fileHashArray});
 	//adds each file to DOM
 	for(count = 0; count < filePathArray.length; count++) {
 		if(filePathArray[count]) {
@@ -146,14 +148,17 @@ $("button.test").click(function() {
 			if(config.get('fileList')===undefined) {
 				filePathArray = [];
 				fileSizeArray = [];
+				fileHashArray = [];
 			} else {
 				filePathArray = config.get('fileList.path');
 				fileSizeArray = config.get('fileList.size');
+				fileHashArray = config.get('fileList.hash');
 			}
 			filePathArray.push(filePath);
 			fileSizeArray.push(fileSize);
+			fileHashArray.push(undefined);
 			//saves filepath and filesize to local storage
-			config.set('fileList', { path: filePathArray, size: fileSizeArray });
+			config.set('fileList', { path: filePathArray, size: fileSizeArray, hash: fileHashArray});
 			//create html element for each file
 			$('#fileTable').append('<div class="file" id="file' + count + '">'+ path.basename(filePath) +'<button class="send">Send</button><button class="delete">Delete</button></div>');
 			console.log('FILE: ', filePath, ' SIZE: ', fileSize);
@@ -164,6 +169,7 @@ $("button.test").click(function() {
 	$('body').on('click', '.send', function() {
 		index = $(this).closest('.file').prop('id').replace(/file/,"");
 		filePathArray = config.get('fileList.path');
+		fileHashArray = config.get('fileList.hash');
 		console.log(index);
 		console.log(filePathArray[index]);
 		//filePathArray[index] is the filePath
@@ -172,6 +178,9 @@ $("button.test").click(function() {
       console.log(res);
     })
     .catch(err => {
+    	fileHashArray[index] = err[0].hash;
+    	console.log(fileHashArray)
+    	config.set('fileList.hash', fileHashArray);
       console.log('ERROR', err);
     });
 	});
