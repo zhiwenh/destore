@@ -24,7 +24,7 @@ IPFS.init();
 IPFS.daemon();
 
 //Makes encrypt/download folder (hidden) if not made
-User.mkdir();
+User.mkdir('.fileStorage');
 
 //load from localstorage to page on startup
 filePathArray = config.get('fileList.path');
@@ -179,10 +179,15 @@ $("button.test").click(function() {
     })
     .catch(err => {
     	fileHashArray[index] = err[0].hash;
-    	console.log(fileHashArray)
+    	console.log(fileHashArray);
     	config.set('fileList.hash', fileHashArray);
-      console.log('ERROR', err);
+    	$(this).replaceWith('<button class="retrieve">Retrieve</button>');
+      console.log('ERROR: ', err);
     });
+	});
+
+	$('body').on('click', '.retrieve', function() {
+		User.mkdir('Downloaded');
 	});
 
 	$('body').on('click', '.delete', function() {
