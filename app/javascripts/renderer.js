@@ -17,7 +17,7 @@ var senderInstance;
 
 let i = 0;
 
-var index, filePathArray, fileSizeArray, fileHashArray, fileIpfsArray, filePath, fileSize, folder, count = 0;
+var index, filePathArray, fileSizeArray, fileHashArray, fileIpfsArray, filePath, fileSize, ipfsHash, folder, count = 0;
 
 var fileContractArray;
 
@@ -34,6 +34,7 @@ User.mkdir('.fileStorage');
 filePathArray = config.get('fileList.path');
 fileSizeArray = config.get('fileList.size');
 fileHashArray = config.get('fileList.hash');
+<<<<<<< HEAD
 fileContractArray = config.get('fileList.contract');
 
 // fileIpfsArray = config.get('fileList.address');
@@ -63,6 +64,29 @@ if (filePathArray) {
       $('#fileTable').append('<div class="file" id="file' + count + '">' + path.basename(filePath) + '<button class="send">Send</button><button class="delete">Delete</button></div>');
     }
   }
+=======
+fileIpfsArray = config.get('fileList.address');
+if(filePathArray) {
+	//removes all null/undefined from arrays
+	while (count < filePathArray.length) {
+		if(!filePathArray[count]) {
+			filePathArray.splice(count,1);
+			fileSizeArray.splice(count,1);
+			fileHashArray.splice(count,1);
+      fileIpfsArray.splice(count,1);
+			// console.log('Removed 1', filePathArray);
+		} else count ++;
+		// console.log('LOOOP')
+	}
+	config.set('fileList', {path: filePathArray, size: fileSizeArray, hash: fileHashArray, address: fileIpfsArray});
+	//adds each file to DOM
+	for(count = 0; count < filePathArray.length; count++) {
+		if(filePathArray[count]) {
+				filePath = filePathArray[count];
+			$('#fileTable').append('<div class="file" id="file' + count + '">'+ path.basename(filePath) +'<button class="send">Send</button><button class="delete">Delete</button></div>');
+		}
+	}
+>>>>>>> 680c8bf5a3682acd323fd25882d3e288ad611924
 }
 //TODO: MAKE A SEND ALL FUNCTION
 //TODO: ON CLOSE, take out all undefined
@@ -108,7 +132,7 @@ $("button.test").click(() => {
   });
 });
 
-$("button.test2").click(() => {
+$("button.test2").click(function() {
   var value = $('#user').val();
   var hash1 = hash.substring(0, 23);
   var hash2 = hash.substring(23 - 10, 46 - 10);
@@ -120,7 +144,15 @@ $("button.test2").click(() => {
 $("button.test3").click(function() {
   recInstance.retrieveStorage().then(function(res) {
     for (var i = 0; i < res.length; i += 2) {
+<<<<<<< HEAD
       console.log('RECEIVED FILE HASH' + ((i / 2) + 1) + ': ' + web3.toAscii(res[i]) + web3.toAscii(res[i + 1]));
+=======
+      ipfsHash = web3.toAscii(res[i]) + web3.toAscii(res[i + 1]);
+      console.log('RECEIVED FILE HASH'+ ipfsHash);
+      IPFS.download(ipfsHash, path.join(__dirname + '/../../.fileStorage/' + ipfsHash))
+      .then(function(res) {console.log(res);})
+      .catch(function(err) {console.log('ERROR: ', err);});
+>>>>>>> 680c8bf5a3682acd323fd25882d3e288ad611924
     }
   });
 });
