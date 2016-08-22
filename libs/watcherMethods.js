@@ -4,12 +4,12 @@ const path = require('path');
 const fs = require('fs');
 const log = console.log.bind(console);
 
-class Watch {
+class Watcher {
 	constructor() {
 		this.fileList = {};
 	}
 	
-	startWatch(dir) {
+	startWatcher(dir) {
 		const watcher = chokidar.watch(dir, {
 			ignored: /[\/\\]\./,
 			persistent: true,
@@ -30,4 +30,4 @@ class Watch {
 	}
 };
 
-module.exports = new Watch();
+module.exports = new Watcher();

@@ -2,23 +2,39 @@ const Ethereum = nodeRequire('../../libs/ethereum/ethereum.js');
 const web3 = Ethereum.init();
 const Host = nodeRequire('../../libs/HostMethods.js');
 const User = nodeRequire('../../libs/UserMethods.js');
-const Watch = nodeRequire('../../libs/watchMethods.js');
+const Watcher = nodeRequire('../../libs/watcherMethods.js');
 const IPFS = nodeRequire('../../libs/ipfs/ipfs.js');
 const path = nodeRequire('path');
 const Config = require('electron-config');
 const config = new Config();
-const fs = require('fs')
+const fs = require('fs');
+const getSize = require('get-folder-size');
 
 var hash;
 var recInstance;
 var masterInstance;
 var senderInstance;
 var i = 0;
+var index, filePathArray, fileSizeArray, filePath, fileSize, folder, fileCount;
+
 
 //Initializes daemon when on page
-IPFS.daemon();
+// IPFS.init();
+// IPFS.daemon();
 
-//Makes encrypt/download folder (hidden)
+
+//Makes encrypt/download folder (hidden) if not made
+User.mkdir();
+
+//load from localstorage to page on startup
+filePathArray = config.get('fileList.path');
+fileSizeArray = config.get('fileList.size');
+if(filePathArray) {
+	for(var i = 0; i < filePathArray.length; i++) {
+		filePath = filePathArray[i];
+		$('#fileTable').append('<div class="file" id="file' + fileCount + '">'+ path.basename(filePath) +'<button class="send">Send</button><button class="delete">Delete</button></div>');
+	}
+}
 
 
 $("button.addMasterList").click(function() {
@@ -36,12 +52,11 @@ $("button.addHost").click(function() {
 		});
 });
 
-$("button.mkdir").click(function() {
-	User.makeWatchFolder();
-	//get file path
-	// var dirPath = path.join(__dirname, '../../DeStoreWatch');
-	// Watch.startWatch(dirPath);
-});
+// $("button.mkdir").click(function() {
+// 	//get file path
+// 	// var dirPath = path.join(__dirname, '../../DeStoreWatch');
+// 	// Watch.startWatch(dirPath);
+// });
 
 $("button.addUser").click(function() {
 	hash = $('#hash').val();
@@ -84,7 +99,8 @@ $("button.test").click(function() {
 	});
 
 	$("button.clear").click(function() {
-		// config.clear('fileList');
+		config.clear('fileList');
+		$('#fileTable').html("");
 	});
 
 	function getFileSize(filename) {
@@ -95,42 +111,54 @@ $("button.test").click(function() {
 
 	document.ondragover = document.ondrop = (ev) => {
 		ev.preventDefault();
-	}
+	};
 	
-	var filePathArray, fileSizeArray, filePath, fileSize;
 	$("#dropbox").on("drop", function(ev) {
 		ev.preventDefault();
+		if(!fileCount) fileCount = 0;
 		filePath = ev.originalEvent.dataTransfer.files[0].path;
-		fileSize = getFileSize(filePath);
+		getSize(filePath, function(err, res) {
+			fileSize = res;
+			if(config.get('fileList')===undefined) {
+				filePathArray = [];
+				fileSizeArray = [];
+			} else {
+				filePathArray = config.get('fileList.path');
+				fileSizeArray = config.get('fileList.size');
+			}
+			filePathArray.push(filePath);
+			fileSizeArray.push(fileSize);
+			//saves filepath and filesize to local storage
+			config.set('fileList', { path: filePathArray, size: fileSizeArray });
+			//create html element for each file
+			$('#fileTable').append('<div class="file" id="file' + fileCount + '">'+ path.basename(filePath) +'<button class="send">Send</button><button class="delete">Delete</button></div>');
+			console.log('FILE: ', filePath, ' SIZE: ', fileSize);
+			fileCount++;
+		});		
+	});
 
-		if(config.get('fileList')===undefined) {
-			filePathArray = [];
-			fileSizeArray = [];
-		} else {
-			filePathArray = config.get('fileList.name')
-			fileSizeArray = config.get('fileList.name')
-		}
-		filePathArray.push(filePath);
-		fileSizeArray.push(fileSize);
-		config.set('fileList', { name: filePathArray, size: fileSizeArray });
-		console.log('FILE: ', filePath, ' SIZE: ', fileSize)
+	$('body').on('click', '.send', function() {
+		index = $(this).closest('.file').prop('id').replace(/file/,"");
+		filePathArray = config.get('fileList.path');
+		console.log(filePathArray[index]);
+		// IPFS.addFiles(filePathArray[index]).then(function(err, res) {
+		// 	console.log(res);
+		// });
+	});
+
+	$('body').on('click', '.delete', function() {
+		console.log('CLICKED DELETE');
 	});
 
 	function remove() {
 		storage.get('fileList', function(error, res){
 			if(error) console.log(error);
-		})
-		storage.set('fileList', { name: fileArray, size: fileSize }, function(error) {
+		});
+		storage.set('fileList', { path: fileArray, size: fileSize }, function(error) {
 		  if (error) throw error;
 		});
 	}
 
-	// function mkdir(dir) {
-	//   if (!fs.existsSync(dir)){
-	//       fs.mkdirSync(dir);
-	//   }
-	// }
-
 	document.body.ondrop = (ev) => {
 		ev.preventDefault();
-	}
+	};
