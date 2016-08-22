@@ -19,6 +19,8 @@ let i = 0;
 
 var index, filePathArray, fileSizeArray, fileHashArray, fileIpfsArray, filePath, fileSize, ipfsHash, folder, count = 0;
 
+var fileContractArray;
+
 // if(config.get('key')=={sup:'sup'}) console.log('GETTTT', config.get('key'));
 
 //Initializes daemon when on page
@@ -32,6 +34,37 @@ User.mkdir('.fileStorage');
 filePathArray = config.get('fileList.path');
 fileSizeArray = config.get('fileList.size');
 fileHashArray = config.get('fileList.hash');
+<<<<<<< HEAD
+fileContractArray = config.get('fileList.contract');
+
+// fileIpfsArray = config.get('fileList.address');
+if (filePathArray) {
+  //removes all null/undefined from arrays
+  while (count < filePathArray.length) {
+    if (!filePathArray[count]) {
+      filePathArray.splice(count, 1);
+      fileSizeArray.splice(count, 1);
+      fileHashArray.splice(count, 1);
+      // fileIpfsArray.splice(count, 1);
+      // console.log('Removed 1', filePathArray);
+    } else count++;
+    // console.log('LOOOP')
+  }
+  config.set('fileList', {
+    path: filePathArray,
+    size: fileSizeArray,
+    hash: fileHashArray,
+    // address: fileIpfsArray
+    contract: fileContractArray
+  });
+  //adds each file to DOM
+  for (count = 0; count < filePathArray.length; count++) {
+    if (filePathArray[count]) {
+      filePath = filePathArray[count];
+      $('#fileTable').append('<div class="file" id="file' + count + '">' + path.basename(filePath) + '<button class="send">Send</button><button class="delete">Delete</button></div>');
+    }
+  }
+=======
 fileIpfsArray = config.get('fileList.address');
 if(filePathArray) {
 	//removes all null/undefined from arrays
@@ -53,23 +86,24 @@ if(filePathArray) {
 			$('#fileTable').append('<div class="file" id="file' + count + '">'+ path.basename(filePath) +'<button class="send">Send</button><button class="delete">Delete</button></div>');
 		}
 	}
+>>>>>>> 680c8bf5a3682acd323fd25882d3e288ad611924
 }
 //TODO: MAKE A SEND ALL FUNCTION
 //TODO: ON CLOSE, take out all undefined
 
 $("button.addMasterList").click(() => {
   Ethereum.deploy('MasterList')
-  .then(function(instance){
-    masterInstance = instance;
-  });
+    .then(function(instance) {
+      masterInstance = instance;
+    });
 });
 
 $("button.addHost").click(() => {
-	var value = $('#host').val();
-	Ethereum.deploy('Receiver', [value, masterInstance.address])
-		.then(function(instance){
-			recInstance = instance;
-		});
+  var value = $('#host').val();
+  Ethereum.deploy('Receiver', [value, masterInstance.address])
+    .then(function(instance) {
+      recInstance = instance;
+    });
 });
 
 // $("button.mkdir").click(function() {
@@ -78,41 +112,47 @@ $("button.addHost").click(() => {
 // 	// Watch.startWatch(dirPath);
 // });
 
+
+
 $("button.addUser").click(() => {
   hash = $('#hash').val();
   var filesize = $('#user').val();
-  var hash1 = hash.substring(0,23);
-  var hash2 = hash.substring(23,46);
+  var hash1 = hash.substring(0, 23);
+  var hash2 = hash.substring(23, 46);
   Ethereum.deploy('Sender', [hash1, hash2, filesize, masterInstance.address])
-  .then(function(instance){
-    senderInstance = instance;
-  });
+    .then(function(instance) {
+      senderInstance = instance;
+    });
 });
 
 $("button.test").click(() => {
-  masterInstance.testReceiver().then(function(res){
-    console.log('Host Address',res[0]);
-    console.log('Available Storage',res[1].toNumber());
+  masterInstance.testReceiver().then(function(res) {
+    console.log('Host Address', res[0]);
+    console.log('Available Storage', res[1].toNumber());
   });
 });
 
 $("button.test2").click(function() {
   var value = $('#user').val();
-  var hash1 = hash.substring(0,23);
-  var hash2 = hash.substring(23-10,46-10);
-  senderInstance.testSender(hash1, hash2).then(function(res){
-    console.log('Latest Hash: ', web3.toAscii(res[0])+web3.toAscii(res[1]));
+  var hash1 = hash.substring(0, 23);
+  var hash2 = hash.substring(23 - 10, 46 - 10);
+  senderInstance.testSender(hash1, hash2).then(function(res) {
+    console.log('Latest Hash: ', web3.toAscii(res[0]) + web3.toAscii(res[1]));
   });
 });
 
 $("button.test3").click(function() {
   recInstance.retrieveStorage().then(function(res) {
     for (var i = 0; i < res.length; i += 2) {
+<<<<<<< HEAD
+      console.log('RECEIVED FILE HASH' + ((i / 2) + 1) + ': ' + web3.toAscii(res[i]) + web3.toAscii(res[i + 1]));
+=======
       ipfsHash = web3.toAscii(res[i]) + web3.toAscii(res[i + 1]);
       console.log('RECEIVED FILE HASH'+ ipfsHash);
       IPFS.download(ipfsHash, path.join(__dirname + '/../../.fileStorage/' + ipfsHash))
       .then(function(res) {console.log(res);})
       .catch(function(err) {console.log('ERROR: ', err);});
+>>>>>>> 680c8bf5a3682acd323fd25882d3e288ad611924
     }
   });
 });
@@ -147,62 +187,84 @@ $('#dropbox').on('dragleave', (ev) => {
 $("#dropbox").on("drop", (ev) => {
   ev.preventDefault();
   $('#dropbox').css('background-color', 'red')
-  if(!count) count = 0;
+  if (!count) count = 0;
   filePath = ev.originalEvent.dataTransfer.files[0].path;
   getSize(filePath, (err, res) => {
     fileSize = res;
-    if(config.get('fileList')===undefined) {
+    if (config.get('fileList') === undefined) {
       filePathArray = [];
       fileSizeArray = [];
       fileHashArray = [];
+      fileContractArray = [];
     } else {
       filePathArray = config.get('fileList.path');
       fileSizeArray = config.get('fileList.size');
       fileHashArray = config.get('fileList.hash');
+      fileContractArray = config.get('fileList.contract');
     }
     filePathArray.push(filePath);
     fileSizeArray.push(fileSize);
     fileHashArray.push(undefined);
+    fileContractArray.push(undefined);
     //saves filepath and filesize to local storage
-    config.set('fileList', { path: filePathArray, size: fileSizeArray, hash: fileHashArray  });
+    config.set('fileList', {
+      path: filePathArray,
+      size: fileSizeArray,
+      hash: fileHashArray,
+      contract: fileContractArray
+    });
     //create html element for each file
-    $('#fileTable').append('<div class="file" id="file' + count + '">'+ path.basename(filePath) +'<button class="send">Send</button><button class="delete">Delete</button></div>');
+    $('#fileTable').append('<div class="file" id="file' + count + '">' + path.basename(filePath) + '<button class="send">Send</button><button class="delete">Delete</button></div>');
     console.log('FILE: ', filePath, ' SIZE: ', fileSize);
     count++;
   });
 });
 
 $('body').on('click', '.send', function() {
-  index = $(this).closest('.file').prop('id').replace(/file/,"");
+  index = $(this).closest('.file').prop('id').replace(/file/, "");
   filePathArray = config.get('fileList.path');
   console.log(index);
   console.log(filePathArray[index]);
   //filePathArray[index] is the filePath
   IPFS.addFiles(filePathArray[index])
-  .then(res => {
-    console.log(res);
-  })
-  .catch(err => {
-    fileHashArray[index] = err[0].hash;
- 		console.log(fileHashArray)
-		config.set('fileList.hash', fileHashArray);
-  });
+    .then(res => {
+      console.log(res);
+    })
+    .catch(err => {
+      fileHashArray[index] = err[0].hash;
+      console.log(fileHashArray)
+      config.set('fileList.hash', fileHashArray);
+			// const part1 = fileHashArray[index].substr(0, 22);
+			// const part2 = fileHashArray[index].substr(23);
+      // const fileSize = err[0].size;
+      // const deployArgs = [part1, part2, fileSize, masterInstance];
+      deploySender(fileHashArray[index], fileSize);
+
+			// Ethereum.deploy('Sender', deployArgs).testSender()
+      //   .then(res => {
+      //     console.log
+      //     console.log(res);
+      //   })
+      //   .catch(err => {
+      //
+      //   });
+    });
   $(this).replaceWith('<button class="retrieve">Retrieve</button>');
 });
 
 $('body').on('click', '.retrieve', function() {
-	User.mkdir('Downloaded');
-	index = $(this).closest('.file').prop('id').replace(/file/,"");
-	fileHashArray = config.get('fileList.hash');
-	filePathArray = config.get('fileList.path');
-	console.log(path.join(__dirname + '/../../Downloaded' + path.basename(filePathArray[index])));
-	IPFS.download(fileHashArray[index], path.join(__dirname + '/../../Downloaded/' + path.basename(filePathArray[index])))
-		.then((res)=> console.log(res))
-		.catch(res => console.log('ERROR: ', res));
- });
+  User.mkdir('Downloaded');
+  index = $(this).closest('.file').prop('id').replace(/file/, "");
+  fileHashArray = config.get('fileList.hash');
+  filePathArray = config.get('fileList.path');
+  console.log(path.join(__dirname + '/../../Downloaded' + path.basename(filePathArray[index])));
+  IPFS.download(fileHashArray[index], path.join(__dirname + '/../../Downloaded/' + path.basename(filePathArray[index])))
+    .then((res) => console.log(res))
+    .catch(res => console.log('ERROR: ', res));
+});
 
 $('body').on('click', '.delete', function() {
-  index = $(this).closest('.file').prop('id').replace(/file/,"");
+  index = $(this).closest('.file').prop('id').replace(/file/, "");
   filePathArray = config.get('fileList.path');
   fileSizeArray = config.get('fileList.size');
   fileHashArray = config.get('fileList.size');
@@ -212,7 +274,11 @@ $('body').on('click', '.delete', function() {
   fileSizeArray[index] = undefined;
   fileHashArray[index] = undefined;
   console.log(filePathArray);
-  config.set('fileList', { path: filePathArray, size: fileSizeArray, hash: filePathArray });
+  config.set('fileList', {
+    path: filePathArray,
+    size: fileSizeArray,
+    hash: filePathArray
+  });
   $(this).closest('.file').remove();
 });
 
@@ -235,3 +301,24 @@ window.onbeforeunload = (ev) => {
     sup: 'sup'
   });
 };
+
+// use after adding a file to IPFS to deploy the file contract
+// @ hash - string - IPFS file hash address
+// @ fileSize - int - the file size in bytes
+function deploySender(hash, fileSize) {
+  var hash1 = hash.substring(0,23);
+  var hash2 = hash.substring(23,46);
+  var deployArgs = [hash1, hash2, fileSize, masterInstance.address];
+  console.log(deployArgs);
+  Ethereum.deploy('Sender', deployArgs)
+    .then(function(instance){
+      fileContractArray[index] = instance.address;
+      console.log(fileContractArray);
+      console.log('deployer sender');
+      config.set('fileList.contract', fileContractArray);
+      senderInstance = instance;
+    })
+    .catch(err => {
+      console.log('deploySender Error: ' + err);
+    });
+}
