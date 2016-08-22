@@ -3,7 +3,7 @@ const ipfsAPI = require('ipfs-api');
 // const multihashes = require('multihashes');
 const fs = require('fs');
 const promisify = require('es6-promisify');
-const stream = require('stream');
+// const stream = require('stream');
 
 const spawn = require('child_process').spawn;
 

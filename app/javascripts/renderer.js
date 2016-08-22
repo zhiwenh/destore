@@ -14,28 +14,42 @@ var hash;
 var recInstance;
 var masterInstance;
 var senderInstance;
-let i = 0;
-var index, filePathArray, fileSizeArray, filePath, fileSize, folder, count;
 
-if(config.get('key')=={sup:'sup'}) console.log('GETTTT', config.get('key'));
+let i = 0;
+var index, filePathArray, fileSizeArray, filePath, fileSize, folder, count = 0;
+
+// if(config.get('key')=={sup:'sup'}) console.log('GETTTT', config.get('key'));
 
 //Initializes daemon when on page
 // IPFS.init();
 // IPFS.daemon();
 
 //Makes encrypt/download folder (hidden) if not made
-User.mkdir();
+User.mkdir('.fileStorage');
 
 //load from localstorage to page on startup
 filePathArray = config.get('fileList.path');
 fileSizeArray = config.get('fileList.size');
+fileHashArray = config.get('fileList.size');
 if(filePathArray) {
-  for (count = 0; count < filePathArray.length; count++) {
-    if (filePathArray[count]) {
-      filePath = filePathArray[count];
-      $('#fileTable').append('<div class="file" id="file' + count + '">'+ path.basename(filePath) +'<button class="send">Send</button><button class="delete">Delete</button></div>');
-    }
-  }
+	//removes all null/undefined from arrays
+	while (count < filePathArray.length) {
+		if(!filePathArray[count]) {
+			filePathArray.splice(count,1);
+			fileSizeArray.splice(count,1);
+			fileHashArray.splice(count,1);
+			// console.log('Removed 1', filePathArray);
+		} else count ++;
+		// console.log('LOOOP')
+	}
+	config.set('fileList', {path: filePathArray, size: fileSizeArray, hash: fileHashArray});
+	//adds each file to DOM
+	for(count = 0; count < filePathArray.length; count++) {
+		if(filePathArray[count]) {
+				filePath = filePathArray[count];
+			$('#fileTable').append('<div class="file" id="file' + count + '">'+ path.basename(filePath) +'<button class="send">Send</button><button class="delete">Delete</button></div>');
+		}
+	}
 }
 //TODO: MAKE A SEND ALL FUNCTION
 //TODO: ON CLOSE, take out all undefined
@@ -196,3 +210,4 @@ window.onbeforeunload = (ev) => {
     sup: 'sup'
   });
 }
+>>>>>>> 105401a95c9d27119c981024cf591ed4d86ae61b
