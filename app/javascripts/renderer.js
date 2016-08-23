@@ -12,7 +12,7 @@ const getSize = nodeRequire('get-folder-size');
 
 var hash;
 var recInstance;
-var masterInstance = {address: '0x32b8ff87ff6504163cdc8390c31b9c7c2e58725a'};
+var masterInstance = {address: '0x670c7aef820ffaeff495b923d0cce9192bcce1ac'};
 
 var senderInstance;
 
@@ -30,7 +30,7 @@ IPFS.init();
 IPFS.daemon();
 
 //Makes encrypt/download folder (hidden) if not made
-User.mkdir('.fileStorage');
+User.mkdir('fileStorage');
 
 //load from localstorage to page on startup
 filePathArray = config.get('fileList.path');
@@ -80,7 +80,7 @@ $("button.addMasterList").click(() => {
 });
 
 $("button.addHost").click(() => {
-  var value = $('#host').val();
+  var value = $('#hostInput').val();
   value = value * 1024 * 1024;
   Ethereum.deploy('Receiver', [value, masterInstance.address])
     .then(function(instance) {
