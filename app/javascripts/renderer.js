@@ -12,7 +12,7 @@ const getSize = nodeRequire('get-folder-size');
 
 var hash;
 var recInstance;
-var masterInstance = {address: '0x670c7aef820ffaeff495b923d0cce9192bcce1ac'};
+var masterInstance //= {address: '0x944d61bbf39d61cb9c3d735a34d9ef0b4383e8ec'};
 
 var senderInstance;
 
@@ -82,6 +82,7 @@ $("button.addMasterList").click(() => {
 $("button.addHost").click(() => {
   var value = $('#hostInput').val();
   value = value * 1024 * 1024;
+  $('.addHost').prop('disabled', true);
   Ethereum.deploy('Receiver', [value, masterInstance.address])
     .then(function(instance) {
       recInstance = instance;
@@ -265,16 +266,8 @@ $('body').on('click', '.delete', function() {
 
 $('body').on('click', '.clearML', function() {
 	masterInstance.clearReceivers();
+  if($('.addHost').prop('disabled')===true) $('.addHost').prop('disabled', false);
 });
-
-// function remove() {
-// 	storage.get('fileList', function(error, res){
-// 		if(error) console.log(error);
-// 	});
-// 	storage.set('fileList', { path: fileArray, size: fileSize }, function(error) {
-// 	  if (error) throw error;
-// 	});
-// }
 
 document.body.ondrop = (ev) => {
   ev.preventDefault();

@@ -58,6 +58,10 @@ h3 {
   display: inline-block;
 }
 
+button:disabled {
+  background-color: #535370;
+}
+
 #dropbox {
   width: 200px;
   height: 200px;
