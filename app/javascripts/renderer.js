@@ -81,6 +81,7 @@ $("button.addMasterList").click(() => {
 
 $("button.addHost").click(() => {
   var value = $('#host').val();
+  value = value * 1024 * 1024;
   Ethereum.deploy('Receiver', [value, masterInstance.address])
     .then(function(instance) {
       recInstance = instance;
@@ -126,7 +127,7 @@ $("button.test3").click(function() {
       console.log(ipfsHash);
       console.log('RECEIVED FILE HASH: '+ ipfsHash.length);
       console.log('RECEIVED FILE HASH'+ ipfsHash);
-      const writePath = path.join(__dirname + '/../../.fileStorage/' + ipfsHash);
+      const writePath = path.join(__dirname + '/../../fileStorage/' + ipfsHash);
       IPFS.download(ipfsHash, writePath)
         .then(function(res) {console.log(res);})
         .catch(function(err) {console.log('ERROR: ', err);});

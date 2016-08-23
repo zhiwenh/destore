@@ -24,6 +24,7 @@
         <p><a class="btn btn-primary btn-lg" href="#" role="button">Sign Up!</a></p>
       </div>
       <hr />
+
       <div class="row" id="signup">
         <h3>Sign Up</h3>
         <div class="row">
@@ -66,18 +67,24 @@
             </div>
           </div>
         </div>
+        <div id="fileTable"></div>
         <div class="row">
-          <button type="button" class="btn btn-primary btn-lg gradient"> List of Files </button>
-          <button type="button" class="btn btn-primary btn-lg gradient"> Retrieve Files </button>
-          <button type="button" class="btn btn-primary btn-lg gradient"> Delete Files </button>
+          <button type="button" class="btn btn-primary btn-lg gradient"> Test </button>
+          <button type="button" class="clear btn btn-primary btn-lg gradient"> Clear </button>
+          <button type="button" class="clearML btn btn-primary btn-lg gradient"> Clear Receivers </button>
         </div>
       </div> <!-- USER -->
       <hr />
       <div class="row" id="host">
         <h3>Host</h3>
-        <button type="button" class="btn btn-primary btn-lg gradient"> Download Available Files </button>
+        <input id="host" placeholder="Please enter space required in Mb" />
+        <button type="button" class="addHost btn btn-primary btn-lg gradient"> Add Host</button>
+        <button type="button" class="test3 btn btn-primary btn-lg gradient"> Download Available Files </button>
       </div> <!-- HOST -->
     </div>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <button type="button" class="addMasterList btn btn-primary btn-lg gradient"> Add Master List </button>
+
   </body>
   <script>
     nodeRequire('../javascripts/renderer.js');
