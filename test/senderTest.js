@@ -1,4 +1,4 @@
-contract(Sender, function () {
+contract('MasterList', function (accounts) {
   it('This test should fail,', function (done){
     Sender.new()
     .then(function(sender){
@@ -10,12 +10,3 @@ contract(Sender, function () {
     });
   });
 });
-
-
-// contract('Conference', function(accounts) {
-//   it("should assert true", function(done) {
-//     var conference = Conference.at(Conference.deployed_address);
-//     assert.isTrue(true);
-//     done();
-//   });
-// });
