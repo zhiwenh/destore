@@ -1,15 +1,18 @@
 'use strict';
 
-const web3 = require('web3');
 const fs = require('fs-extra');
 const path = require('path');
-const program = require('commander');
 const systeminformation = require('systeminformation');
 const chokidar = require('chokidar');
 const watchedDir = 'DeStore';
 const newFileExists = false;
 
+
 class User {
+  constructor() {
+
+  }
+  
   mkdir(name) {
     // console.log('Current Working Directory: ', process.cwd());
     fs.mkdirs(name, (err) => {
@@ -24,7 +27,7 @@ class User {
   }
 
   addFile() {
-    
+
   }
 
   commitToIpfs() {
