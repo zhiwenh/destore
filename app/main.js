@@ -3,17 +3,20 @@ const electron = require('electron');
 const app = electron.app;
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
-const path = require('path');
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+
+let startupPath;
+startupPath = config.get('startup.path');
+if(!startupPath) startupPath = 'signup.html';
 
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 800, height: 600});
 
   // and load the index.html of the app.
-  mainWindow.loadURL(`file://${__dirname}/html/index2.html`);
+  mainWindow.loadURL(`file://${__dirname}/html/${startupPath}`);
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
@@ -48,8 +51,6 @@ app.on('activate', function () {
     createWindow();
   }
 });
-
-// app.getPath(__dirname)
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.

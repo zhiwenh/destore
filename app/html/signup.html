@@ -1,90 +1,96 @@
-<!doctype html>
-<html class="no-js" lang="">
-    <head>
-        <meta charset="utf-8">
-        <title>DeStore Sign Up</title>
-        <meta name="description" content="decentralized file storage">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="apple-touch-icon" href="apple-touch-icon.png">
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-        <link rel="stylesheet" href="stylesheets/signup.css">
-    </head>
-    <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Project name</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <form class="navbar-form navbar-right" role="form">
-            <div class="form-group">
-              <input type="text" placeholder="Email" class="form-control">
-            </div>
-            <div class="form-group">
-              <input type="password" placeholder="Password" class="form-control">
-            </div>
-            <button type="submit" class="btn btn-success">Sign in</button>
-          </form>
-        </div><!--/.navbar-collapse -->
-      </div>
-    </nav>
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="UTF-8">
+  <title>Destore: Decentralized File Storage</title>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">
+  <link href="../stylesheets/app.css" rel="stylesheet" type="text/css">
+  <script>
+    window.nodeRequire = require;
+    delete window.require;
+    delete window.exports;
+    delete window.module;
+  </script>
+  <script src="../vendors/jquery.min.js"></script>
+  <!-- <script src="../javascripts/renderer.js"></script> -->
 
-    <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
-      <div class="container">
-        <h1>Hello, world!</h1>
-        <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+  <!-- <script src="../javascripts/app.js"></script> -->
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="jumbotron">
+        <h1>Destore</h1>
+        <p>Decentralized file storage built with Ethereum and IPFS</p>
+        <p><a class="btn btn-primary btn-lg" href="#" role="button">Sign Up!</a></p>
       </div>
+      <hr />
+      <button class="clearList">CLEAR EVERYTHING</button>
+      <div class="row" id="signup">
+        <h3>Sign Up</h3>
+        <div class="row">
+          <div id="signup-fields">
+            <label>
+              Please enter the Ethereum account (public key) you would like associated with your Destore account:
+            </label>
+            <input type="text" maxlength="42" />
+            <label class="radio-inline">
+              User
+              <input type="radio" name="account-type">
+            </label>
+            <label class="radio-inline">
+              Host
+              <input type="radio" name="account-type">
+            </label>
+            <label>
+              Please enter the amount of space, in gigabytes, that you would like to make available for storage:
+            </label>
+            <input type="text" />
+            <div class="row">
+              <button type="button" class="btn btn-primary btn-lg gradient">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div> <!-- SIGN UP -->
+      <hr />
+      <div class="row" id="user">
+        <h3>User</h3>
+        <div class="row" id="dropzone">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <strong>Destore File</strong>
+            </div>
+            <div class="panel-body">
+              <h4>Drag and drop files below</h4>
+              <div class="upload-drop-zone" id="drop-zone">
+                Just drag and drop files here
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="fileTable"></div>
+        <div class="row">
+          <button type="button" class="test btn btn-primary btn-lg gradient"> Test </button>
+          <button type="button" class="test5 btn btn-primary btn-lg gradient"> Test5 </button>
+          <button type="button" class="clear btn btn-primary btn-lg gradient"> Clear </button>
+          <button type="button" class="clearML btn btn-primary btn-lg gradient"> Clear Receivers </button>
+        </div>
+      </div> <!-- USER -->
+      <hr />
+      <div class="row" id="host">
+        <h3>Host</h3>
+        <input id="hostInput" placeholder="Please enter space required in Mb" />
+        <button type="button" class="addHost btn btn-primary btn-lg gradient"> Add Host</button>
+        <button type="button" class="addHost2 btn btn-primary btn-lg gradient"> Add Host2</button>
+        <button type="button" class="addHost3 btn btn-primary btn-lg gradient"> Add Host3</button>
+        <button type="button" class="testReceiver btn btn-primary btn-lg gradient"> Test All of Receivers</button>
+        <button type="button" class="test3 btn btn-primary btn-lg gradient"> Download Available Files </button>
+      </div> <!-- HOST -->
     </div>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <button type="button" class="addMasterList btn btn-primary btn-lg gradient"> Add Master List </button>
 
-    <div class="container">
-      <!-- Example row of columns -->
-      <div class="row">
-        <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div>
-        <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-       </div>
-        <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div>
-      </div>
-
-      <hr>
-
-      <footer>
-        <p>&copy; Company 2015</p>
-      </footer>
-    </div> <!-- /container -->        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
-
-        <script src="js/vendor/bootstrap.min.js"></script>
-
-        <script src="js/main.js"></script>
-
-        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-        <!-- <script>
-            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-            e.src='//www.google-analytics.com/analytics.js';
-            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-            ga('create','UA-XXXXX-X','auto');ga('send','pageview');
-        </script> -->
-    </body>
+  </body>
+  <script>
+    nodeRequire('../javascripts/renderer.js');
+  </script>
 </html>
