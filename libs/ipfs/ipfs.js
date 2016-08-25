@@ -71,6 +71,7 @@ class IPFS {
   // @ filesPaths - string or array containing the paths to the files
   // returns a Promise
   addFiles(filePaths) {
+    console.log(filePaths);
     if (typeof filePaths === 'string') {
       filePaths = [filePaths];
     }
@@ -79,17 +80,21 @@ class IPFS {
     const fileBuffers = filePaths.map((path) => {
       return fs.readFileSync(path);
     });
-
+    console.log('file buffers');
+    console.log(fileBuffers);
     // adds actual './path/path/file' to returned obj
     const addPaths = (filePaths, callback) => {
       this._ipfs.files.add(fileBuffers, (err, res) => {
         console.log('callback add');
-        if (err) throw(err);
-        else {
+        console.log(res);
+
+        if (err) {
+          callback(err, null);
+        } else {
           res.map((obj, i) => {
             return obj.file = filePaths[i];
           });
-          callback(res);
+          callback(null, res);
         }
       });
     };
@@ -123,13 +128,13 @@ class IPFS {
         });
 
         stream.on('error', function(err) {
-          throw(err);
+          callback(err, null);
         });
 
         stream.on('end', function() {
           process.stdout.write('\nDone!\n');
 
-          callback(resArray);
+          callback(null, resArray);
         });
       });
     };

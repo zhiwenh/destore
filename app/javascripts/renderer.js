@@ -10,9 +10,12 @@ const config = new Config();
 const fs = nodeRequire('fs');
 const getSize = nodeRequire('get-folder-size');
 
+const uploadFile = nodeRequire('../../libs/uploadFile.js');
+const hostFile = nodeRequire('../../libs/hostFile.js');
+
 var hash;
 var recInstance = {address: '0x8ca22b74e3640541462b04399479212958df0490'};
-var masterInstance = {address: '0x4e140616dc42d606909864d9ae8911f95b752133'};
+var masterInstance = {address: '0x2dbbef61fe83adf1f1f4c0288239d4f7f7be172b'};
 
 var senderInstance;
 
@@ -122,10 +125,8 @@ $("button.test2").click(function() {
 
 // retrives all files stored in reciever contract and downloads
 $("button.test3").click(function() {
-  console.log('press download')
-  retriveFilesDownload(recInstance.address)
-
-
+  console.log('press download');
+  hostFile(recInstance.address);
 });
 
 // gets config storage
@@ -202,17 +203,20 @@ $('body').on('click', '.send', function() {
   console.log('ARRAY', filePathArray);
   //filePathArray[index] is the filePath
 
-  addFileAndDeploy(filePathArray[index]);
-  // IPFS.addFiles(filePathArray[index])
-  //   .then(res => {
-  //     console.log(res);
-  //   })
-  //   .catch(err => {
-  //     fileHashArray[index] = err[0].hash;
-  //     console.log(fileHashArray)
-  //     config.set('fileList.hash', fileHashArray);
-  //     deploySender(fileHashArray[index], fileSize);
-  //   });
+  // addFileAndDeploy(filePathArray[index]);
+  const happy = __dirname + './../../user/files/happy';
+  const test =  __dirname + './../../user/files/files';
+  const png =  __dirname + './../../user/files/kb.png';
+  const download =  __dirname + './../../user/download/download';
+  const taylor =  __dirname + './../../user/files/together.mp3';
+
+  uploadFile(filePathArray[0], masterInstance.address);
+  // addFile(filePathArray[1], masterInstance.address);
+  //
+  // addFile(filePathArray[2], masterInstance.address);
+  //
+  // addFile(filePathArray[3], masterInstance.address);
+
   $(this).replaceWith('<button class="retrieve">Retrieve</button>');
 });
 
@@ -313,15 +317,16 @@ function retriveFilesDownload(receiverAddress) {
     .then(function(res) {
       for (var i = 0; i < res.length; i += 2) {
         ipfsHash = (web3.toAscii(res[i]) + web3.toAscii(res[i + 1]));
-        // ipfsHash = ipfsHash.replace(/![A-Za-z0-9]/, "");
         ipfsHash = ipfsHash.split('').filter(item => { return item.match(/[A-Za-z0-9]/); }).join('');
-        console.log(ipfsHash);
-        console.log('RECEIVED FILE HASH: '+ ipfsHash.length);
         console.log('RECEIVED FILE HASH'+ ipfsHash);
         const writePath = path.join(__dirname + '/../../fileStorage/' + ipfsHash);
         IPFS.download(ipfsHash, writePath)
-          .then(function(res) {console.log(res);})
-          .catch(function(err) {console.log('ERROR: ', err);});
+          .then(function(res) {
+            console.log(res);
+          })
+          .catch(function(err) {
+            console.log('ERROR: ', err);
+          });
       }
   })
   .catch(err => {
