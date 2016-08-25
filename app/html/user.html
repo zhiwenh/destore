@@ -17,77 +17,32 @@
   <!-- <script src="../javascripts/app.js"></script> -->
   </head>
   <body>
-    <div class="container-fluid">
-      <div class="jumbotron">
-        <h1>Destore</h1>
-        <p>Decentralized file storage built with Ethereum and IPFS</p>
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">Sign Up!</a></p>
+    <h1>Destore User</h1>
+    <button class="clearList">CLEAR EVERYTHING</button>
+    <div class="row" id="user">
+      <h3>User</h3>
+      <div class="row" id="dropzone">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <strong>Destore File</strong>
+          </div>
+          <div class="panel-body">
+            <h4>Drag and drop files below</h4>
+            <div class="upload-drop-zone" id="drop-zone">
+              Just drag and drop files here
+            </div>
+          </div>
+        </div>
       </div>
-      <hr />
-      <button class="clearList">CLEAR EVERYTHING</button>
-      <div class="row" id="signup">
-        <h3>Sign Up</h3>
-        <div class="row">
-          <div id="signup-fields">
-            <label>
-              Please enter the Ethereum account (public key) you would like associated with your Destore account:
-            </label>
-            <input type="text" maxlength="42" />
-            <label class="radio-inline">
-              User
-              <input type="radio" name="account-type">
-            </label>
-            <label class="radio-inline">
-              Host
-              <input type="radio" name="account-type">
-            </label>
-            <label>
-              Please enter the amount of space, in gigabytes, that you would like to make available for storage:
-            </label>
-            <input type="text" />
-            <div class="row">
-              <button type="button" class="btn btn-primary btn-lg gradient">Submit</button>
-            </div>
-          </div>
-        </div>
-      </div> <!-- SIGN UP -->
-      <hr />
-      <div class="row" id="user">
-        <h3>User</h3>
-        <div class="row" id="dropzone">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <strong>Destore File</strong>
-            </div>
-            <div class="panel-body">
-              <h4>Drag and drop files below</h4>
-              <div class="upload-drop-zone" id="drop-zone">
-                Just drag and drop files here
-              </div>
-            </div>
-          </div>
-        </div>
-        <div id="fileTable"></div>
-        <div class="row">
-          <button type="button" class="test btn btn-primary btn-lg gradient"> Test </button>
-          <button type="button" class="test5 btn btn-primary btn-lg gradient"> Test5 </button>
-          <button type="button" class="clear btn btn-primary btn-lg gradient"> Clear </button>
-          <button type="button" class="clearML btn btn-primary btn-lg gradient"> Clear Receivers </button>
-        </div>
-      </div> <!-- USER -->
-      <hr />
-      <div class="row" id="host">
-        <h3>Host</h3>
-        <input id="hostInput" placeholder="Please enter space required in Mb" />
-        <button type="button" class="addHost btn btn-primary btn-lg gradient"> Add Host</button>
-        <button type="button" class="addHost2 btn btn-primary btn-lg gradient"> Add Host2</button>
-        <button type="button" class="addHost3 btn btn-primary btn-lg gradient"> Add Host3</button>
-        <button type="button" class="testReceiver btn btn-primary btn-lg gradient"> Test All of Receivers</button>
-        <button type="button" class="test3 btn btn-primary btn-lg gradient"> Download Available Files </button>
-      </div> <!-- HOST -->
-    </div>
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-    <button type="button" class="addMasterList btn btn-primary btn-lg gradient"> Add Master List </button>
+      <div id="fileTable"></div>
+      <div class="row">
+        <button type="button" class="test btn btn-primary btn-lg gradient"> Test </button>
+        <button type="button" class="test5 btn btn-primary btn-lg gradient"> Test5 </button>
+        <button type="button" class="clear btn btn-primary btn-lg gradient"> Clear </button>
+        <button type="button" class="clearML btn btn-primary btn-lg gradient"> Clear Receivers </button>
+      </div>
+    </div> <!-- USER -->
+    
 
   </body>
   <script>

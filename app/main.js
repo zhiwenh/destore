@@ -1,4 +1,6 @@
 const electron = require('electron');
+const Config = require('electron-config');
+const config = new Config();
 // Module to control application life.
 const app = electron.app;
 // Module to create native browser window.

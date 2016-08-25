@@ -97,6 +97,14 @@ $("button.addHost").click(() => {
 // 	// Watch.startWatch(dirPath);
 // });
 
+$(document).on('click', '.hostLink', () => {
+  config.set('startup', {path: 'host.html'})
+});
+
+$(document).on('click', '.userLink', () => {
+  config.set('startup', {path: 'user.html'})
+});
+
 
 // adds a sender file contract
 $("button.addUser").click(() => {
