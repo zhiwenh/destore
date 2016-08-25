@@ -66,6 +66,8 @@ class IPFS {
       console.log(`child process exited with code ${code}`);
     });
   }
+
+
   // @ filesPaths - string or array containing the paths to the files
   // returns a Promise
   addFiles(filePaths) {

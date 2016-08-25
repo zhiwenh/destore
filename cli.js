@@ -87,10 +87,13 @@ if (program.exec) {
 
 if (program.execAt) {
   console.log('execAt');
-  Ethereum.execAt('Test', '0x450773ce2d51219078a5ee2639d90f3df1ae61d6')
-    .getValue()
+  Ethereum.execAt('MasterList', '0x7e99708685f1a3be4e2a87da2aa3f8d24e203670')
+    .testReceiver()
     .then((res) => {
       console.log(res);
+    })
+    .catch(err => {
+      console.log(err);
     });
 }
 

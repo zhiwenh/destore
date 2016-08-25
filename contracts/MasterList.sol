@@ -31,7 +31,7 @@ contract Receiver {
 	function retrieveStorage() public constant returns (bytes32[]) {
 		return hashArray;
 	}
- 
+
 	function addToHashList(bytes23 hash1, bytes23 hash2) {
 		hashArray[hashArray.length++] = hash1;
 		hashArray[hashArray.length++] = hash2;
@@ -83,5 +83,4 @@ contract MasterList {
 			delete receivers[i];
 		}
 	}
-
 }
