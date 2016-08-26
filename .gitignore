@@ -1,8 +1,9 @@
 node_modules
 .DS_Store
 npm-debug.log
-libs/contracts
 Downloaded/
 .fileStorage/
 fileStorage/
 data/**
+files/download/**
+files/storage/**
