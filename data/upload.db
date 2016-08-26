@@ -1,2 +1,2 @@
-{"$$indexCreated":{"fieldName":"hashAddressU","unique":true,"sparse":true}}
+{"fileName":"kb.png","filePath":"./files/upload/kb.png","fileSize":21555,"hashAddress":"QmdMpNvXNKz5AswQ16D2vTFspLBbhsBADXENJnQ7tvDZWs","contractAddress":"0xbf91f307a9ea7858879a7f5d27d1f151a9930196","uploadTime":{"$$date":1472231568978},"_id":"nlNaTGExQuUNciHz"}
 {"$$indexCreated":{"fieldName":"hashAddress","unique":true,"sparse":true}}

@@ -7,11 +7,8 @@ const hostFile = require('./libs/hostFile.js');
 const uploadFile = require('./libs/uploadFile.js');
 const saveContracts = require('./libs/saveContracts.js');
 
-const Datastore = require('nedb');
-const db = new Datastore({ filename: './data/data.db', autoload: true });
-
-const Host = require('./models/Host.js');
 const Upload = require('./models/Upload.js');
+const Host = require('./models/Host.js');
 
 program
   .version('0.0.1')
@@ -40,7 +37,7 @@ if (program.init) {
 
 
 if (program.shray) {
-  saveContracts('testContract')
+  saveContracts('testContract');
 }
 
 if (program.check) {
@@ -63,15 +60,6 @@ if (program.deploy) {
   Ethereum.deploy('MasterList')
     .then(function(res) {
       console.log(res.address);
-      db.insert({
-        address: res.address,
-        file: 'Test'
-      }, function(err, res) {
-        if (!err) {
-          console.log('address successfully saved');
-          console.log(res);
-        }
-      });
     })
     .catch(function(err) {
       console.log(err);
@@ -98,15 +86,6 @@ if (program.execAt) {
     });
 }
 
-if (program.delete) {
-  console.log('delete all entries from database');
-  db.remove({}, { multi: true }, function (err, numRemoved) {
-
-  });
-}
-
-
-
 if (program.test2) {
 
 }
@@ -125,7 +104,7 @@ if (program.ipfsTest) {
   IPFS.init();
 
   console.log('===== ipfsAdd =====');
-  const happy = './user/files/happy';
+  const happy = './upload/kb.png';
   // const test = './user/files/files';
   // const png = './user/files/kb.png';
   // const download = './user/download/download';
@@ -167,9 +146,6 @@ if (program.resetUpload) {
 
 
 if (program.test) {
-  Host.reset();
-  Upload.reset();
-
   Host.db.find({}, (err, res) => {
     console.log('host db');
     console.log(res);
@@ -179,7 +155,12 @@ if (program.test) {
     console.log('upload db');
     console.log(res);
   });
-  const kb = './user/files/test2';
+
+  Host.reset();
+
+  Upload.reset();
+
+  const kb = './files/upload/kb.png';
 
   IPFS.init();
   Ethereum.deploy('MasterList')
@@ -195,11 +176,9 @@ if (program.test) {
           uploadFile(kb, masterAddress, (err, res) => {
             if (err) console.error(err);
             else {
+              console.log(res);
               console.log('upload file');
-              hostFile(receiverAddress, (err, res) => {
-                console.log(err);
-                console.log(res);
-              });
+              hostFile(receiverAddress);
             }
           });
         })

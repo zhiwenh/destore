@@ -98,6 +98,13 @@ class IPFS {
 
     return promisify((hashAddress, callback) => {
       this._ipfs.cat(hashAddress, (err, stream) => {
+        console.log(typeof stream);
+        if (err) {
+          callback(err);
+          return;
+        } else {
+
+        }
         stream.pipe(writeStream);
         let resArray = [];
         process.stdout.write('Downloading ' + hashAddress + ' to: \n');

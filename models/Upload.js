@@ -2,7 +2,7 @@
 const DataStore = require('nedb');
 
 const Upload = new DataStore({
-  filename: './data/upload.db',
+  filename: __dirname + '/../data/upload.db',
   autoload: true
 });
 
@@ -10,13 +10,12 @@ const Schema = {
   fileName: null,
   filePath: null,
   fileSize: null,
-  hashAddress: null,
+  senderHashAddress: null,
   contractAddress: null,
   uploadTime: null
-  // passwordHash: null
 };
 
-Upload.ensureIndex({ fieldName: 'hashAddressU', unique: true, sparse: true}, err => {
+Upload.ensureIndex({ fieldName: 'hashAddress', unique: true, sparse: true }, err => {
   if (err) console.error(err);
 });
 

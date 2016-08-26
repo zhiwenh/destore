@@ -11,11 +11,11 @@ const user = __dirname + './../user/'; // path to application user directory
 // host - where the files are downloaded for the host
 
 const filesConfig = {
-  download: user + 'download',
-  files: user + 'files',
-  storage: user + 'storage',
-  watch: user + 'watch',
-  host: __dirname + '/../../fileStorage/'
+  download: __dirname + '/../../files/download/',
+  // files: user + 'files',
+  // watch: user + 'watch',
+  upload: __dirname + '/../../files/upload/',
+  storage: __dirname + '/../../files/storage/'
 };
 
 module.exports = filesConfig;

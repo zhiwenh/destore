@@ -1,5 +1,4 @@
 'use strict';
-
 const IPFS = require('./ipfs/ipfs.js');
 const Ethereum = require('./ethereum/ethereum.js');
 const path = require('path');
@@ -23,14 +22,14 @@ module.exports = (receiverAddress, callback) => {
         hashAddress = hashAddress.split('').filter(char => {
           return char.match(/[A-Za-z0-9]/);
         }).join('');
-        const writePath = path.join(filesConfig.host + hashAddress);
+        const writePath = path.join(filesConfig.storage + hashAddress);
         IPFS.download(hashAddress, writePath)
           .then(function(res) {
             console.log('File sucessfully hosted');
             console.log('writePath');
             const host = {
               // fileSize: '',
-              hashAddressR: hashAddress,
+              hashAddress: hashAddress,
               // senderAddress: 'will need to get later',
               hostTime: new Date()
             };
@@ -40,8 +39,8 @@ module.exports = (receiverAddress, callback) => {
                 else throw(err);
               } else {
                 console.log('Host file data sucessfully saved');
-                console.log(res);
-                callback(null, res);
+                if (callback) callback(null, res);
+                else console.log(res);
               }
             });
           })
