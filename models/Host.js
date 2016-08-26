@@ -2,18 +2,18 @@
 const DataStore = require('nedb');
 
 const Host = new DataStore({
-  filename: './data/host.db',
+  filename: __dirname + '/../data/host.db',
   autoload: true
 });
 
 const Schema = {
   fileSize: null,
-  hashAddress: null,
+  recieverHashAddress: null,
   senderAddress: null,
   hostTime: null
 };
 
-Host.ensureIndex({ fieldName: 'hashAddressR', unique: true, sparse: true }, err => {
+Host.ensureIndex({ fieldName: 'hashAddress', unique: true, sparse: true }, err => {
   if (err) console.error(err);
 });
 

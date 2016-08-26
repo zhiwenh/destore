@@ -2,9 +2,10 @@
 const IPFS = require('./ipfs/ipfs.js');
 const Ethereum = require('./ethereum/ethereum.js');
 const path = require('path');
-const Upload = require('./../models/Host.js');
+const Upload = require('./../models/Upload.js');
 
 /*
+  Adds file to IPFS, deploys sender contract with IPFS hash address, then uploads data to the Upload database
   @ filePath - string - only does a single file in the electron app
   @ masterAddress - string - the address of the MasterList
   @ callback - function - returns the doc created from the Upload.db storage
@@ -39,24 +40,29 @@ module.exports = (filePath, masterAddress, callback) => {
               fileName: path.basename(filePath[i]),
               filePath: filePath[i],
               fileSize: fileSizes[i],
-              hashAddressU: hashAddresses[i],
+              hashAddress: hashAddresses[i],
               contractAddress: instances[i].address,
               uploadTime : new Date()
             };
             Upload.db.insert(upload, (err, res) => {
-              console.log('All files contracts sucessfully saved');
-              console.log(res);
-              callback(null, res);
+              if (err) {
+                if (callback) callback(err);
+                else throw ('Error saving contract in upload file ' + err);
+              } else {
+                console.log('All files contracts sucessfully saved');
+                if (callback) callback(null, res);
+                else console.log(res);
+              }
             });
           }
         })
         .catch(err => {
-          callback(err);
-          throw ('Error deploying contract in upload file: ' + err);
+          if (callback) callback(err);
+          else throw ('Error deploying contract in upload file: ' + err);
         });
     })
     .catch(err => {
-      callback(err);
-      throw('Error adding files ot IPFS in upload file: ' + err);
+      if (callback) callback(err);
+      else throw ('Error deploying contract in upload file: ' + err);
     });
 };

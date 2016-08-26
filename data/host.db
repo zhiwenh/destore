@@ -1,8 +1,5 @@
-{"hashAddressR":"Qmf8oj9wbfu73prNAA1cRQVDqA52gD5B3ApnYQQjcjffH4","hostTime":{"$$date":1472176364905},"_id":"HqMsRIoCxNFqtRvv"}
-{"fileName":"test2","filePath":"./user/files/test2","fileSize":14,"hashAddressU":"Qmf8oj9wbfu73prNAA1cRQVDqA52gD5B3ApnYQQjcjffH4","contractAddress":"0x336154796ed278330bf2d9d5ac815692b37ae93a","uploadTime":{"$$date":1472176363764},"_id":"X0VCjcofwWNtfgu4"}
-{"$$indexCreated":{"fieldName":"hashAddressR","unique":true,"sparse":true}}
+{"hashAddress":"QmdMpNvXNKz5AswQ16D2vTFspLBbhsBADXENJnQ7tvDZWs","hostTime":{"$$date":1472192254078},"_id":"jEjT9y99SJw7vN7p"}
 {"$$indexCreated":{"fieldName":"hashAddress","unique":true,"sparse":true}}
-{"$$deleted":true,"_id":"HqMsRIoCxNFqtRvv"}
-{"$$deleted":true,"_id":"X0VCjcofwWNtfgu4"}
-{"fileName":"test2","filePath":"./user/files/test2","fileSize":14,"hashAddressU":"Qmf8oj9wbfu73prNAA1cRQVDqA52gD5B3ApnYQQjcjffH4","contractAddress":"0x8dd6556c54e592066d529514ef4ceb46d7bfc817","uploadTime":{"$$date":1472176512566},"_id":"mlP09vG6MsdYih81"}
-{"hashAddressR":"Qmf8oj9wbfu73prNAA1cRQVDqA52gD5B3ApnYQQjcjffH4","hostTime":{"$$date":1472176513382},"_id":"sx52lLhtaqyY9z5i"}
+{"$$indexCreated":{"fieldName":"recieverHashAddress","unique":true,"sparse":true}}
+{"$$deleted":true,"_id":"jEjT9y99SJw7vN7p"}
+{"hashAddress":"QmdMpNvXNKz5AswQ16D2vTFspLBbhsBADXENJnQ7tvDZWs","hostTime":{"$$date":1472194604935},"_id":"9gY6k4hcHUYQY6Y1"}
