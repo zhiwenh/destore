@@ -1,8 +1,8 @@
 'use strict';
 const DataStore = require('nedb');
 
-const db = new DataStore({
-  filename: './..data/upload.db',
+const Upload = new DataStore({
+  filename: './data/upload.db',
   autoload: true
 });
 
@@ -16,14 +16,18 @@ const Schema = {
   // passwordHash: null
 };
 
+Upload.ensureIndex({ fieldName: 'hashAddressU', unique: true, sparse: true}, err => {
+  if (err) console.error(err);
+});
+
 module.exports = {
-  db: db,
+  db: Upload,
   reset: () => {
-    db.remove({}, { multi: true }, (err, numRemoved) => {
-      if (err) throw (err)
+    Upload.remove({}, { multi: true }, (err, numRemoved) => {
+      if (err) throw err;
       else {
         console.log('Removed: ' + numRemoved);
       }
     });
-  },
+  }
 };

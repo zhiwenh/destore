@@ -12,8 +12,9 @@ const filesConfig = require('./config/config.js').files;
 /*
   Gets hash addresses from reciever contract and downlaods the files from IPFS
   @ receiverAddress - string - reciever contract address
+  @ callback - function - returns the doc created from the Host.db storage
 */
-module.exports = (receiverAddress) => {
+module.exports = (receiverAddress, callback) => {
   Ethereum.execAt('Receiver', receiverAddress)
     .retrieveStorage()
     .then((res) => {
@@ -29,24 +30,29 @@ module.exports = (receiverAddress) => {
             console.log('writePath');
             const host = {
               // fileSize: '',
-              hashAddress: hashAddress,
+              hashAddressR: hashAddress,
               // senderAddress: 'will need to get later',
               hostTime: new Date()
             };
             Host.db.insert(host, function(err, res) {
-              if (err) throw (err);
-              else {
+              if (err) {
+                if (callback) callback(err);
+                else throw(err);
+              } else {
                 console.log('Host file data sucessfully saved');
                 console.log(res);
+                callback(null, res);
               }
             });
           })
           .catch(err => {
-            throw(err);
+            if (callback) callback(err);
+            else throw(err);
           });
       }
     })
     .catch(err => {
-      throw (err);
+      if (callback) callback(err);
+      else throw(err);
     });
 };

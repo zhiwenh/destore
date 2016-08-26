@@ -15,7 +15,7 @@ const hostFile = nodeRequire('../../libs/hostFile.js');
 
 var hash;
 var recInstance = {address: '0x8ca22b74e3640541462b04399479212958df0490'};
-var masterInstance = {address: '0x2dbbef61fe83adf1f1f4c0288239d4f7f7be172b'};
+var masterInstance = {address: '0x06e38819b55bfb71459858f9c81ffd20fa9f8000'};
 
 var senderInstance;
 
