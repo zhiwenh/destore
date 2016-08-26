@@ -11,19 +11,25 @@ test.createStream()
   .pipe(tapSpec())
   .pipe(process.stdout);
 
-test('square function test', t => {
-  t.plan(1);
-
-  const square = x => x*x;
-  const res = square(5);
-  t.equal(res, 25, 'five squared should be twenty-five');
-});
-
 test('web3 isConnected test true/false', t => {
   t.plan(1);
 
-  ethereum.init();
   const status = ethereum.check();
-
+  console.log('ethereum.check() : ', status);
   t.equal(status, true, 'successful connection should return true');
+});
+
+test('web3.eth.accounts should return an array', t => {
+  t.plan(1);
+
+  const acctArr = ethereum.getAccounts();
+  const typeOfAcctArr = Array.isArray(acctArr);
+
+  t.equal(typeOfAcctArr, true, 'ethereum.getAccounts should return an array');
+});
+
+// var rand = myArray[Math.floor(Math.random() * myArray.length)];
+
+test('deploy should return a Promise', t => {
+
 });
