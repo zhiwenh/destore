@@ -7,9 +7,10 @@ const Upload = require('./../models/Host.js');
 /*
   @ filePath - string - only does a single file in the electron app
   @ masterAddress - string - the address of the MasterList
+  @ callback - function - returns the doc created from the Upload.db storage
 */
 
-module.exports = (filePath, masterAddress) => {
+module.exports = (filePath, masterAddress, callback) => {
   if (typeof filePath === 'string') {
     filePath = [filePath];
   }
@@ -38,21 +39,24 @@ module.exports = (filePath, masterAddress) => {
               fileName: path.basename(filePath[i]),
               filePath: filePath[i],
               fileSize: fileSizes[i],
-              hashAddress: hashAddresses[i],
+              hashAddressU: hashAddresses[i],
               contractAddress: instances[i].address,
               uploadTime : new Date()
             };
             Upload.db.insert(upload, (err, res) => {
               console.log('All files contracts sucessfully saved');
               console.log(res);
+              callback(null, res);
             });
           }
         })
         .catch(err => {
+          callback(err);
           throw ('Error deploying contract in upload file: ' + err);
         });
     })
     .catch(err => {
+      callback(err);
       throw('Error adding files ot IPFS in upload file: ' + err);
     });
 };

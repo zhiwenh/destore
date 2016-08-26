@@ -28,6 +28,8 @@ program
   .option('ipfsTest')
   .option('ipfsDaemon')
   .option('ethTest')
+  .option('resetHost')
+  .option('resetUpload')
   .parse(process.argv);
 
 if (program.init) {
@@ -103,10 +105,7 @@ if (program.delete) {
   });
 }
 
-if (program.test) {
-  console.log('test ipfs');
-  IPFS.init();
-}
+
 
 if (program.test2) {
 
@@ -164,4 +163,53 @@ if (program.resetHost) {
 
 if (program.resetUpload) {
   Upload.reset();
+}
+
+
+if (program.test) {
+  Host.reset();
+  Upload.reset();
+
+  Host.db.find({}, (err, res) => {
+    console.log('host db');
+    console.log(res);
+  });
+
+  Upload.db.find({}, (err, res) => {
+    console.log('upload db');
+    console.log(res);
+  });
+  const kb = './user/files/test2';
+
+  IPFS.init();
+  Ethereum.deploy('MasterList')
+    .then(masterInstance => {
+      console.log('==== deployed masterlist ===');
+      const masterAddress = masterInstance.address;
+      const availStorage = 1000000000;
+      Ethereum.deploy('Receiver', [availStorage, masterAddress])
+        .then(receiverInstance => {
+          console.log('=== deployed receiver ===');
+          const receiverAddress = receiverInstance.address;
+          console.log(receiverAddress);
+          uploadFile(kb, masterAddress, (err, res) => {
+            if (err) console.error(err);
+            else {
+              console.log('upload file');
+              hostFile(receiverAddress, (err, res) => {
+                console.log(err);
+                console.log(res);
+              });
+            }
+          });
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    })
+    .catch(err => {
+      console.error(err);
+    });
+
+
 }
