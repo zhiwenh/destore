@@ -1,8 +1,8 @@
-contract Coin {
+contract Coin2 {
     address minter;
     mapping (address => uint) balances;
 
-    function Coin() {
+    function Coin2() {
         minter = msg.sender;
     }
     function mint(address owner, uint amount) {

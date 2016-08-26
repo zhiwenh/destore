@@ -206,13 +206,13 @@ var Web3 = require("web3");
 
   Contract.new = function() {
     if (this.currentProvider == null) {
-      throw new Error("Coin error: Please call setProvider() first before calling new().");
+      throw new Error("ArrayContract error: Please call setProvider() first before calling new().");
     }
 
     var args = Array.prototype.slice.call(arguments);
 
     if (!this.unlinked_binary) {
-      throw new Error("Coin error: contract binary not set. Can't deploy new instance.");
+      throw new Error("ArrayContract error: contract binary not set. Can't deploy new instance.");
     }
 
     var regex = /__[^_]+_+/g;
@@ -231,7 +231,7 @@ var Web3 = require("web3");
         return name != arr[index + 1];
       }).join(", ");
 
-      throw new Error("Coin contains unresolved libraries. You must deploy and link the following libraries before you can deploy a new version of Coin: " + unlinked_libraries);
+      throw new Error("ArrayContract contains unresolved libraries. You must deploy and link the following libraries before you can deploy a new version of ArrayContract: " + unlinked_libraries);
     }
 
     var self = this;
@@ -272,7 +272,7 @@ var Web3 = require("web3");
 
   Contract.at = function(address) {
     if (address == null || typeof address != "string" || address.length != 42) {
-      throw new Error("Invalid address passed to Coin.at(): " + address);
+      throw new Error("Invalid address passed to ArrayContract.at(): " + address);
     }
 
     var contract_class = this.web3.eth.contract(this.abi);
@@ -283,7 +283,7 @@ var Web3 = require("web3");
 
   Contract.deployed = function() {
     if (!this.address) {
-      throw new Error("Cannot find deployed address: Coin not deployed or address not set.");
+      throw new Error("Cannot find deployed address: ArrayContract not deployed or address not set.");
     }
 
     return this.at(this.address);
@@ -325,18 +325,33 @@ var Web3 = require("web3");
   "default": {
     "abi": [
       {
-        "constant": true,
+        "constant": false,
         "inputs": [
           {
-            "name": "addr",
-            "type": "address"
+            "name": "index",
+            "type": "uint256"
+          },
+          {
+            "name": "flagA",
+            "type": "bool"
+          },
+          {
+            "name": "flagB",
+            "type": "bool"
           }
         ],
-        "name": "queryBalance",
+        "name": "setFlagPair",
+        "outputs": [],
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "getFlagPairs",
         "outputs": [
           {
-            "name": "balance",
-            "type": "uint256"
+            "name": "array",
+            "type": "bool[2][]"
           }
         ],
         "type": "function"
@@ -345,41 +360,17 @@ var Web3 = require("web3");
         "constant": false,
         "inputs": [
           {
-            "name": "owner",
-            "type": "address"
-          },
-          {
-            "name": "amount",
-            "type": "uint256"
+            "name": "newPairs",
+            "type": "bool[2][]"
           }
         ],
-        "name": "mint",
+        "name": "setAllFlagPairs",
         "outputs": [],
         "type": "function"
-      },
-      {
-        "constant": false,
-        "inputs": [
-          {
-            "name": "receiver",
-            "type": "address"
-          },
-          {
-            "name": "amount",
-            "type": "uint256"
-          }
-        ],
-        "name": "send",
-        "outputs": [],
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "type": "constructor"
       }
     ],
-    "unlinked_binary": "0x606060405260008054600160a060020a0319163317905560fe806100236000396000f3606060405260e060020a600035046337f428418114602e57806340c10f1914605b578063d0679d3414607e575b005b600160a060020a036004351660009081526001602052604090205460408051918252519081900360200190f35b602c600435602435600054600160a060020a0390811633919091161460aa5760c9565b602c600435602435600160a060020a0333166000908152600160205260409020548190101560cd5760c9565b600160a060020a03821660009081526001602052604090208054820190555b5050565b600160a060020a0333811660009081526001602052604080822080548590039055918416815220805482019055505056",
-    "updated_at": 1472248278774
+    "unlinked_binary": "0x6060604052610348806100126000396000f3606060405260e060020a60003504637d7e5e3d8114610031578063b12a24d9146100ba578063deff71b814610156575b005b61002f60043560243560443581621000006000508481548110156100025760008290527f34a16871e3ef3a99416b4b82bd4d04abe88a030c44e7cc6757eb636b9d599f998101805460ff19169093179092558054839250859081101561000257906000526020600020900160005060016101000a81548160ff021916908302179055505b505050565b604080516020818101835260008083526210000080548551818502810185019096528086526101c295939192909184015b828210156102c05760008481526020812060408051808201918290529291850191600291908390855b825461010083900a900460ff168152602060019283018181049485019490930390920291018084116101145790505050505050815260200190600101906100eb565b60408051600480358082013560208181028501810190955280845261002f949293602493909284019190819060009085015b8282101561021d57604080518082018252908381028701906002908390839080828437820191505050505081526020019060010190610188565b60405180806020018281038252838181518152602001915080516000925b8184101561020c57602084810284010151604080838184600060046015f15090500192600101926101e0565b925050509250505060405180910390f35b509395505050505050621000008054825180835560008390527f34a16871e3ef3a99416b4b82bd4d04abe88a030c44e7cc6757eb636b9d599f99918201916020850182156102c9579160200282015b828111156102c957825182906001820190826040820160005b8382111561030657835183826101000a81548160ff021916908302179055509260200192600101602081600001049283019260010302610285565b50505050905090565b506100b59291505b8082111561034457600081556001016102d1565b50506103339291505b8082111561034457805460ff191681556001016102ee565b80156102e55782816101000a81549060ff0219169055600101602081600001049283019260010302610306565b50509160200191906001019061026c565b509056",
+    "updated_at": 1472255398504
   }
 };
 
@@ -445,7 +436,7 @@ var Web3 = require("web3");
     Contract.links[name] = address;
   };
 
-  Contract.contract_name   = Contract.prototype.contract_name   = "Coin";
+  Contract.contract_name   = Contract.prototype.contract_name   = "ArrayContract";
   Contract.generated_with  = Contract.prototype.generated_with  = "3.1.2";
 
   var properties = {
@@ -482,6 +473,6 @@ var Web3 = require("web3");
   } else {
     // There will only be one version of this contract in the browser,
     // and we can use that.
-    window.Coin = Contract;
+    window.ArrayContract = Contract;
   }
 })();
