@@ -206,13 +206,13 @@ var Web3 = require("web3");
 
   Contract.new = function() {
     if (this.currentProvider == null) {
-      throw new Error("Test error: Please call setProvider() first before calling new().");
+      throw new Error("Receiver error: Please call setProvider() first before calling new().");
     }
 
     var args = Array.prototype.slice.call(arguments);
 
     if (!this.unlinked_binary) {
-      throw new Error("Test error: contract binary not set. Can't deploy new instance.");
+      throw new Error("Receiver error: contract binary not set. Can't deploy new instance.");
     }
 
     var regex = /__[^_]+_+/g;
@@ -231,7 +231,7 @@ var Web3 = require("web3");
         return name != arr[index + 1];
       }).join(", ");
 
-      throw new Error("Test contains unresolved libraries. You must deploy and link the following libraries before you can deploy a new version of Test: " + unlinked_libraries);
+      throw new Error("Receiver contains unresolved libraries. You must deploy and link the following libraries before you can deploy a new version of Receiver: " + unlinked_libraries);
     }
 
     var self = this;
@@ -264,19 +264,15 @@ var Web3 = require("web3");
           accept(new self(web3_instance));
         }
       };
-      args.push(tx_params, intermediary);
-<<<<<<< HEAD
-=======
-      console.log(args);
 
->>>>>>> c1368c2f228a1729f2031ef759b65908aae22b3a
+      args.push(tx_params, intermediary);
       contract_class.new.apply(contract_class, args);
     });
   };
 
   Contract.at = function(address) {
     if (address == null || typeof address != "string" || address.length != 42) {
-      throw new Error("Invalid address passed to Test.at(): " + address);
+      throw new Error("Invalid address passed to Receiver.at(): " + address);
     }
 
     var contract_class = this.web3.eth.contract(this.abi);
@@ -287,7 +283,7 @@ var Web3 = require("web3");
 
   Contract.deployed = function() {
     if (!this.address) {
-      throw new Error("Cannot find deployed address: Test not deployed or address not set.");
+      throw new Error("Cannot find deployed address: Receiver not deployed or address not set.");
     }
 
     return this.at(this.address);
@@ -329,37 +325,29 @@ var Web3 = require("web3");
   "default": {
     "abi": [
       {
-        "constant": true,
-        "inputs": [],
-        "name": "getValue",
-        "outputs": [
-          {
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "type": "function"
-      },
-      {
         "constant": false,
         "inputs": [
           {
-            "name": "value",
-            "type": "uint256"
+            "name": "hash1",
+            "type": "bytes23"
+          },
+          {
+            "name": "hash2",
+            "type": "bytes23"
           }
         ],
-        "name": "setValue",
+        "name": "addToHashList",
         "outputs": [],
         "type": "function"
       },
       {
         "constant": true,
         "inputs": [],
-        "name": "getValue2",
+        "name": "retrieveStorage",
         "outputs": [
           {
             "name": "",
-            "type": "bytes32"
+            "type": "bytes32[]"
           }
         ],
         "type": "function"
@@ -367,16 +355,19 @@ var Web3 = require("web3");
       {
         "inputs": [
           {
-            "name": "value",
+            "name": "availStorage",
             "type": "uint256"
+          },
+          {
+            "name": "masterAdd",
+            "type": "address"
           }
         ],
         "type": "constructor"
       }
     ],
-    "unlinked_binary": "0x6060604052604051602080609283395060806040525160008054600160a060020a03191633179055805050605c8060366000396000f3606060405260e060020a6000350463209652558114602e57806355241077146037578063c515205d146041575b005b604a6001545b90565b600435600155602c565b604a6002546034565b60408051918252519081900360200190f3",
-    "updated_at": 1471649296263,
-    "address": "0x848a14a10cf87dab6820dc46da587756c3a29c39"
+    "unlinked_binary": "0x606060408181528061022d833960a090525160805160008054600160a060020a03191682178082557fce137c1d0000000000000000000000000000000000000000000000000000000060a090815260a4859052600160a060020a03919091169163ce137c1d9160c4919060248183876161da5a03f11560025750505050506101a28061008b6000396000f3606060405260e060020a60003504634f0e673781146100265780638f706f8e1461007e575b005b6100246004356024356001805480820180835568ffffffffffffffffff198516929190829082801582901161012b5781836000526020600020918201910161012b91905b80821115610182576000815560010161006a565b604080516020818101835260008252600180548451818402810184019095528085526100e194928301828280156100d757602002820191906000526020600020905b8160005054815260200190600101908083116100c0575b5050505050905090565b60405180806020018281038252838181518152602001915080519060200190602002808383829060006004602084601f0104600302600f01f1509050019250505060405180910390f35b5050508154811015610002576000918252602090912001556001805480820180835568ffffffffffffffffff198416929190829082801582901161018657818360005260206000209182019101610186919061006a565b5090565b505050815481101561000257600091825260209091200155505056",
+    "updated_at": 1472234794874
   }
 };
 
@@ -442,7 +433,7 @@ var Web3 = require("web3");
     Contract.links[name] = address;
   };
 
-  Contract.contract_name   = Contract.prototype.contract_name   = "Test";
+  Contract.contract_name   = Contract.prototype.contract_name   = "Receiver";
   Contract.generated_with  = Contract.prototype.generated_with  = "3.1.2";
 
   var properties = {
@@ -479,6 +470,6 @@ var Web3 = require("web3");
   } else {
     // There will only be one version of this contract in the browser,
     // and we can use that.
-    window.Test = Contract;
+    window.Receiver = Contract;
   }
 })();
