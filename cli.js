@@ -37,7 +37,7 @@ if (program.init) {
 
 
 if (program.shray) {
-  saveContracts('testContract')
+  saveContracts('testContract');
 }
 
 if (program.check) {
@@ -104,7 +104,7 @@ if (program.ipfsTest) {
   IPFS.init();
 
   console.log('===== ipfsAdd =====');
-  const happy = './user/files/happy';
+  const happy = './upload/kb.png';
   // const test = './user/files/files';
   // const png = './user/files/kb.png';
   // const download = './user/download/download';
@@ -160,7 +160,7 @@ if (program.test) {
 
   Upload.reset();
 
-  const kb = './user/files/kb.png';
+  const kb = './files/upload/kb.png';
 
   IPFS.init();
   Ethereum.deploy('MasterList')

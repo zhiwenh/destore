@@ -209,22 +209,7 @@ $('body').on('click', '.send', function() {
   filePathArray = config.get('fileList.path');
   console.log(index);
   console.log('ARRAY', filePathArray);
-  //filePathArray[index] is the filePath
-
-  // addFileAndDeploy(filePathArray[index]);
-  const happy = __dirname + './../../user/files/happy';
-  const test =  __dirname + './../../user/files/files';
-  const png =  __dirname + './../../user/files/kb.png';
-  const download =  __dirname + './../../user/download/download';
-  const taylor =  __dirname + './../../user/files/together.mp3';
-
-  uploadFile(filePathArray[0], masterInstance.address);
-  // addFile(filePathArray[1], masterInstance.address);
-  //
-  // addFile(filePathArray[2], masterInstance.address);
-  //
-  // addFile(filePathArray[3], masterInstance.address);
-
+  uploadFile(filePathArray[index], masterInstance.address);
   $(this).replaceWith('<button class="retrieve">Retrieve</button>');
 });
 
@@ -233,8 +218,8 @@ $('body').on('click', '.retrieve', function() {
   index = $(this).closest('.file').prop('id').replace(/file/, "");
   fileHashArray = config.get('fileList.hash');
   filePathArray = config.get('fileList.path');
-  console.log(path.join(__dirname + '/../../Downloaded' + path.basename(filePathArray[index])));
-  IPFS.download(fileHashArray[index], path.join(__dirname + '/../../Downloaded/' + path.basename(filePathArray[index])))
+  console.log(path.join(__dirname + '/../../files/download/' + path.basename(filePathArray[index])));
+  IPFS.download(fileHashArray[index], path.join(__dirname + '/../../files/download/' + path.basename(filePathArray[index])))
     .then((res) => console.log(res))
     .catch(res => console.log('ERROR: ', res));
 });
@@ -284,60 +269,3 @@ window.onbeforeunload = (ev) => {
     sup: 'sup'
   });
 };
-
-function addFileAndDeploy(filePaths) {
-  // use after adding a file to IPFS to deploy the file contract
-  // @ hash - string - IPFS file hash address
-  // @ fileSize - int - the file size in bytes
-  function deploySenderContract(hash, fileSize) {
-    var hash1 = hash.substring(0,23);
-    var hash2 = hash.substring(23,46);
-    var deployArgs = [hash1, hash2, fileSize, masterInstance.address];
-    Ethereum.deploy('Sender', deployArgs)
-      .then(function(instance){
-        fileContractArray[index] = instance.address;
-        console.log(fileContractArray);
-        console.log('deployer sender');
-        config.set('fileList.contract', fileContractArray);
-        senderInstance = instance;
-      })
-      .catch(err => {
-        console.log('deploySender Error: ' + err);
-      });
-  }
-
-  IPFS.addFiles(filePaths)
-    .then(res => {
-      console.log(res);
-    })
-    .catch(err => {
-      fileHashArray[index] = err[0].hash;
-      console.log(fileHashArray);
-      config.set('fileList.hash', fileHashArray);
-      deploySenderContract(err[0].hash, fileSize);
-    });
-}
-
-
-function retriveFilesDownload(receiverAddress) {
-  Ethereum.execAt('Receiver', receiverAddress)
-    .retrieveStorage()
-    .then(function(res) {
-      for (var i = 0; i < res.length; i += 2) {
-        ipfsHash = (web3.toAscii(res[i]) + web3.toAscii(res[i + 1]));
-        ipfsHash = ipfsHash.split('').filter(item => { return item.match(/[A-Za-z0-9]/); }).join('');
-        console.log('RECEIVED FILE HASH'+ ipfsHash);
-        const writePath = path.join(__dirname + '/../../fileStorage/' + ipfsHash);
-        IPFS.download(ipfsHash, writePath)
-          .then(function(res) {
-            console.log(res);
-          })
-          .catch(function(err) {
-            console.log('ERROR: ', err);
-          });
-      }
-  })
-  .catch(err => {
-    console.log(err);
-  });
-}

@@ -1,5 +1,3 @@
-{"hashAddress":"QmdMpNvXNKz5AswQ16D2vTFspLBbhsBADXENJnQ7tvDZWs","hostTime":{"$$date":1472192254078},"_id":"jEjT9y99SJw7vN7p"}
+{"hashAddress":"QmdMpNvXNKz5AswQ16D2vTFspLBbhsBADXENJnQ7tvDZWs","hostTime":{"$$date":1472231569889},"_id":"6XF32Lagkw8vpDaM"}
 {"$$indexCreated":{"fieldName":"hashAddress","unique":true,"sparse":true}}
 {"$$indexCreated":{"fieldName":"recieverHashAddress","unique":true,"sparse":true}}
-{"$$deleted":true,"_id":"jEjT9y99SJw7vN7p"}
-{"hashAddress":"QmdMpNvXNKz5AswQ16D2vTFspLBbhsBADXENJnQ7tvDZWs","hostTime":{"$$date":1472194604935},"_id":"9gY6k4hcHUYQY6Y1"}

@@ -1,4 +1,2 @@
-{"fileName":"kb.png","filePath":"./user/files/kb.png","fileSize":21555,"hashAddress":"QmdMpNvXNKz5AswQ16D2vTFspLBbhsBADXENJnQ7tvDZWs","contractAddress":"0xafeddad4fd7af50969c22760ea0ed63a6995f1d3","uploadTime":{"$$date":1472192252904},"_id":"z20HYaoYXynSyeuq"}
+{"fileName":"kb.png","filePath":"./files/upload/kb.png","fileSize":21555,"hashAddress":"QmdMpNvXNKz5AswQ16D2vTFspLBbhsBADXENJnQ7tvDZWs","contractAddress":"0xbf91f307a9ea7858879a7f5d27d1f151a9930196","uploadTime":{"$$date":1472231568978},"_id":"nlNaTGExQuUNciHz"}
 {"$$indexCreated":{"fieldName":"hashAddress","unique":true,"sparse":true}}
-{"$$deleted":true,"_id":"z20HYaoYXynSyeuq"}
-{"fileName":"kb.png","filePath":"./user/files/kb.png","fileSize":21555,"hashAddress":"QmdMpNvXNKz5AswQ16D2vTFspLBbhsBADXENJnQ7tvDZWs","contractAddress":"0xfef9106f4682a3c747ca93541d2bfabd39881917","uploadTime":{"$$date":1472194604178},"_id":"lrLbfAYBRxjQjjoD"}
