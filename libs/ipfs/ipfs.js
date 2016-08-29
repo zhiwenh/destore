@@ -1,20 +1,12 @@
 'use strict';
 const ipfsAPI = require('ipfs-api');
-// const multihashes = require('multihashes');
 const fs = require('fs');
 const promisify = require('es6-promisify');
-// const stream = require('stream');
-
 const spawn = require('child_process').spawn;
 
 const networkConfig = require('./../config/config.js').network;
 
-// make an ipfs config file
-// send multiple files
-// save hashes of multiple files
-// download multiple files
 // config ipfs node. be able to change theirs
-
 // instead of having config file could just have method to change their actual ipfs config
 
 class IPFS {
@@ -59,7 +51,7 @@ class IPFS {
     });
 
     ipfsDaemon.on('error', (error) => {
-      console.log(error);
+      console.error(error);
     });
 
     ipfsDaemon.on('close', (code) => {
@@ -74,44 +66,45 @@ class IPFS {
     if (typeof filePaths === 'string') {
       filePaths = [filePaths];
     }
-    console.log(filePaths)
 
     const fileBuffers = filePaths.map((path) => {
       return fs.readFileSync(path);
     });
-
     // adds actual './path/path/file' to returned obj
-    const addPaths = (filePaths, callback) => {
+    return promisify((filePaths, callback) => {
       this._ipfs.files.add(fileBuffers, (err, res) => {
-        console.log('callback add');
-        if (err) throw(err);
-        else {
+        if (err) {
+          callback(err, null);
+        } else {
           res.map((obj, i) => {
             return obj.file = filePaths[i];
           });
-          callback(res);
+          callback(null, res);
         }
       });
-    };
-    return promisify(addPaths)(filePaths);
+    })(filePaths);
   }
 
   // @ hashAddress - string - of the file
   // @ writePath - string - path in which to write the file to
   // returns Promise with the response as an array of all buffer chunks
   download(hashAddress, writePath) {
-    console.log('INSIDE', hashAddress)
-    console.log(writePath)
     try {
       fs.accessSync(writePath);
     } catch(e) {
-      // fs.mkdirSync(writePath);
       fs.closeSync(fs.openSync(writePath, 'w'));
     }
     const writeStream = fs.createWriteStream(writePath);
 
-    const streamPromise = (hashAddress, callback) => {
+    return promisify((hashAddress, callback) => {
       this._ipfs.cat(hashAddress, (err, stream) => {
+        console.log(typeof stream);
+        if (err) {
+          callback(err);
+          return;
+        } else {
+
+        }
         stream.pipe(writeStream);
         let resArray = [];
         process.stdout.write('Downloading ' + hashAddress + ' to: \n');
@@ -123,18 +116,15 @@ class IPFS {
         });
 
         stream.on('error', function(err) {
-          throw(err);
+          callback(err, null);
         });
 
         stream.on('end', function() {
           process.stdout.write('\nDone!\n');
-
-          callback(resArray);
+          callback(null, resArray);
         });
       });
-    };
-
-    return promisify(streamPromise)(hashAddress);
+    })(hashAddress);
   }
 
 }

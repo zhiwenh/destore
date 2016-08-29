@@ -83,4 +83,5 @@ contract MasterList {
 			delete receivers[i];
 		}
 	}
+
 }

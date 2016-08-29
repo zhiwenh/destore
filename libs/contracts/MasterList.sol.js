@@ -206,13 +206,13 @@ var Web3 = require("web3");
 
   Contract.new = function() {
     if (this.currentProvider == null) {
-      throw new Error("ConvertLib error: Please call setProvider() first before calling new().");
+      throw new Error("MasterList error: Please call setProvider() first before calling new().");
     }
 
     var args = Array.prototype.slice.call(arguments);
 
     if (!this.unlinked_binary) {
-      throw new Error("ConvertLib error: contract binary not set. Can't deploy new instance.");
+      throw new Error("MasterList error: contract binary not set. Can't deploy new instance.");
     }
 
     var regex = /__[^_]+_+/g;
@@ -231,7 +231,7 @@ var Web3 = require("web3");
         return name != arr[index + 1];
       }).join(", ");
 
-      throw new Error("ConvertLib contains unresolved libraries. You must deploy and link the following libraries before you can deploy a new version of ConvertLib: " + unlinked_libraries);
+      throw new Error("MasterList contains unresolved libraries. You must deploy and link the following libraries before you can deploy a new version of MasterList: " + unlinked_libraries);
     }
 
     var self = this;
@@ -272,7 +272,7 @@ var Web3 = require("web3");
 
   Contract.at = function(address) {
     if (address == null || typeof address != "string" || address.length != 42) {
-      throw new Error("Invalid address passed to ConvertLib.at(): " + address);
+      throw new Error("Invalid address passed to MasterList.at(): " + address);
     }
 
     var contract_class = this.web3.eth.contract(this.abi);
@@ -283,7 +283,7 @@ var Web3 = require("web3");
 
   Contract.deployed = function() {
     if (!this.address) {
-      throw new Error("Cannot find deployed address: ConvertLib not deployed or address not set.");
+      throw new Error("Cannot find deployed address: MasterList not deployed or address not set.");
     }
 
     return this.at(this.address);
@@ -325,29 +325,84 @@ var Web3 = require("web3");
   "default": {
     "abi": [
       {
-        "constant": false,
+        "constant": true,
         "inputs": [
           {
-            "name": "amount",
-            "type": "uint256"
-          },
-          {
-            "name": "conversionRate",
+            "name": "filesize",
             "type": "uint256"
           }
         ],
-        "name": "convert",
+        "name": "findReceiver",
         "outputs": [
           {
-            "name": "convertedAmount",
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "type": "function"
+      },
+      {
+        "constant": false,
+        "inputs": [],
+        "name": "clearReceivers",
+        "outputs": [],
+        "type": "function"
+      },
+      {
+        "constant": false,
+        "inputs": [
+          {
+            "name": "availStorage",
+            "type": "uint256"
+          }
+        ],
+        "name": "addReceiver",
+        "outputs": [],
+        "type": "function"
+      },
+      {
+        "constant": false,
+        "inputs": [
+          {
+            "name": "filesize",
+            "type": "uint256"
+          },
+          {
+            "name": "hash1",
+            "type": "bytes23"
+          },
+          {
+            "name": "hash2",
+            "type": "bytes23"
+          }
+        ],
+        "name": "assign",
+        "outputs": [],
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "testReceiver",
+        "outputs": [
+          {
+            "name": "",
+            "type": "address"
+          },
+          {
+            "name": "",
             "type": "uint256"
           }
         ],
         "type": "function"
+      },
+      {
+        "inputs": [],
+        "type": "constructor"
       }
     ],
-    "unlinked_binary": "0x606060405260358060106000396000f36503063fc68da550606060405260e060020a600035046396e4ee3d81146024575b6007565b602435600435026060908152602090f3",
-    "updated_at": 1471412084867
+    "unlinked_binary": "0x606060405260008054600160a060020a0319163317905561037d806100246000396000f3606060405260e060020a60003504630f9c5329811461004757806363369f8b146100e2578063ce137c1d14610164578063d22c2018146101d5578063fdc12477146101ea575b005b6102476004355b6000805b6002548110156100dc576002805482908110156100025790600052602060002090600202016000506001015483101561028a57826002600050828154811015610002579060005260206000209060020201600050600101805491909103905560028054829081101561000257906000526020600020906002020160005054600160a060020a031691505b50919050565b61004560005b60025481101561029257600280548290811015610002575060008181529082027f405787fa12a823e0f2b7631cc41b3ba8828b3321ca811111fa75cd3aa3bb5ace81018054600160a060020a03191690557f405787fa12a823e0f2b7631cc41b3ba8828b3321ca811111fa75cd3aa3bb5acf01556001016100e8565b6100456004356040805180820190915233815260208101829052600280546001810180835582908280158290116102955760020281600202836000526020600020918201910161029591905b808211156102d4578054600160a060020a0319168155600060018201556002016101b0565b6100456004356024356044356102d88361004e565b61026460006000600260005060008154811015610002579060005260206000209060020201600050600280549154600160a060020a0316916000908110156100025760206000908120929052600202016001015490939092509050565b60408051600160a060020a03929092168252519081900360200190f35b6040518083600160a060020a031681526020018281526020019250505060405180910390f35b600101610052565b50565b505050815481101561000257906000526020600020906002020160005081518154600160a060020a031916178155602091909101516001919091015550565b5090565b60018054600160a060020a0319908116929092179081905560038054600160a060020a0392831693169290921791829055604080517f4f0e673700000000000000000000000000000000000000000000000000000000815268ffffffffffffffffff1986811660048301528516602482015290519290911691634f0e673791604481810192600092909190829003018183876161da5a03f1156100025750505050505056",
+    "updated_at": 1472234794878
   }
 };
 
@@ -413,7 +468,7 @@ var Web3 = require("web3");
     Contract.links[name] = address;
   };
 
-  Contract.contract_name   = Contract.prototype.contract_name   = "ConvertLib";
+  Contract.contract_name   = Contract.prototype.contract_name   = "MasterList";
   Contract.generated_with  = Contract.prototype.generated_with  = "3.1.2";
 
   var properties = {
@@ -450,6 +505,6 @@ var Web3 = require("web3");
   } else {
     // There will only be one version of this contract in the browser,
     // and we can use that.
-    window.ConvertLib = Contract;
+    window.MasterList = Contract;
   }
 })();

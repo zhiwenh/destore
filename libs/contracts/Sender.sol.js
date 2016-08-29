@@ -206,13 +206,13 @@ var Web3 = require("web3");
 
   Contract.new = function() {
     if (this.currentProvider == null) {
-      throw new Error("Migrations error: Please call setProvider() first before calling new().");
+      throw new Error("Sender error: Please call setProvider() first before calling new().");
     }
 
     var args = Array.prototype.slice.call(arguments);
 
     if (!this.unlinked_binary) {
-      throw new Error("Migrations error: contract binary not set. Can't deploy new instance.");
+      throw new Error("Sender error: contract binary not set. Can't deploy new instance.");
     }
 
     var regex = /__[^_]+_+/g;
@@ -231,7 +231,7 @@ var Web3 = require("web3");
         return name != arr[index + 1];
       }).join(", ");
 
-      throw new Error("Migrations contains unresolved libraries. You must deploy and link the following libraries before you can deploy a new version of Migrations: " + unlinked_libraries);
+      throw new Error("Sender contains unresolved libraries. You must deploy and link the following libraries before you can deploy a new version of Sender: " + unlinked_libraries);
     }
 
     var self = this;
@@ -272,7 +272,7 @@ var Web3 = require("web3");
 
   Contract.at = function(address) {
     if (address == null || typeof address != "string" || address.length != 42) {
-      throw new Error("Invalid address passed to Migrations.at(): " + address);
+      throw new Error("Invalid address passed to Sender.at(): " + address);
     }
 
     var contract_class = this.web3.eth.contract(this.abi);
@@ -283,7 +283,7 @@ var Web3 = require("web3");
 
   Contract.deployed = function() {
     if (!this.address) {
-      throw new Error("Cannot find deployed address: Migrations not deployed or address not set.");
+      throw new Error("Cannot find deployed address: Sender not deployed or address not set.");
     }
 
     return this.at(this.address);
@@ -325,60 +325,45 @@ var Web3 = require("web3");
   "default": {
     "abi": [
       {
-        "constant": false,
-        "inputs": [
-          {
-            "name": "new_address",
-            "type": "address"
-          }
-        ],
-        "name": "upgrade",
-        "outputs": [],
-        "type": "function"
-      },
-      {
         "constant": true,
         "inputs": [],
-        "name": "last_completed_migration",
+        "name": "testSender",
         "outputs": [
           {
             "name": "",
-            "type": "uint256"
+            "type": "bytes32"
+          },
+          {
+            "name": "",
+            "type": "bytes32"
           }
         ],
         "type": "function"
       },
       {
-        "constant": true,
-        "inputs": [],
-        "name": "owner",
-        "outputs": [
+        "inputs": [
           {
-            "name": "",
+            "name": "hash1",
+            "type": "bytes23"
+          },
+          {
+            "name": "hash2",
+            "type": "bytes23"
+          },
+          {
+            "name": "filesize",
+            "type": "uint256"
+          },
+          {
+            "name": "masterAdd",
             "type": "address"
           }
         ],
-        "type": "function"
-      },
-      {
-        "constant": false,
-        "inputs": [
-          {
-            "name": "completed",
-            "type": "uint256"
-          }
-        ],
-        "name": "setCompleted",
-        "outputs": [],
-        "type": "function"
-      },
-      {
-        "inputs": [],
         "type": "constructor"
       }
     ],
-    "unlinked_binary": "0x606060405260008054600160a060020a03191633179055610130806100246000396000f3606060405260e060020a60003504630900f010811461003c578063445df0ac146100c05780638da5cb5b146100c9578063fdacd576146100db575b005b61003a60043560008054600160a060020a039081163390911614156100bc57604080516001547ffdacd576000000000000000000000000000000000000000000000000000000008252600482015290518392600160a060020a0384169263fdacd5769260248281019392829003018183876161da5a03f115610002575050505b5050565b61010160015481565b610113600054600160a060020a031681565b61003a60043560005433600160a060020a03908116911614156100fe5760018190555b50565b60408051918252519081900360200190f35b60408051600160a060020a03929092168252519081900360200190f3",
-    "updated_at": 1471412084869
+    "unlinked_binary": "0x606060405260405160808061013b833960e06040529051905160a05160c05160038054600160a060020a031916821790819055600180546901000000000000000000808804600160b860020a03199283161792839055600280548289049316929092179182905560008681557fd22c20180000000000000000000000000000000000000000000000000000000060e090815260e48890526001604860020a0319948302851661010452929091029290921661012452600160a060020a03929092169163d22c2018916101449160648183876161da5a03f11560025750505050505050604d806100ee6000396000f3606060405260e060020a60003504636a561cb88114601a575b005b60015460025468ffffffffffffffffff196901000000000000000000928302811692909102166060918252608052604090f3",
+    "updated_at": 1472234794881
   }
 };
 
@@ -444,7 +429,7 @@ var Web3 = require("web3");
     Contract.links[name] = address;
   };
 
-  Contract.contract_name   = Contract.prototype.contract_name   = "Migrations";
+  Contract.contract_name   = Contract.prototype.contract_name   = "Sender";
   Contract.generated_with  = Contract.prototype.generated_with  = "3.1.2";
 
   var properties = {
@@ -481,6 +466,6 @@ var Web3 = require("web3");
   } else {
     // There will only be one version of this contract in the browser,
     // and we can use that.
-    window.Migrations = Contract;
+    window.Sender = Contract;
   }
 })();

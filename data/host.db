@@ -1,0 +1,3 @@
+{"hashAddress":"QmdMpNvXNKz5AswQ16D2vTFspLBbhsBADXENJnQ7tvDZWs","hostTime":{"$$date":1472231569889},"_id":"6XF32Lagkw8vpDaM"}
+{"$$indexCreated":{"fieldName":"hashAddress","unique":true,"sparse":true}}
+{"$$indexCreated":{"fieldName":"recieverHashAddress","unique":true,"sparse":true}}

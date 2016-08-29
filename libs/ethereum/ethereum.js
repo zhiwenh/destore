@@ -1,11 +1,8 @@
 'use strict';
 const init = require('./init.js');
-
 const rpcConfig = require('./../config/config.js').rpc;
 const contractsConfig = require('./../config/config.js').contracts;
 
-// methods available
-// check, getAccounts, deploy, exec, execAt
 class Ethereum {
   constructor() {
     this._web3 = init();
@@ -15,7 +12,6 @@ class Ethereum {
   // initializes the RPC connection with the local Ethereum node
   // call before every method
   init() {
-    // console.log('this._init');
     this._web3 = init();
     if (this.check() === false) {
       throw ('Not connected to RPC');

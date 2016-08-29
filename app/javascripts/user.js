@@ -224,10 +224,10 @@ $('body').on('click', '.retrieve', function() {
   index = $(this).closest('.file').prop('id').replace(/file/, "");
   fileHashArray = config.get('fileList.hash');
   filePathArray = config.get('fileList.path');
-  console.log(path.join(__dirname + '/../../Downloaded' + path.basename(filePathArray[index])));
-  IPFS.download(fileHashArray[index], path.join(__dirname + '/../../Downloaded/' + path.basename(filePathArray[index])))
+  console.log(path.join(__dirname + '/../../Downloaded/' + path.basename(filePathArray[index])));
+  IPFS.download(fileHashArray[index], path.join(__dirname + '/../../files/download/' + path.basename(filePathArray[index])))
     .then((res) => console.log(res))
-    .catch(res => console.log('ERROR: ', res));
+    .catch(res => console.error('ERROR: ', res));
 });
 
 $('body').on('click', '.delete', function() {
