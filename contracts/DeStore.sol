@@ -5,36 +5,75 @@ contract DeStore {
 
   struct Receiver {
     address receiverAddress;
-    uint availStorage;
+    uint availStorage; // kilobytes
     uint balance;
-    bytes23[] hashes;
-    bool valid; // whether this receiver is on or off
-    bool init; // whether this reciever has ever been turned on
+    bytes23[] hashes; // each element contains half of entire hash
+    bool status; // whether this receiver is on or off
+    bool init; // whether this reciever has ever had their address added to availReceivers
     uint index; // position in availReceivers[]
   }
 
   struct Sender {
     address senderAddress;
     uint balance;
-    bytes23[] hashes;
+    bytes23[] hashes; // each element contains half of entire hash
   }
 
-  mapping (address => Receiver) private recievers;
+  mapping (address => Receiver) private receivers;
   mapping (address => Sender) private senders;
 
   function DeStore() {
     owner = msg.sender;
   }
 
-  function addReceiver(uint _availStorage) {
-    if (recievers[msg.sender].valid == false) {
-      recievers[msg.sender].availStorage = _availStorage;
-      recievers[msg.sender].valid == true;
+  modifier receiverStatusTrue() {
+    if (receivers[msg.sender].status != true) throw;
+  }
+
+  function receiverAdd(uint kilobytes) {
+    if (receivers[msg.sender].init != false) throw; // catches if receiver is already initialized
+
+    receivers[msg.sender].init == true;
+    receivers[msg.sender].status = true;
+    receivers[msg.sender].availStorage = kilobytes;
+
+    availReceivers.push(msg.sender);
+    receivers[msg.sender].index = availReceivers.length;
+  }
+
+  // could be called only after verification
+  function receiverAddHashes(address _receiverAddress, bytes23[] _hashes)
+    private
+    receiverStatusTrue
+  {
+    for (uint i = 0; i < _hashes.length; i++) {
+      receivers[_receiverAddress].hashes.push(_hashes[i]);
     }
   }
 
-  function checkReceiverStorage() constant returns (uint) {
-    return recievers[msg.sender].availStorage;
+  function receiverAddStorage(uint kilobytes)
+    external
+    receiverStatusTrue
+  {
+    receivers[msg.sender].availStorage += kilobytes;
+  }
+
+  function receiverGetStorage()
+    external
+    receiverStatusTrue
+    constant
+    returns (uint)
+  {
+    return receivers[msg.sender].availStorage;
+  }
+
+  function receiverGetStatus()
+    external
+    receiverStatusTrue
+    constant
+    returns (bool)
+  {
+    return receivers[msg.sender].status;
   }
 
 }
