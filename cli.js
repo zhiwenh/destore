@@ -198,7 +198,7 @@ if (program.test) {
 
 if (program.save) {
   console.log('save');
-  saveContracts('ArrayContract');
+  saveContracts('Coin');
 }
 
 if (program.etest1) {
@@ -255,29 +255,5 @@ if (program.etest2) {
 
 if (program.etest3) {
   lol('etest3');
-  Ethereum.deploy('ArrayContract')
-    .then(ins => {
-      console.log('deployed ArrayContract');
-      lol('adding flag pairs');
-      return Promise.all([ins, ins.setFlagPair(1, true, true)]);
-    })
-    .then(arr => {
-      lol('checking get flag pairs');
-      return Promise.all([ins, ins.getFlagPairs()]);
-    })
-    .then(arr => {
-      lol('flag pairs: ');
-      lol(arr[1]);
-      // lol('sending 200 to account 2');
-      // return Promise.all([ins, ins.send(Ethereum.accounts[1], 200)]);
-    })
-    // .then(arr => {
-    //   lol('checking balance account 2');
-    //   return Promise.all([ins, ins.queryBalance(Ethereum.accounts[1])]);
-    // })
-    // .then(arr => {
-    // })
-    .catch(err => {
-      lol(err);
-    });
+  console.log(Ethereum.accounts);
 }
