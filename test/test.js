@@ -4,9 +4,16 @@ IMPORTANT: testrpc must be running during these tests,
 at least for now. 8/25/2016 4:48pm
 */
 
-const test = require('blue-tape');
+const tape = require('tape');
+const tapes = require('tapes');
 const tapSpec = require('tap-spec');
 const Ethereum = require('../libs/ethereum/ethereum.js');
+
+tape.createStream()
+  .pipe(tapSpec())
+  .pipe(process.stdout);
+
+const test = tapes(tape);
 
 const lol = console.log.bind(console);
 
@@ -24,16 +31,12 @@ const helper = {
     return hashes;
   },
   split: (inputHash) => {
-    const half1 = inputHash.substring(0,23);
-    const half2 = inputHash.substring(23,46);
+    const half1 = inputHash.substring(0, 23);
+    const half2 = inputHash.substring(23, 46);
     return [half1, half2];
   }
 };
 
-
-test.createStream()
-  .pipe(tapSpec())
-  .pipe(process.stdout);
 
 const hashObjs = {
   hash1: 'QmUNLLsPACCz1vLxQVkXqqLX5R1X345qqfHbsf67hvA3Nn',
@@ -60,70 +63,42 @@ test('web3.eth.accounts should return an array', t => {
   t.equal(typeOfAcctArr, true, 'Ethereum.accounts should return an array');
 });
 
-// var rand = myArray[Math.floor(Math.random() * myArray.length)];
 
-test('Deploying', t => {
+test('DeStore Contract', t => {
   Ethereum.init();
+  let DeStore;
 
-  let ins;
-
-  const deployOptions = {
-    from: Ethereum.account,
-    value: 10
-  };
-
-  Ethereum.deploy('Sender', [helper.split(hashObjs.hash1), 10,] , deployOptions)
-  .then(instance => {
-    ins = instance;
-    t.equal(instance.address.length, 42 , 'Contract address should be a length of 42');
-    t.end();
-  })
-  .catch(err => {
-    t.end(err);
+  t.test('Deploying', t => {
+    const deployOptions = {
+      from: Ethereum.account,
+      value: 10
+    };
+    Ethereum.deploy('DeStore', [helper.split(hashObjs.hash1), 10], deployOptions)
+      .then(instance => {
+        DeStore = instance;
+        t.equal(DeStore.address.length, 42, 'Contract address should have a length of 42');
+        t.end();
+      })
+      .catch(err => {
+        t.end(err);
+      });
   });
-});
 
-test('Deploying DeStore Contract', t => {
-  Ethereum.init();
-
-  let destoreInstance;
-  const deployOptions = {
-    from: Ethereum.account,
-    value: 10
-  };
-
-  Ethereum.deploy('DeStore', [helper.split(hashObjs.hash1), 10], deployOptions)
-    .then(instance => {
-      destoreInstance = instance;
-      t.equal(instance.address.length, 42, 'Contract address should have a length of 42');
-      t.end();
-    })
-    .catch(err => {
-      t.end(err);
-    });
-});
-
-test('Add receivers to DeStore Contract', t => {
-  Ethereum.init();
-
-  let destoreInstance;
-  const deployOptions = {
-    from: Ethereum.account,
-    value: 10
-  };
-
-  return Ethereum.deploy('DeStore', [helper.split(hashObjs.hash1), 10], deployOptions)
-    .then(instance => {
-      destoreInstance = instance;
-      instance.receiverAdd(500)
+  t.test('Add receivers to DeStore Contract', t => {
+    DeStore.receiverAdd(500)
       .then(tx => {
-      return destoreInstance.receiverGetStorage();
-    })
-    .then(tx => {
-      t.equal(tx.c[0], 500, 'receiverGetStorage should return the available storage parameter passed to receiverAdd');
-    })
-    .catch(err => {
-      console.error(err);
-    });
+        return DeStore.receiverGetStorage();
+      })
+      .then(tx => {
+        lol(tx);
+        t.equal(tx.c[0], 500, 'receiverGetStorage should return the available storage parameter passed to receiverAdd');
+        t.end();
+      })
+      .catch(err => {
+        console.error(err);
+        t.end(err);
+      });
   });
+
+  t.end();
 });
