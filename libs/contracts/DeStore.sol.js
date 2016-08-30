@@ -206,13 +206,13 @@ var Web3 = require("web3");
 
   Contract.new = function() {
     if (this.currentProvider == null) {
-      throw new Error("Coin error: Please call setProvider() first before calling new().");
+      throw new Error("DeStore error: Please call setProvider() first before calling new().");
     }
 
     var args = Array.prototype.slice.call(arguments);
 
     if (!this.unlinked_binary) {
-      throw new Error("Coin error: contract binary not set. Can't deploy new instance.");
+      throw new Error("DeStore error: contract binary not set. Can't deploy new instance.");
     }
 
     var regex = /__[^_]+_+/g;
@@ -231,7 +231,7 @@ var Web3 = require("web3");
         return name != arr[index + 1];
       }).join(", ");
 
-      throw new Error("Coin contains unresolved libraries. You must deploy and link the following libraries before you can deploy a new version of Coin: " + unlinked_libraries);
+      throw new Error("DeStore contains unresolved libraries. You must deploy and link the following libraries before you can deploy a new version of DeStore: " + unlinked_libraries);
     }
 
     var self = this;
@@ -272,7 +272,7 @@ var Web3 = require("web3");
 
   Contract.at = function(address) {
     if (address == null || typeof address != "string" || address.length != 42) {
-      throw new Error("Invalid address passed to Coin.at(): " + address);
+      throw new Error("Invalid address passed to DeStore.at(): " + address);
     }
 
     var contract_class = this.web3.eth.contract(this.abi);
@@ -283,7 +283,7 @@ var Web3 = require("web3");
 
   Contract.deployed = function() {
     if (!this.address) {
-      throw new Error("Cannot find deployed address: Coin not deployed or address not set.");
+      throw new Error("Cannot find deployed address: DeStore not deployed or address not set.");
     }
 
     return this.at(this.address);
@@ -325,52 +325,27 @@ var Web3 = require("web3");
   "default": {
     "abi": [
       {
-        "constant": true,
+        "constant": false,
         "inputs": [
           {
-            "name": "addr",
-            "type": "address"
+            "name": "_availStorage",
+            "type": "uint256"
           }
         ],
-        "name": "queryBalance",
+        "name": "addReceiver",
+        "outputs": [],
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "checkReceiverStorage",
         "outputs": [
           {
-            "name": "balance",
+            "name": "",
             "type": "uint256"
           }
         ],
-        "type": "function"
-      },
-      {
-        "constant": false,
-        "inputs": [
-          {
-            "name": "owner",
-            "type": "address"
-          },
-          {
-            "name": "amount",
-            "type": "uint256"
-          }
-        ],
-        "name": "mint",
-        "outputs": [],
-        "type": "function"
-      },
-      {
-        "constant": false,
-        "inputs": [
-          {
-            "name": "receiver",
-            "type": "address"
-          },
-          {
-            "name": "amount",
-            "type": "uint256"
-          }
-        ],
-        "name": "send",
-        "outputs": [],
         "type": "function"
       },
       {
@@ -378,8 +353,8 @@ var Web3 = require("web3");
         "type": "constructor"
       }
     ],
-    "unlinked_binary": "0x606060405260008054600160a060020a0319163317905560fe806100236000396000f3606060405260e060020a600035046337f428418114602e57806340c10f1914605b578063d0679d3414607e575b005b600160a060020a036004351660009081526001602052604090205460408051918252519081900360200190f35b602c600435602435600054600160a060020a0390811633919091161460aa5760c9565b602c600435602435600160a060020a0333166000908152600160205260409020548190101560cd5760c9565b600160a060020a03821660009081526001602052604090208054820190555b5050565b600160a060020a0333811660009081526001602052604080822080548590039055918416815220805482019055505056",
-    "updated_at": 1472238036830
+    "unlinked_binary": "0x606060405260008054600160a060020a0319163317905560a08060226000396000f3606060405260e060020a6000350463ce137c1d81146024578063ddd49098146072575b005b6022600435600160a060020a03331660009081526002602052604081206004015460ff1615151415606f5760406000908120600160a060020a03331690915260026020526001018190555b50565b33600160a060020a031660009081526002602052604090206001015460408051918252519081900360200190f3",
+    "updated_at": 1472582136386
   }
 };
 
@@ -445,7 +420,7 @@ var Web3 = require("web3");
     Contract.links[name] = address;
   };
 
-  Contract.contract_name   = Contract.prototype.contract_name   = "Coin";
+  Contract.contract_name   = Contract.prototype.contract_name   = "DeStore";
   Contract.generated_with  = Contract.prototype.generated_with  = "3.1.2";
 
   var properties = {
@@ -482,6 +457,6 @@ var Web3 = require("web3");
   } else {
     // There will only be one version of this contract in the browser,
     // and we can use that.
-    window.Coin = Contract;
+    window.DeStore = Contract;
   }
 })();

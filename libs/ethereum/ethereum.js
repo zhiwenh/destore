@@ -32,8 +32,8 @@ class Ethereum {
     }
   }
 
-  // checks what accounts node controls
-  // returns an array of accounts
+  // @ index - index of the account in web3.eth.accounts to change to
+  // returns the currently used account
   changeAccount(index) {
     if (index < 0 || index >= this.accounts.length) {
       return this.account;
@@ -51,7 +51,7 @@ class Ethereum {
   // @ contractName - name of contract
   // @ args - array of initial parameters
   // @ options - contract config options
-  // returns a Promise
+  // returns a Promise with the res as the contract instance
   deploy(contractName, args, options) {
     this.init();
     let puddingContract;
@@ -74,7 +74,7 @@ class Ethereum {
   }
 
   // executes contract with it's deployed address
-  // returns Promise
+  // returns Promise of the transaction or call
   exec(contractName) {
     this.init();
     let puddingContract;
@@ -90,7 +90,7 @@ class Ethereum {
   }
 
   // execute contract at a specific address
-  // returns Promise
+  // returns Promise of the transaction or call
   execAt(contractName, contractAddress){
     this.init();
     let puddingContract;
