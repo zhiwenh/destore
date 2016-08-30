@@ -115,12 +115,12 @@ test('Add receivers to DeStore Contract', t => {
   return Ethereum.deploy('DeStore', [helper.split(hashObjs.hash1), 10], deployOptions)
     .then(instance => {
       destoreInstance = instance;
-      instance.addReceiver(500)
+      instance.receiverAdd(500)
       .then(tx => {
-      return destoreInstance.checkReceiverStorage();
+      return destoreInstance.receiverGetStorage();
     })
     .then(tx => {
-      t.equal(tx.c[0], 500, 'checkReceiverStorage should return the available storage parameter passed to addReceiver');
+      t.equal(tx.c[0], 500, 'receiverGetStorage should return the available storage parameter passed to receiverAdd');
     })
     .catch(err => {
       console.error(err);
