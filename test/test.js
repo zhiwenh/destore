@@ -100,5 +100,17 @@ test('DeStore Contract', t => {
       });
   });
 
+  t.test('Check functionality of receiverGetStatus', t => {
+    DeStore.receiverGetStatus(Ethereum.account)
+      .then(acctStatus => {
+        t.equal(acctStatus, false, 'receiverGetStatus should equal false if the receiver is usavailable');
+        t.end();
+      })
+      .catch(err => {
+        console.error(err);
+        t.end(err);
+      });
+  });
+
   t.end();
 });
