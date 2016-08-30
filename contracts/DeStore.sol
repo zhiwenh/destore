@@ -27,6 +27,7 @@ contract DeStore {
 
   modifier checkReceiverStatus(address _receiverAddress) {
     if (receivers[_receiverAddress].status == false) throw;
+    _
   }
 
   function DeStore() {
@@ -45,7 +46,7 @@ contract DeStore {
     return;
   }
 
-  // could be called only after verification
+  // called from sender
   function receiverAddHashes(address _receiverAddress, bytes23[] _hashes)
     private
     checkReceiverStatus(_receiverAddress)
@@ -53,6 +54,15 @@ contract DeStore {
     for (uint i = 0; i < _hashes.length; i++) {
       receivers[_receiverAddress].hashes.push(_hashes[i]);
     }
+  }
+
+  function receiverGetHashes()
+    external
+    checkReceiverStatus(msg.sender)
+    constant
+    returns (bytes23[])
+  {
+    return receivers[msg.sender].hashes;
   }
 
   function receiverAddStorage(uint kilobytes)
@@ -63,7 +73,7 @@ contract DeStore {
   }
 
   function receiverGetStorage()
-    public
+    external
     checkReceiverStatus(msg.sender)
     constant
     returns (uint)
@@ -71,8 +81,10 @@ contract DeStore {
     return receivers[msg.sender].availStorage;
   }
 
-  function receiverGetStatus() public constant returns (bool) {
-    return receivers[msg.sender].status;
+  function receiverGetStatus(address _receiverAddress) public constant returns (bool) {
+    return receivers[_receiverAddress].status;
   }
+
+
 
 }
