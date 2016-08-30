@@ -90,7 +90,6 @@ test('DeStore Contract', t => {
         return DeStore.receiverGetStorage();
       })
       .then(tx => {
-        lol(tx);
         t.equal(tx.c[0], 500, 'receiverGetStorage should return the available storage parameter passed to receiverAdd');
         t.end();
       })
@@ -103,7 +102,7 @@ test('DeStore Contract', t => {
   t.test('Check functionality of receiverGetStatus', t => {
     DeStore.receiverGetStatus(Ethereum.account)
       .then(acctStatus => {
-        t.equal(acctStatus, false, 'receiverGetStatus should equal false if the receiver is usavailable');
+        t.equal(acctStatus, true, 'receiverGetStatus should equal false if the receiver is usavailable');
         t.end();
       })
       .catch(err => {

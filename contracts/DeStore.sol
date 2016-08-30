@@ -1,19 +1,22 @@
 contract DeStore {
 
-
-
+  event AddReceiver (
+    bool _init,
+    bool _status,
+    uint _index,
+    uint _availStorage
+  );
 
   address owner; // consider deleting later
   address[] availReceivers;
 
   struct Receiver {
-    address receiverAddress;
-    uint availStorage; // kilobytes
-    uint balance;
-    bytes23[] hashes; // each element contains half of entire hash
-    bool status; // whether this receiver is on or off
     bool init; // whether this reciever has ever had their address added to availReceivers
+    bool status; // whether this receiver is on or off
     uint index; // position in availReceivers[]
+    uint balance;
+    uint availStorage; // kilobytes
+    bytes23[] hashes; // each element contains half of entire hash
   }
 
   struct Sender {
@@ -26,24 +29,34 @@ contract DeStore {
   mapping (address => Sender) private senders;
 
   modifier checkReceiverStatus(address _receiverAddress) {
-    if (receivers[_receiverAddress].status == false) throw;
-    _
+    if (receivers[_receiverAddress].status == true) _
+  }
+
+  modifier checkReceiverInit(address _receiverAddress) {
+    if (receivers[_receiverAddress].init == true) _
   }
 
   function DeStore() {
     owner = msg.sender;
   }
 
-  function receiverAdd(uint kilobytes) {
-    if (receivers[msg.sender].init != false) throw; // catches if receiver is already initialized
+  function receiverAdd(uint kilobytes) returns (bool) {
+    if (receivers[msg.sender].init != false) return false; // catches if receiver is already initialized
+    availReceivers.push(msg.sender);
 
     receivers[msg.sender].init = true;
     receivers[msg.sender].status = true;
+    receivers[msg.sender].index = availReceivers.length;
     receivers[msg.sender].availStorage = kilobytes;
 
-    availReceivers.push(msg.sender);
-    receivers[msg.sender].index = availReceivers.length;
-    return;
+    AddReceiver (
+      receivers[msg.sender].init,
+      receivers[msg.sender].status,
+      receivers[msg.sender].index,
+      receivers[msg.sender].availStorage
+    );
+
+    return true;
   }
 
   // called from sender
@@ -85,6 +98,24 @@ contract DeStore {
     return receivers[_receiverAddress].status;
   }
 
+  function receiverGetBalance()
+    checkReceiverInit(msg.sender)
+    constant
+    returns (uint)
+  {
+    return receivers[msg.sender].balance;
+  }
+
+  // double check the security of this later
+  function receiverWithdraw(uint withdrawAmount) public checkReceiverInit(msg.sender) returns (uint) {
+    if (receivers[msg.sender].balance >= withdrawAmount) {
+      receivers[msg.sender].balance -= withdrawAmount;
+      if (!msg.sender.send(withdrawAmount)) {
+          receivers[msg.sender].balance += withdrawAmount;
+      }
+    }
+    return receivers[msg.sender].balance;
+  }
 
 
 }

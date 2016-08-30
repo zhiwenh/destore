@@ -7,6 +7,7 @@ const init = require('./init.js');
 
 const contractsConfig = require('./../config/contracts.js');
 
+// creates an object containing the contract data which is then returned and imported to a JSON file
 // @ contracts - string or array - array of string contract names
 // @ directoryPath - string - directory path to where contract is contained
 //   optional. if not given will be taken from config
@@ -48,6 +49,14 @@ module.exports = (contractFiles, directoryPath) => {
     contractsCompiled[contractName].runtimeBytecode = out.runtimeBytecode;
     contractsCompiled[contractName].info = {};
     contractsCompiled[contractName].info.abiDefinition = JSON.parse(out.interface);
+
+    const contractString = JSON.stringify(contractsCompiled[contractName], null, '  ');
+
+    console.log(contractString);
+
+    fs.writeFile(contractsConfig.abi, contractString, (err) => {
+      console.error('Error writing: ' + contractName);
+    });
   }
   return contractsCompiled;
 };
