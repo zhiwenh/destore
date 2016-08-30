@@ -35,6 +35,13 @@ test.createStream()
   .pipe(tapSpec())
   .pipe(process.stdout);
 
+const hashObjs = {
+  hash1: 'QmUNLLsPACCz1vLxQVkXqqLX5R1X345qqfHbsf67hvA3Nn',
+  hash2: 'QmcSwTAwqbtGTt1MBobEjKb8rPwJJzfCLorLMs5m97axDW',
+  hash3: 'QmRtDCqYUyJGWhGRhk1Bbk4PvE9mbCS1HKkDAo6xUAqN4H',
+  hash4: 'QmbFMke1KXqnYyBBWxB74N4c5SBnJMVAiMNRcGu6x1AwQH',
+};
+
 test('web3 isConnected test true/false', t => {
   t.plan(1);
 
@@ -55,80 +62,68 @@ test('web3.eth.accounts should return an array', t => {
 
 // var rand = myArray[Math.floor(Math.random() * myArray.length)];
 
-// test('deploy should return a Promise', t => {
-//
-// });
-
-test('=== Sender Contract ===', t => {
+test('Deploying', t => {
   Ethereum.init();
 
   let ins;
-  const hash1 = 'QmUNLLsPACCz1vLxQVkXqqLX5R1X345qqfHbsf67hvA3Nn';
-  const hash2 = 'QmcSwTAwqbtGTt1MBobEjKb8rPwJJzfCLorLMs5m97axDW';
-  const hash3 = 'QmRtDCqYUyJGWhGRhk1Bbk4PvE9mbCS1HKkDAo6xUAqN4H';
-  const hash4 = 'QmbFMke1KXqnYyBBWxB74N4c5SBnJMVAiMNRcGu6x1AwQH';
 
-  test('Deploying', t => {
+  const deployOptions = {
+    from: Ethereum.account,
+    value: 10
+  };
 
-    const deployOptions = {
-      from: Ethereum.account,
-      value: 10
-    };
-
-    Ethereum.deploy('Sender', [helper.split(hash1), 10,] , deployOptions)
-      .then(instance => {
-        ins = instance;
-        t.equal(instance.address.length, 42 , 'Contract address should be a length of 42');
-        t.end();
-      })
-      .catch(err => {
-        t.end(err);
-      });
+  Ethereum.deploy('Sender', [helper.split(hashObjs.hash1), 10,] , deployOptions)
+  .then(instance => {
+    ins = instance;
+    t.equal(instance.address.length, 42 , 'Contract address should be a length of 42');
+    t.end();
+  })
+  .catch(err => {
+    t.end(err);
   });
-
-
-
-  t.end();
 });
 
-test('===DeStore Master List Contract===', t => {
+test('Deploying DeStore Contract', t => {
   Ethereum.init();
 
   let destoreInstance;
-  let recStorage;
-  const hash1 = 'QmUNLLsPACCz1vLxQVkXqqLX5R1X345qqfHbsf67hvA3Nn';
-  const hash2 = 'QmcSwTAwqbtGTt1MBobEjKb8rPwJJzfCLorLMs5m97axDW';
-  const hash3 = 'QmRtDCqYUyJGWhGRhk1Bbk4PvE9mbCS1HKkDAo6xUAqN4H';
-  const hash4 = 'QmbFMke1KXqnYyBBWxB74N4c5SBnJMVAiMNRcGu6x1AwQH';
+  const deployOptions = {
+    from: Ethereum.account,
+    value: 10
+  };
 
-  test('Deploying DeStore Contract', t => {
-    const deployOptions = {
-      from: Ethereum.account,
-      value: 10
-    };
+  Ethereum.deploy('DeStore', [helper.split(hashObjs.hash1), 10], deployOptions)
+    .then(instance => {
+      destoreInstance = instance;
+      t.equal(instance.address.length, 42, 'Contract address should have a length of 42');
+      t.end();
+    })
+    .catch(err => {
+      t.end(err);
+    });
+});
 
-    Ethereum.deploy('DeStore', [helper.split(hash1), 10], deployOptions)
-      .then(instance => {
-        destoreInstance = instance;
-        t.equal(instance.address.length, 42, 'Contract address should have a length of 42');
-        t.end();
-      })
-      .catch(err => {
-        t.end(err);
-      });
-  });
+test('Add receivers to DeStore Contract', t => {
+  Ethereum.init();
 
-  test('Add receivers to DeStore Contract', t => {
-    destoreInstance.addReceiver(500)
+  let destoreInstance;
+  const deployOptions = {
+    from: Ethereum.account,
+    value: 10
+  };
+
+  return Ethereum.deploy('DeStore', [helper.split(hashObjs.hash1), 10], deployOptions)
+    .then(instance => {
+      destoreInstance = instance;
+      instance.addReceiver(500)
       .then(tx => {
-        return destoreInstance.checkReceiverStorage();
-      })
-      .then(tx => {
-        t.equal(tx, 500, 'checkReceiverStorage should return the available storage parameter passed to addReceiver');
-        t.end();
-      })
-      .catch(err => {
-        t.end(err);
-      });
+      return destoreInstance.checkReceiverStorage();
+    })
+    .then(tx => {
+      t.equal(tx.c[0], 500, 'checkReceiverStorage should return the available storage parameter passed to addReceiver');
+    })
+    .catch(err => {
+      console.error(err);
+    });
   });
 });
