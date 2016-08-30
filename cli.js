@@ -209,11 +209,6 @@ if (program.test) {
     });
 }
 
-if (program.save) {
-  console.log('save');
-  saveContracts('SimpleStorage');
-}
-
 if (program.etest1) {
   console.log('etest');
   console.log('===== SimpleStorage =====');
