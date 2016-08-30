@@ -4,7 +4,7 @@ IMPORTANT: testrpc must be running during these tests,
 at least for now. 8/25/2016 4:48pm
 */
 
-const test = require('tape');
+const test = require('blue-tape');
 const tapSpec = require('tap-spec');
 const Ethereum = require('../libs/ethereum/ethereum.js');
 
