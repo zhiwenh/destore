@@ -90,3 +90,45 @@ test('=== Sender Contract ===', t => {
 
   t.end();
 });
+
+test('===DeStore Master List Contract===', t => {
+  Ethereum.init();
+
+  let destoreInstance;
+  let recStorage;
+  const hash1 = 'QmUNLLsPACCz1vLxQVkXqqLX5R1X345qqfHbsf67hvA3Nn';
+  const hash2 = 'QmcSwTAwqbtGTt1MBobEjKb8rPwJJzfCLorLMs5m97axDW';
+  const hash3 = 'QmRtDCqYUyJGWhGRhk1Bbk4PvE9mbCS1HKkDAo6xUAqN4H';
+  const hash4 = 'QmbFMke1KXqnYyBBWxB74N4c5SBnJMVAiMNRcGu6x1AwQH';
+
+  test('Deploying DeStore Contract', t => {
+    const deployOptions = {
+      from: Ethereum.account,
+      value: 10
+    };
+
+    Ethereum.deploy('DeStore', [helper.split(hash1), 10], deployOptions)
+      .then(instance => {
+        destoreInstance = instance;
+        t.equal(instance.address.length, 42, 'Contract address should have a length of 42');
+        t.end();
+      })
+      .catch(err => {
+        t.end(err);
+      });
+  });
+
+  test('Add receivers to DeStore Contract', t => {
+    destoreInstance.addReceiver(500)
+      .then(tx => {
+        return destoreInstance.checkReceiverStorage();
+      })
+      .then(tx => {
+        t.equal(tx, 500, 'checkReceiverStorage should return the available storage parameter passed to addReceiver');
+        t.end();
+      })
+      .catch(err => {
+        t.end(err);
+      });
+  });
+});
