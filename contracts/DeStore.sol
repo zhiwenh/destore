@@ -1,5 +1,8 @@
 contract DeStore {
 
+
+
+
   address owner; // consider deleting later
   address[] availReceivers;
 
@@ -22,29 +25,30 @@ contract DeStore {
   mapping (address => Receiver) private receivers;
   mapping (address => Sender) private senders;
 
-  function DeStore() {
-    owner = msg.sender;
+  modifier checkReceiverStatus(address _receiverAddress) {
+    if (receivers[_receiverAddress].status == false) throw;
   }
 
-  modifier receiverStatusTrue() {
-    if (receivers[msg.sender].status != true) throw;
+  function DeStore() {
+    owner = msg.sender;
   }
 
   function receiverAdd(uint kilobytes) {
     if (receivers[msg.sender].init != false) throw; // catches if receiver is already initialized
 
-    receivers[msg.sender].init == true;
+    receivers[msg.sender].init = true;
     receivers[msg.sender].status = true;
     receivers[msg.sender].availStorage = kilobytes;
 
     availReceivers.push(msg.sender);
     receivers[msg.sender].index = availReceivers.length;
+    return;
   }
 
   // could be called only after verification
   function receiverAddHashes(address _receiverAddress, bytes23[] _hashes)
     private
-    receiverStatusTrue
+    checkReceiverStatus(_receiverAddress)
   {
     for (uint i = 0; i < _hashes.length; i++) {
       receivers[_receiverAddress].hashes.push(_hashes[i]);
@@ -53,26 +57,21 @@ contract DeStore {
 
   function receiverAddStorage(uint kilobytes)
     external
-    receiverStatusTrue
+    checkReceiverStatus(msg.sender)
   {
     receivers[msg.sender].availStorage += kilobytes;
   }
 
   function receiverGetStorage()
-    external
-    receiverStatusTrue
+    public
+    checkReceiverStatus(msg.sender)
     constant
     returns (uint)
   {
     return receivers[msg.sender].availStorage;
   }
 
-  function receiverGetStatus()
-    external
-    receiverStatusTrue
-    constant
-    returns (bool)
-  {
+  function receiverGetStatus() public constant returns (bool) {
     return receivers[msg.sender].status;
   }
 
