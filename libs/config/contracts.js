@@ -8,8 +8,9 @@
 // @ built - path where contracts are built
 const contractsConfig = {
   path: __dirname + '/../../contracts/',
+  testPath: __dirname + '/../../contracts-test/',
   type: 'Solidity',
-  built: __dirname + '/../contracts/' 
+  built: __dirname + '/../contracts/'
 };
 
 module.exports = contractsConfig;

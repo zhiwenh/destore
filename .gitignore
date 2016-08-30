@@ -2,8 +2,8 @@ node_modules
 .DS_Store
 npm-debug.log
 Downloaded/
-.fileStorage/
 fileStorage/
+.fileStorage/
 data/**
 files/download/**
 files/storage/**
