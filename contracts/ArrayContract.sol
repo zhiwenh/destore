@@ -13,4 +13,10 @@ contract ArrayContract {
   function getFlagPairs() constant returns (bool[2][] array) {
     return m_pairsOfFlags;
   }
+  function getFlagPairsLength() constant returns (uint length) {
+    return m_pairsOfFlags.length;
+  }
+  function getLotsOfIntegers() constant returns (uint[2**20] arr) {
+    return m_aLotOfIntegers;
+  }
 }

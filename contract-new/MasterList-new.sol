@@ -3,7 +3,7 @@ contract Receiver {
 	MasterList masterInstance;
 	bytes32[] hashArray;
 	uint availStorage;
-
+	
 	function Receiver (uint availStorage, address masterAdd) {
 		masterInstance = MasterList(masterAdd);
 		masterInstance.addReceiver(availStorage);
@@ -12,7 +12,7 @@ contract Receiver {
 	function retrieveStorage() public constant returns (bytes32[]) {
 		return hashArray;
 	}
- 
+
 	function addToHashList(bytes23 hash1, bytes23 hash2) {
 		hashArray[hashArray.length++] = hash1;
 		hashArray[hashArray.length++] = hash2;

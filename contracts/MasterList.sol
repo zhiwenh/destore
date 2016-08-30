@@ -1,40 +1,72 @@
 contract Sender {
-  uint _filesize;
-  bytes23 _hash1;
-  bytes23 _hash2;
-  MasterList masterInstance;
+	address owner;
+	uint balance;
+	bytes23[] hashArray;
+  uint fileSize;
+  /*MasterList masterInstance;*/
 
-	function Sender(bytes23 hash1, bytes23 hash2, uint filesize, address masterAdd) {
-		masterInstance = MasterList(masterAdd);
-		_hash1 = hash1;
-		_hash2 = hash2;
-		_filesize = filesize;
-		masterInstance.assign(_filesize, _hash1, _hash2);
+	function Sender(bytes23[] _hashArray, uint _fileSize, address masterAddress) {
+		owner = msg.sender;
+		balance = msg.value;
+		/*masterInstance = MasterList(masterAddress);*/
+		hashArray = _hashArray;
+		fileSize = _fileSize;
+		/*masterInstance.assign(fileSize, hash);*/
 	}
 
-	function testSender() constant returns (bytes32, bytes32){
-		return (_hash1, _hash2);
+	function addHash(bytes23 hash1, bytes23 hash2) public returns (bool) {
+		if (hash1.length == 23 && hash2.length == 23) {
+			hashArray.push(hash1);
+			hashArray.push(hash2);
+			return true;
+		} else {
+			return false;
+		}
 	}
+
+	function getHashesLength() constant returns (uint hashArrayLength) {
+		return (hashArray.length);
+	}
+
+	function getHashes() constant returns (bytes23[]) {
+		return hashArray;
+	}
+
+	function checkBalance() constant returns (uint) {
+		return balance;
+	}
+
+	function withdraw(uint withdrawAmount) public returns (uint) {
+		if (balance >= withdrawAmount) {
+			balance -= withdrawAmount;
+			if (!msg.sender.send(withdrawAmount)) {
+					balance += withdrawAmount;
+			}
+			return balance;
+		}
+	}
+
 }
 
-contract Receiver {
+/*contract Receiver {
 
 	MasterList masterInstance;
-	bytes32[] hashArray;
+	bytes[] hashArray;
 	uint availStorage;
+	address owner;
 
 	function Receiver (uint availStorage, address masterAdd) {
 		masterInstance = MasterList(masterAdd);
 		masterInstance.addReceiver(availStorage);
+		owner = msg.sender;
 	}
 
-	function retrieveStorage() public constant returns (bytes32[]) {
+	function retrieveStorage() public constant returns (bytes[]) {
 		return hashArray;
 	}
 
-	function addToHashList(bytes23 hash1, bytes23 hash2) {
-		hashArray[hashArray.length++] = hash1;
-		hashArray[hashArray.length++] = hash2;
+	function addToHashList(bytes hash) {
+		hashArray[hashArray.length++] = hash;
 	}
 
 }
@@ -79,9 +111,9 @@ contract MasterList {
 	}
 
 	function clearReceivers() {
-		for(uint i = 0; i < receivers.length; i++){
+		for(uint i = 0; i  < receivers.length; i++){
 			delete receivers[i];
 		}
 	}
 
-}
+}*/
