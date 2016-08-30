@@ -206,13 +206,13 @@ var Web3 = require("web3");
 
   Contract.new = function() {
     if (this.currentProvider == null) {
-      throw new Error("Sender error: Please call setProvider() first before calling new().");
+      throw new Error("List error: Please call setProvider() first before calling new().");
     }
 
     var args = Array.prototype.slice.call(arguments);
 
     if (!this.unlinked_binary) {
-      throw new Error("Sender error: contract binary not set. Can't deploy new instance.");
+      throw new Error("List error: contract binary not set. Can't deploy new instance.");
     }
 
     var regex = /__[^_]+_+/g;
@@ -231,7 +231,7 @@ var Web3 = require("web3");
         return name != arr[index + 1];
       }).join(", ");
 
-      throw new Error("Sender contains unresolved libraries. You must deploy and link the following libraries before you can deploy a new version of Sender: " + unlinked_libraries);
+      throw new Error("List contains unresolved libraries. You must deploy and link the following libraries before you can deploy a new version of List: " + unlinked_libraries);
     }
 
     var self = this;
@@ -272,7 +272,7 @@ var Web3 = require("web3");
 
   Contract.at = function(address) {
     if (address == null || typeof address != "string" || address.length != 42) {
-      throw new Error("Invalid address passed to Sender.at(): " + address);
+      throw new Error("Invalid address passed to List.at(): " + address);
     }
 
     var contract_class = this.web3.eth.contract(this.abi);
@@ -283,7 +283,7 @@ var Web3 = require("web3");
 
   Contract.deployed = function() {
     if (!this.address) {
-      throw new Error("Cannot find deployed address: Sender not deployed or address not set.");
+      throw new Error("Cannot find deployed address: List not deployed or address not set.");
     }
 
     return this.at(this.address);
@@ -326,24 +326,17 @@ var Web3 = require("web3");
     "abi": [
       {
         "constant": true,
-        "inputs": [],
-        "name": "getBalance",
-        "outputs": [
+        "inputs": [
           {
-            "name": "",
+            "name": "id",
             "type": "uint256"
           }
         ],
-        "type": "function"
-      },
-      {
-        "constant": true,
-        "inputs": [],
-        "name": "getHashes",
+        "name": "get",
         "outputs": [
           {
             "name": "",
-            "type": "bytes23[]"
+            "type": "bytes"
           }
         ],
         "type": "function"
@@ -352,55 +345,21 @@ var Web3 = require("web3");
         "constant": false,
         "inputs": [
           {
-            "name": "hash1",
-            "type": "bytes23"
+            "name": "hash",
+            "type": "bytes"
           },
           {
-            "name": "hash2",
-            "type": "bytes23"
-          }
-        ],
-        "name": "addHash",
-        "outputs": [
-          {
-            "name": "",
-            "type": "bool"
-          }
-        ],
-        "type": "function"
-      },
-      {
-        "constant": true,
-        "inputs": [],
-        "name": "getHashesLength",
-        "outputs": [
-          {
-            "name": "hashArrayLength",
-            "type": "uint256"
-          }
-        ],
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "name": "_hashArray",
-            "type": "bytes23[]"
-          },
-          {
-            "name": "_fileSize",
-            "type": "uint256"
-          },
-          {
-            "name": "masterAddress",
+            "name": "senderAddress",
             "type": "address"
           }
         ],
-        "type": "constructor"
+        "name": "set",
+        "outputs": [],
+        "type": "function"
       }
     ],
-    "unlinked_binary": "0x606060405260405161030238038061030283398101604052805160805160a05191909201919060008054600160a060020a03191633178155346001556002805485518083559282905290917f405787fa12a823e0f2b7631cc41b3ba8828b3321ca811111fa75cd3aa3bb5ace9182019160208701821560b7579160200282015b8281111560b75782518254600160b860020a03191669010000000000000000009091041782556020929092019160019190910190607f565b5060da9291505b8082111560ef578054600160b860020a031916815560010160be565b5050506003555061020f806100f36000396000f35b509056606060405260e060020a600035046312065fe0811461003c5780634245d48e146100465780637b87f234146100b6578063bf543ff7146100ff575b005b61010a6001545b90565b6040805160208181018352600082526002805484518184028101840190955280855261011c94928301828280156100aa57602002820191906000526020600020905b8154690100000000000000000002815260019190910190602001808311610088575b50505050509050610043565b61016660043560243560006002805460018101808355828183801582901161017a5760008381526020902061017a9181019083015b808211156101d757600081556001016100eb565b61010a600254610043565b60408051918252519081900360200190f35b60405180806020018281038252838181518152602001915080519060200190602002808383829060006004602084601f0104600302600f01f1509050019250505060405180910390f35b604080519115158252519081900360200190f35b505050600092835250602090912001805469010000000000000000008504600160b860020a0319909116179055600280546001810180835582818380158290116101db578183600052602060002091820191016101db91906100eb565b5090565b5050506000928352506020909120018054600160b860020a031916690100000000000000000084041790555060019291505056",
-    "updated_at": 1472437579275
+    "unlinked_binary": "0x6060604052610354806100126000396000f3606060405260e060020a60003504639507d39a8114610026578063d2421b9d146100c9575b005b61014b6004356040805160208101909152600080825280548390811015610002575080526040805160028085027f290decd9548b62a8d60345a988386fc84ba6bc95484008f6362f93160ef3e56401805460206001821615610100026000190190911692909204601f81018390048302840183019094528383529192908301828280156101e45780601f106101b9576101008083540402835291602001916101e4565b6100246004808035906020019082018035906020019191908080601f016020809104026020016040519081016040528093929190818152602001838380828437509496505093359350505050600080546001810180835582818380158290116101f0576002028160020283600052602060002091820191016101f09190610298565b60405180806020018281038252838181518152602001915080519060200190808383829060006004602084601f0104600302600f01f150905090810190601f1680156101ab5780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b820191906000526020600020905b8154815290600101906020018083116101c757829003601f168201915b50505050509050919050565b50505091909060005260206000209060020201600050604080518082019091528381526020818101869052825473ffffffffffffffffffffffffffffffffffffffff19168517835585516001848101805460008281528590209596959194600293821615610100026000190190911692909204601f908101839004820193928a019083901061031b57805160ff19168380011785555b5061034b929150610303565b50506002015b8082111561031757805473ffffffffffffffffffffffffffffffffffffffff1916815560018181018054600080835592600290821615610100026000190190911604601f8190106102e95750610292565b601f01602090049060005260206000209081019061029291905b808211156103175760008155600101610303565b5090565b82800160010185558215610286579182015b8281111561028657825182600050559160200191906001019061032d565b5050505050505056",
+    "updated_at": 1472332945320
   }
 };
 
@@ -466,7 +425,7 @@ var Web3 = require("web3");
     Contract.links[name] = address;
   };
 
-  Contract.contract_name   = Contract.prototype.contract_name   = "Sender";
+  Contract.contract_name   = Contract.prototype.contract_name   = "List";
   Contract.generated_with  = Contract.prototype.generated_with  = "3.1.2";
 
   var properties = {
@@ -503,6 +462,6 @@ var Web3 = require("web3");
   } else {
     // There will only be one version of this contract in the browser,
     // and we can use that.
-    window.Sender = Contract;
+    window.List = Contract;
   }
 })();
