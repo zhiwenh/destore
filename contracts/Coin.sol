@@ -1,7 +1,6 @@
 contract Coin {
     address minter;
     mapping (address => uint) balances;
-
     function Coin() {
         minter = msg.sender;
     }
