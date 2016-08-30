@@ -10,6 +10,8 @@ const saveContracts = require('./libs/saveContracts.js');
 const Upload = require('./models/Upload.js');
 const Host = require('./models/Host.js');
 
+const config = require('./libs/config/config.js');
+
 const lol = console.log.bind(console);
 
 program
@@ -47,6 +49,14 @@ program
     console.log('save');
     saveContracts(file);
   });
+
+program
+  .command('save-test <file>')
+  .action(function (file) {
+    console.log('save-test');
+    saveContracts(file, config.contracts.testPath);
+  });
+
 
 program.parse(process.argv);
 

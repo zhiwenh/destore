@@ -11,7 +11,7 @@ const contractsConfig = require('./../config/contracts.js');
 // @ directoryPath - string - directory path to where contract is contained
 //   optional. if not given will be taken from config
 // returns compiled contracts object
-module.exports = (contractFiles, isSolc, directoryPath) => {
+module.exports = (contractFiles, directoryPath) => {
   // to handle cases when there's no array of contract files, only contract file
   if (typeof contractFiles === 'string') {
     contractFiles = [contractFiles];
