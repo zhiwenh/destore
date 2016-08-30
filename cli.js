@@ -10,6 +10,8 @@ const saveContracts = require('./libs/saveContracts.js');
 const Upload = require('./models/Upload.js');
 const Host = require('./models/Host.js');
 
+const lol = console.log.bind(console);
+
 program
   .version('0.0.1')
   .option('init', 'Initialize')
@@ -27,6 +29,12 @@ program
   .option('ethTest')
   .option('resetHost')
   .option('resetUpload')
+  .option('etest1')
+  .option('etest2')
+  .option('etest3')
+  .option('etest4')
+  .option('etest5')
+  .option('etest6')
   .parse(process.argv);
 
 if (program.init) {
@@ -50,10 +58,7 @@ if (program.accounts) {
   Ethereum.getAccounts();
 }
 
-if (program.save) {
-  console.log('save');
-  saveContracts('MasterList');
-}
+
 
 if (program.deploy) {
   console.log('deploy');
@@ -189,6 +194,90 @@ if (program.test) {
     .catch(err => {
       console.error(err);
     });
+}
 
+if (program.save) {
+  console.log('save');
+  saveContracts('ArrayContract');
+}
 
+if (program.etest1) {
+  console.log('etest');
+  console.log('===== SimpleStorage =====');
+  Ethereum.deploy('SimpleStorage')
+    .then(ins => {
+      console.log('deployed SimpleStorage');
+      return Promise.all([ins.set(100), ins]);
+    })
+    .then(tx => {
+      const ins = tx[1];
+      return ins.get();
+    })
+    .then(tx => {
+      console.log(tx);
+    })
+    .catch(err => {
+      console.error(err);
+    });
+}
+
+if (program.etest2) {
+  lol('etest2');
+  lol('===== Coin ======');
+  Ethereum.deploy('Coin')
+    .then(ins => {
+      console.log('deployed SimpleStorage');
+      lol('adding 300');
+      return Promise.all([ins, ins.mint(Ethereum.account, 100), ins.mint(Ethereum.account, 100), ins.mint(Ethereum.account, 100)]);
+    })
+    .then(arr => {
+      lol('checking owner balance');
+      const ins = arr[0];
+      return Promise.all([ins, ins.queryBalance(Ethereum.account)]);
+    })
+    .then(arr => {
+      lol('sending 200 to account 2');
+      const ins = arr[0];
+      return Promise.all([ins, ins.send(Ethereum.accounts[1], 200)]);
+    })
+    .then(arr => {
+      lol('checking balance account 2');
+      const ins = arr[0];
+      return Promise.all([ins, ins.queryBalance(Ethereum.accounts[1])]);
+    })
+    .then(arr => {
+      console.log(arr[1]);
+    })
+    .catch(err => {
+      lol(err);
+    });
+}
+
+if (program.etest3) {
+  lol('etest3');
+  Ethereum.deploy('ArrayContract')
+    .then(ins => {
+      console.log('deployed ArrayContract');
+      lol('adding flag pairs');
+      return Promise.all([ins, ins.setFlagPair(1, true, true)]);
+    })
+    .then(arr => {
+      lol('checking get flag pairs');
+      return Promise.all([ins, ins.getFlagPairs()]);
+    })
+    .then(arr => {
+      lol('flag pairs: ');
+      lol(arr[1]);
+      // lol('sending 200 to account 2');
+      // return Promise.all([ins, ins.send(Ethereum.accounts[1], 200)]);
+    })
+    // .then(arr => {
+    //   lol('checking balance account 2');
+    //   return Promise.all([ins, ins.queryBalance(Ethereum.accounts[1])]);
+    // })
+    // .then(arr => {
+    // })
+    .catch(err => {
+      lol(err);
+    });
 }

@@ -206,13 +206,13 @@ var Web3 = require("web3");
 
   Contract.new = function() {
     if (this.currentProvider == null) {
-      throw new Error("Receiver error: Please call setProvider() first before calling new().");
+      throw new Error("ArrayContract error: Please call setProvider() first before calling new().");
     }
 
     var args = Array.prototype.slice.call(arguments);
 
     if (!this.unlinked_binary) {
-      throw new Error("Receiver error: contract binary not set. Can't deploy new instance.");
+      throw new Error("ArrayContract error: contract binary not set. Can't deploy new instance.");
     }
 
     var regex = /__[^_]+_+/g;
@@ -231,7 +231,7 @@ var Web3 = require("web3");
         return name != arr[index + 1];
       }).join(", ");
 
-      throw new Error("Receiver contains unresolved libraries. You must deploy and link the following libraries before you can deploy a new version of Receiver: " + unlinked_libraries);
+      throw new Error("ArrayContract contains unresolved libraries. You must deploy and link the following libraries before you can deploy a new version of ArrayContract: " + unlinked_libraries);
     }
 
     var self = this;
@@ -272,7 +272,7 @@ var Web3 = require("web3");
 
   Contract.at = function(address) {
     if (address == null || typeof address != "string" || address.length != 42) {
-      throw new Error("Invalid address passed to Receiver.at(): " + address);
+      throw new Error("Invalid address passed to ArrayContract.at(): " + address);
     }
 
     var contract_class = this.web3.eth.contract(this.abi);
@@ -283,7 +283,7 @@ var Web3 = require("web3");
 
   Contract.deployed = function() {
     if (!this.address) {
-      throw new Error("Cannot find deployed address: Receiver not deployed or address not set.");
+      throw new Error("Cannot find deployed address: ArrayContract not deployed or address not set.");
     }
 
     return this.at(this.address);
@@ -328,46 +328,49 @@ var Web3 = require("web3");
         "constant": false,
         "inputs": [
           {
-            "name": "hash1",
-            "type": "bytes23"
+            "name": "index",
+            "type": "uint256"
           },
           {
-            "name": "hash2",
-            "type": "bytes23"
+            "name": "flagA",
+            "type": "bool"
+          },
+          {
+            "name": "flagB",
+            "type": "bool"
           }
         ],
-        "name": "addToHashList",
+        "name": "setFlagPair",
         "outputs": [],
         "type": "function"
       },
       {
         "constant": true,
         "inputs": [],
-        "name": "retrieveStorage",
+        "name": "getFlagPairs",
         "outputs": [
           {
-            "name": "",
-            "type": "bytes32[]"
+            "name": "array",
+            "type": "bool[2][]"
           }
         ],
         "type": "function"
       },
       {
+        "constant": false,
         "inputs": [
           {
-            "name": "availStorage",
-            "type": "uint256"
-          },
-          {
-            "name": "masterAdd",
-            "type": "address"
+            "name": "newPairs",
+            "type": "bool[2][]"
           }
         ],
-        "type": "constructor"
+        "name": "setAllFlagPairs",
+        "outputs": [],
+        "type": "function"
       }
     ],
-    "unlinked_binary": "0x606060408181528061022d833960a090525160805160008054600160a060020a03191682178082557fce137c1d0000000000000000000000000000000000000000000000000000000060a090815260a4859052600160a060020a03919091169163ce137c1d9160c4919060248183876161da5a03f11560025750505050506101a28061008b6000396000f3606060405260e060020a60003504634f0e673781146100265780638f706f8e1461007e575b005b6100246004356024356001805480820180835568ffffffffffffffffff198516929190829082801582901161012b5781836000526020600020918201910161012b91905b80821115610182576000815560010161006a565b604080516020818101835260008252600180548451818402810184019095528085526100e194928301828280156100d757602002820191906000526020600020905b8160005054815260200190600101908083116100c0575b5050505050905090565b60405180806020018281038252838181518152602001915080519060200190602002808383829060006004602084601f0104600302600f01f1509050019250505060405180910390f35b5050508154811015610002576000918252602090912001556001805480820180835568ffffffffffffffffff198416929190829082801582901161018657818360005260206000209182019101610186919061006a565b5090565b505050815481101561000257600091825260209091200155505056",
-    "updated_at": 1472235678279
+    "unlinked_binary": "0x6060604052610348806100126000396000f3606060405260e060020a60003504637d7e5e3d8114610031578063b12a24d9146100ba578063deff71b814610156575b005b61002f60043560243560443581621000006000508481548110156100025760008290527f34a16871e3ef3a99416b4b82bd4d04abe88a030c44e7cc6757eb636b9d599f998101805460ff19169093179092558054839250859081101561000257906000526020600020900160005060016101000a81548160ff021916908302179055505b505050565b604080516020818101835260008083526210000080548551818502810185019096528086526101c295939192909184015b828210156102c05760008481526020812060408051808201918290529291850191600291908390855b825461010083900a900460ff168152602060019283018181049485019490930390920291018084116101145790505050505050815260200190600101906100eb565b60408051600480358082013560208181028501810190955280845261002f949293602493909284019190819060009085015b8282101561021d57604080518082018252908381028701906002908390839080828437820191505050505081526020019060010190610188565b60405180806020018281038252838181518152602001915080516000925b8184101561020c57602084810284010151604080838184600060046015f15090500192600101926101e0565b925050509250505060405180910390f35b509395505050505050621000008054825180835560008390527f34a16871e3ef3a99416b4b82bd4d04abe88a030c44e7cc6757eb636b9d599f99918201916020850182156102c9579160200282015b828111156102c957825182906001820190826040820160005b8382111561030657835183826101000a81548160ff021916908302179055509260200192600101602081600001049283019260010302610285565b50505050905090565b506100b59291505b8082111561034457600081556001016102d1565b50506103339291505b8082111561034457805460ff191681556001016102ee565b80156102e55782816101000a81549060ff0219169055600101602081600001049283019260010302610306565b50509160200191906001019061026c565b509056",
+    "updated_at": 1472255398504
   }
 };
 
@@ -433,7 +436,7 @@ var Web3 = require("web3");
     Contract.links[name] = address;
   };
 
-  Contract.contract_name   = Contract.prototype.contract_name   = "Receiver";
+  Contract.contract_name   = Contract.prototype.contract_name   = "ArrayContract";
   Contract.generated_with  = Contract.prototype.generated_with  = "3.1.2";
 
   var properties = {
@@ -470,6 +473,6 @@ var Web3 = require("web3");
   } else {
     // There will only be one version of this contract in the browser,
     // and we can use that.
-    window.Receiver = Contract;
+    window.ArrayContract = Contract;
   }
 })();

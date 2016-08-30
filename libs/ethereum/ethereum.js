@@ -6,7 +6,8 @@ const contractsConfig = require('./../config/config.js').contracts;
 class Ethereum {
   constructor() {
     this._web3 = init();
-    this._accounts = null;
+    this.account = null;
+    this.accounts = [];
   }
 
   // initializes the RPC connection with the local Ethereum node
@@ -16,7 +17,8 @@ class Ethereum {
     if (this.check() === false) {
       throw ('Not connected to RPC');
     } else {
-      this._accounts = this._web3.eth.accounts;
+      this.accounts = this._web3.eth.accounts;
+      this.account = this.accounts[0];
       return this._web3;
     }
   }
@@ -32,10 +34,13 @@ class Ethereum {
 
   // checks what accounts node controls
   // returns an array of accounts
-  getAccounts() {
-    this.init();
-    console.log(this._web3.eth.accounts);
-    return this._web3.eth.accounts;
+  changeAccount(index) {
+    if (index < 0 || index >= this.accounts.length) {
+      return this.account;
+    } else {
+      this.account = this.accounts[index];
+      return this.account;
+    }
   }
 
   unlock(address, password) {
@@ -59,7 +64,7 @@ class Ethereum {
     // need to add more default options
     if (!options) {
       options = {
-        from: this._accounts[0]
+        from: this.account
       };
     }
     puddingContract.defaults(options);
