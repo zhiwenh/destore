@@ -9,6 +9,7 @@ const saveContracts = require('./libs/saveContracts.js');
 
 const Upload = require('./models/Upload.js');
 const Host = require('./models/Host.js');
+const DeStoreAddress = require('./models/DeStoreAddress.js');
 
 const config = require('./libs/config/config.js');
 
@@ -450,4 +451,26 @@ if (program.etest7) {
     .catch(err => {
       lol(err);
     });
+}
+
+if (program.etest8) {
+  Ethereum.init();
+  const address = DeStoreAddress.get();
+  console.log(address);
+  Ethereum.execAt('DeStore', address)
+    .receiverAdd(100, {from: Ethereum.account})
+    .then(tx => {
+      console.log(tx);
+    })
+    .catch(err => {
+      console.log('error');
+      console.error(err);
+    });
+    // .receiverAdd(100)
+    // .then(tx => {
+    //   console.log(tx);
+    // })
+    // .catch(err => {
+    //   console.error(err);
+    // });
 }
