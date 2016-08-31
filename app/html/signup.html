@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css">
   <link rel="stylesheet" href="../../node_modules/milligram/dist/milligram.min.css">
+  <link href="../stylesheets/aqua.css" rel="stylesheet" type="text/css">
   <link href="../stylesheets/app.css" rel="stylesheet" type="text/css">
   <script>
     window.nodeRequire = require;
@@ -29,21 +30,25 @@
         <img class="logo" src="../../images/DestoreLogo.png" alt="DeStore Logo"/>
         <h2>Would you like to sign up?</h2>
       </div> <!-- HEADER --> 
-
-      <div class="row" id="publicKey">
+        
+      <div class="row">
         <label for="publicKey">Public Key</label>
-        <input class="column" type="text" maxlength="42" placeholder="Please enter the Ethereum Account key" />
+      </div>
+      <div class="row" id="publicKey">
+        <input type="text" maxlength="42" placeholder="Please enter the Ethereum Account key" />
+      </div>
+
+      <div class="row">
+        <label for="ethereumPass">Ethereum Password</label>
       </div>
       <div class="row" id="ethereumPass">
-        <label for="ethereumPass">Ethereum Password</label>
-        <input class="column" type="text" placeholder="Please enter Ethereum password" />
+        <input type="text" placeholder="Please enter Ethereum password" />
       </div>
-          <div id="userhostSelect">
-            <a class="userLink button button-outline" href="user.html" role="button">Become a User</a>
-            <a class="hostLink button button-outline" href="host.html" role="button">Become a Host</a>
-          </div>
-      </div> <!-- SIGN UP -->
 
+      <div class="row" id="userhostSelect">
+        <a class="userLink button button-outline button-large" href="user.html" role="button">Become a User</a>
+        <a class="hostLink button button-outline button-large" href="host.html" role="button">Become a Host</a>
+      </div>
     </div> <!-- CONTAINER -->
 
   </body>
