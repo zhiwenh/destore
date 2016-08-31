@@ -1,10 +1,10 @@
 contract DeStore {
 
   event AddReceiver (
-    bool _init,
-    bool _status,
-    uint _index,
-    uint _availStorage
+    bool init,
+    bool status,
+    uint index,
+    uint availStorage
   );
 
   address owner; // consider deleting later

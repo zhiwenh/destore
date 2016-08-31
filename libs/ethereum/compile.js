@@ -53,10 +53,12 @@ module.exports = (contractFiles, directoryPath) => {
     const contractString = JSON.stringify(contractsCompiled[contractName], null, '  ');
 
     const abiDirectoryPath = path.join(contractsConfig.abiPath, contractName + contractsConfig.abiFormat);
+
     fs.writeFile(abiDirectoryPath, contractString, (err) => {
       if (err) console.error('Error writing: ' + contractName);
       else console.log('Wrote ABI to: ' + abiDirectoryPath);
     });
+
   }
   return contractsCompiled;
 };
