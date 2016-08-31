@@ -4,7 +4,7 @@
 const fs = require('fs');
 const solc = require('solc'); // https://github.com/ethereum/solc-js
 const init = require('./init.js');
-
+const path = require('path');
 const contractsConfig = require('./../config/contracts.js');
 
 // creates an object containing the contract data which is then returned and imported to a JSON file
@@ -52,10 +52,10 @@ module.exports = (contractFiles, directoryPath) => {
 
     const contractString = JSON.stringify(contractsCompiled[contractName], null, '  ');
 
-    console.log(contractString);
-
-    fs.writeFile(contractsConfig.abi, contractString, (err) => {
-      console.error('Error writing: ' + contractName);
+    const abiDirectoryPath = path.join(contractsConfig.abiPath, contractName + contractsConfig.abiFormat);
+    fs.writeFile(abiDirectoryPath, contractString, (err) => {
+      if (err) console.error('Error writing: ' + contractName);
+      else console.log('Wrote ABI to: ' + abiDirectoryPath);
     });
   }
   return contractsCompiled;

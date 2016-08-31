@@ -11,7 +11,8 @@ const contractsConfig = {
   testPath: __dirname + '/../../contracts-test/',
   type: 'Solidity',
   built: __dirname + '/../contracts/',
-  abi: __dirname + '/../../contracts-abi/'
+  abiPath: __dirname + '/../../contracts-abi/',
+  abiFormat: '.json'
 };
 
 module.exports = contractsConfig;
