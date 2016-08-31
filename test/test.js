@@ -37,7 +37,6 @@ const helper = {
   }
 };
 
-
 const hashObjs = {
   hash1: 'QmUNLLsPACCz1vLxQVkXqqLX5R1X345qqfHbsf67hvA3Nn',
   hash2: 'QmcSwTAwqbtGTt1MBobEjKb8rPwJJzfCLorLMs5m97axDW',
