@@ -5,24 +5,21 @@ body {
   font-family: "Open Sans", sans-serif;
 }
 
-label {
-  display: inline-block;
-}
-
 input {
-  width: 500px;
+  /*width: 500px;
   margin: 10px;
   padding: 5px;
-  font-size: 16px;
+  font-size: 16px;*/
+  display: block;
 }
 
-button {
+/*button {
   font-size: 16px;
   padding: 5px;
   display: inline-block;
   margin: 10px;
   border: none;
-}
+}*/
 
 h1, h2 {
   display: inline-block;
@@ -40,6 +37,11 @@ h3 {
   font-weight: normal;
   color: #AAA;
   font-size: 24px;
+}
+
+.logo {
+  width: 600px;
+  text-align: center;
 }
 
 .black {
