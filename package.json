@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "electron ./app/main.js",
-    "test": "node ./test/test.js | tap-spec"
+    "test": "node ./test/test.js"
   },
   "repository": {
     "type": "git",
@@ -21,13 +21,13 @@
   },
   "homepage": "https://github.com/DeStore/destore#readme",
   "dependencies": {
+    "blue-tape": "^0.2.0",
     "bluebird": "^3.4.1",
     "chokidar": "^1.6.0",
     "commander": "^2.9.0",
     "diskspace": "^1.0.3",
     "electron-config": "^0.2.1",
     "electron-json-storage": "^2.0.0",
-    "embark-framework": "^1.2.0",
     "es6-promisify": "^4.1.0",
     "ether-pudding": "^3.1.2",
     "ethereumjs-testrpc": "^2.2.1",
@@ -35,19 +35,18 @@
     "get-folder-size": "^1.0.0",
     "ipfs": "^0.14.3",
     "ipfs-api": "^7.0.0",
-    "multihashes": "^0.2.2",
     "nedb": "^1.8.0",
     "path": "^0.12.7",
     "read-yaml": "^1.0.0",
     "solc": "^0.3.6",
     "systeminformation": "^3.0.1",
     "tar-stream": "^1.5.2",
-    "truffle": "^2.0.7",
     "web3": "^0.17.0-alpha"
   },
   "devDependencies": {
     "electron": "^1.3.3",
     "tap-dot": "^1.0.5",
-    "tap-spec": "^4.1.1"
+    "tap-spec": "^4.1.1",
+    "tape": "^4.6.0"
   }
 }
