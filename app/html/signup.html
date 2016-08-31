@@ -5,10 +5,8 @@
   <title>Destore: Decentralized File Storage</title>
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css">
-  <link rel="stylesheet" href="../../node_modules/milligram/dist/milligram.min.css">
-  <link href="../stylesheets/aqua.css" rel="stylesheet" type="text/css">
   <link href="../stylesheets/app.css" rel="stylesheet" type="text/css">
+  <link href="../stylesheets/bootstrap.min.css" rel="stylesheet" type="text/css">
   <script>
     window.nodeRequire = require;
     delete window.require;
@@ -31,24 +29,47 @@
         <h2>Would you like to sign up?</h2>
       </div> <!-- HEADER --> 
         
+<!--       <div class="row">
+        <label for="password">Please enter Password</label>
+      </div>
+      <div class="row" id="password1">
+        <input type="text" maxlength="15" placeholder="Password..." />
+      </div>
       <div class="row">
-        <label for="publicKey">Public Key</label>
+        <label for="password">Please Re-enter Password</label>
       </div>
-      <div class="row" id="publicKey">
-        <input type="text" maxlength="42" placeholder="Please enter the Ethereum Account key" />
-      </div>
+      <div class="row" id="password2">
+        <input type="text" maxlength="15" placeholder="Password..." />
+      </div> -->
+      
+      <div class="signupForm">
+        <form>
+          <div class="form-group">
+            <label for="password1">Please enter Password</label>
+            <input type="email" class="form-control" id="password1" placeholder="Enter Password">
+          </div>
+          <div class="form-group">
+            <label for="password2">Please Re-enter Password</label>
+            <input type="password" class="form-control" id="password2" placeholder="Re-enter Password">
+          </div>
+          <div id="userButton" class="btn btn-primary">
+            <label>
+              <input type="radio" name="accountType"> Sign Up as User
+            </label>
+          </div>
+          <div id="hostButton" class="btn btn-primary">
+            <label>
+              <input type="radio" name="accountType"> Sign Up as Host
+            </label>
+          </div>
+          <button type="submit" class="btn btn-default block">Submit</button>
+        </form>
+      </div> <!-- SIGN UP FORM DIV -->
+<!--       <div class="row" id="userhostSelect">
+        <a class="userLink button button-outline button-large" href="user.html" role="button">Sign Up as User</a>
+        <a class="hostLink button button-outline button-large" href="host.html" role="button">Sign Up as Host</a>
+      </div> -->
 
-      <div class="row">
-        <label for="ethereumPass">Ethereum Password</label>
-      </div>
-      <div class="row" id="ethereumPass">
-        <input type="text" placeholder="Please enter Ethereum password" />
-      </div>
-
-      <div class="row" id="userhostSelect">
-        <a class="userLink button button-outline button-large" href="user.html" role="button">Become a User</a>
-        <a class="hostLink button button-outline button-large" href="host.html" role="button">Become a Host</a>
-      </div>
     </div> <!-- CONTAINER -->
 
   </body>
