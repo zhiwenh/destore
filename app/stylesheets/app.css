@@ -5,15 +5,8 @@ body {
   font-family: "Open Sans", sans-serif;
 }
 
-.milligram {
-  color: #ccc;
-}
-
-.button-large {
-  font-size: 1.4rem;
-  height: 4.5rem;
-  line-height: 4.5rem;
-  padding: 0 2rem;
+.block {
+  display: block;
 }
 
 /*input {
