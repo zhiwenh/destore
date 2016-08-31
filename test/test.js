@@ -46,7 +46,8 @@ const hashObjs = {
   hash4: 'QmbFMke1KXqnYyBBWxB74N4c5SBnJMVAiMNRcGu6x1AwQH',
 };
 
-test('web3 isConnected test true/false', t => {
+test('web3.isConnected test true/false', t => {
+  t.plan(1);
   const status = Ethereum.check();
   t.equal(status, true, 'successful connection should return true');
   t.end();
@@ -63,6 +64,7 @@ test('web3.eth.accounts should return an array', t => {
 
 
 test('DeStore Contract', t => {
+  lol('\tNested tests: ');
   Ethereum.init();
   let DeStore;
 

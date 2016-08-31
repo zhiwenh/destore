@@ -5,24 +5,36 @@ body {
   font-family: "Open Sans", sans-serif;
 }
 
-label {
-  display: inline-block;
+.milligram {
+  color: #ccc;
 }
 
-input {
+.button-large {
+  font-size: 1.4rem;
+  height: 4.5rem;
+  line-height: 4.5rem;
+  padding: 0 2rem;
+}
+
+/*input {
   width: 500px;
   margin: 10px;
   padding: 5px;
   font-size: 16px;
+  display: block;
 }
 
-button {
+label {
+  display: block;
+}*/
+
+/*button {
   font-size: 16px;
   padding: 5px;
   display: inline-block;
   margin: 10px;
   border: none;
-}
+}*/
 
 h1, h2 {
   display: inline-block;
@@ -40,6 +52,11 @@ h3 {
   font-weight: normal;
   color: #AAA;
   font-size: 24px;
+}
+
+.logo {
+  width: 600px;
+  text-align: center;
 }
 
 .black {
