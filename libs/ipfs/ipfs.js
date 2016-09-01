@@ -11,10 +11,11 @@ const networkConfig = require('./../config/config.js').network;
 
 class IPFS {
   constructor() {
-    this._ipfs = null;
+    this._ipfs = this.init();
     this.connect = false;
     this.publicKey = null;
     this.id = null;
+
   }
 
   // need to run before using IPFSObj
@@ -59,9 +60,10 @@ class IPFS {
     });
   }
 
-
-  // @ filesPaths - string or array containing the paths to the files
-  // returns a Promise
+  /**
+  * @filesPaths {String} or {Array} contains path to files
+  * @return {Promise} with res an array of objects with {path: String, hash: String, size: Number, file: file path}
+  **/
   addFiles(filePaths) {
     if (typeof filePaths === 'string') {
       filePaths = [filePaths];

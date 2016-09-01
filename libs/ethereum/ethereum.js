@@ -155,9 +155,15 @@ class Ethereum {
   * @returns Promise with response as filtered logs
   **/
   getEventLogs(contractName, contractAddress, method, filter) {
+    if (!filter) {
+      filter = {
+        address: contractAddress
+      };
+    }
     const contractInstance = this.execAt(contractName, contractAddress);
     let methodEvent = contractInstance[method];
     methodEvent = methodEvent({}, {fromBlock: 0});
+    // MAJOR BUG. If it doesnt return any events it freezes
     return promisify((event, callback) => {
       event.get((err, logs) => {
         if (err) callback(err, null);
