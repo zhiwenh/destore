@@ -31,6 +31,12 @@ var fileContractArray;
 IPFS.init();
 IPFS.daemon();
 
+$('#signupForm').submit((e) => {
+  e.preventDefault();
+
+})
+
+
 //Makes encrypt/download folder (hidden) if not made
 User.mkdir('fileStorage');
 
