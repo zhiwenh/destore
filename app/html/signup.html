@@ -4,7 +4,9 @@
   <meta charset="UTF-8">
   <title>Destore: Decentralized File Storage</title>
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
   <link href="../stylesheets/app.css" rel="stylesheet" type="text/css">
+  <link href="../stylesheets/bootstrap.min.css" rel="stylesheet" type="text/css">
   <script>
     window.nodeRequire = require;
     delete window.require;
@@ -12,47 +14,64 @@
     delete window.module;
   </script>
   <script src="../vendors/jquery.min.js"></script>
-  <!-- <script src="../javascripts/renderer.js"></script> -->
-
-  <!-- <script src="../javascripts/app.js"></script> -->
   </head>
   <body>
-    <div class="container-fluid">
-      <div class="jumbotron">
-        <h1>Destore Sign Up</h1>
-        <p>Decentralized file storage built with Ethereum and IPFS</p>
-        <p><a class="hostLink btn btn-primary btn-lg" href="host.html" role="button">Sign Up As a Host!</a></p>
-        <p><a class="userLink btn btn-primary btn-lg" href="user.html" role="button">Sign Up As a User!</a></p>
-        <button type="button" class="addMasterList btn btn-primary btn-lg gradient"> Add Master List </button>
+    <div> <!-- TEST -->
+      <button type="button" class="addMasterList btn btn-primary btn-lg gradient"> TEST: Add Master List </button>
+      <button class="clearList">TEST: CLEAR EVERYTHING</button>
+
+    </div> <!-- TEST -->
+
+    <div class="container">
+
+      <div class="header">
+        <img class="logo" src="../../images/DestoreLogo.png" alt="DeStore Logo"/>
+        <h2>Would you like to sign up?</h2>
+      </div> <!-- HEADER --> 
+        
+<!--       <div class="row">
+        <label for="password">Please enter Password</label>
       </div>
-      <hr />
-      <button class="clearList">CLEAR EVERYTHING</button>
-      <div class="row" id="signup">
-        <h3>Sign Up</h3>
-        <div class="row">
-          <div id="signup-fields">
+      <div class="row" id="password1">
+        <input type="text" maxlength="15" placeholder="Password..." />
+      </div>
+      <div class="row">
+        <label for="password">Please Re-enter Password</label>
+      </div>
+      <div class="row" id="password2">
+        <input type="text" maxlength="15" placeholder="Password..." />
+      </div> -->
+      
+      <div class="signupForm">
+        <form>
+          <div class="form-group">
+            <label for="password1">Please enter Password</label>
+            <input type="email" class="form-control" id="password1" placeholder="Enter Password">
+          </div> <!-- SIGN UP FORM DIV -->
+          <div class="form-group">
+            <label for="password2">Please Re-enter Password</label>
+            <input type="password" class="form-control" id="password2" placeholder="Re-enter Password">
+          </div> <!-- SIGN UP FORM DIV -->
+          <div id="userButton" class="btn btn-primary">
             <label>
-              Please enter the Ethereum account (public key) you would like associated with your Destore account:
+              <input type="radio" name="accountType"> Sign Up as User
             </label>
-            <input type="text" maxlength="42" />
-            <label class="radio-inline">
-              User
-              <input type="radio" name="account-type">
-            </label>
-            <label class="radio-inline">
-              Host
-              <input type="radio" name="account-type">
-            </label>
+          </div> <!-- SIGN UP FORM DIV -->
+          <div id="hostButton" class="btn btn-primary">
             <label>
-              Please enter the amount of space, in gigabytes, that you would like to make available for storage:
+              <input type="radio" name="accountType"> Sign Up as Host
             </label>
-            <input type="text" />
-            <div class="row">
-              <button type="button" class="btn btn-primary btn-lg gradient">Submit</button>
-            </div>
-          </div>
-        </div>
-      </div> <!-- SIGN UP -->
+          </div> <!-- SIGN UP FORM DIV -->
+          <button type="submit" class="btn btn-default block">Submit</button>
+        </form>
+      </div> <!-- SIGN UP FORM DIV -->
+<!--       <div class="row" id="userhostSelect">
+        <a class="userLink button button-outline button-large" href="user.html" role="button">Sign Up as User</a>
+        <a class="hostLink button button-outline button-large" href="host.html" role="button">Sign Up as Host</a>
+      </div> -->
+
+    </div> <!-- CONTAINER -->
+
   </body>
   <script>
     nodeRequire('../javascripts/renderer.js');

@@ -35,6 +35,7 @@
     "get-folder-size": "^1.0.0",
     "ipfs": "^0.14.3",
     "ipfs-api": "^7.0.0",
+    "milligram": "^1.1.0",
     "nedb": "^1.8.0",
     "path": "^0.12.7",
     "read-yaml": "^1.0.0",

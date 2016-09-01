@@ -92,7 +92,7 @@ $("button.test2").click(function() {
 // retrives all files stored in reciever contract and downloads
 $("button.test3").click(function() {
   console.log('press download')
-  retriveFilesDownload(recInstance.address)
+  retrieveFilesDownload(recInstance.address)
 
 
 });
@@ -276,7 +276,7 @@ function addFileAndDeploy(filePaths) {
 }
 
 
-function retriveFilesDownload(receiverAddress) {
+function retrieveFilesDownload(receiverAddress) {
   Ethereum.execAt('Receiver', receiverAddress)
     .retrieveStorage()
     .then(function(res) {
