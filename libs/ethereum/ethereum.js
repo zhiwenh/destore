@@ -185,6 +185,34 @@ class Ethereum {
       });
     })(methodEvent);
   }
+  getEventLogsFull(contractName, contractAddress, method, filter) {
+    if (!filter) {
+      filter = {
+        address: contractAddress
+      };
+    }
+    const contractInstance = this.execAt(contractName, contractAddress);
+    let methodEvent = contractInstance[method];
+    methodEvent = methodEvent({}, {fromBlock: 0});
+    // MAJOR BUG. If it doesnt return any events it freezes
+    return promisify((event, callback) => {
+      event.get((err, logs) => {
+        if (err) callback(err, null);
+        else {
+          const filteredLogs = {};
+          logs = logs.filter((element) => {
+            for (let key in filter) {
+              if (filter[key] !== element[key] && element[key] !== undefined) {
+                return false;
+              }
+            }
+            return true;
+          });
+          callback(null, logs);
+        }
+      });
+    })(methodEvent);
+  }
 }
 
 module.exports = new Ethereum();
