@@ -3,10 +3,42 @@ body {
   margin-right: 10%;
   margin-top: 10%;
   font-family: "Open Sans", sans-serif;
+  background-color: #575C79;
 }
 
-.block {
-  display: block;
+h1 {
+  font-size: 6rem;
+}
+
+#hostContainer {
+  text-align: center;
+  font-size: 16pt;
+  font-weight: 700;
+}
+
+#hostDashboard {
+  background-color: #BBC1E6;
+}
+
+.dashboardBox {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  width: 49%;
+  height: 0;
+  padding-bottom: 30%;
+  display: inline-block;
+  /*border: 1px solid black;*/
+}
+
+.dashboardBox:hover {
+  background-color: #94A1ED;
+}
+
+#timer {
+  width: 100%;
+  /*border: 1px solid black;*/
+  font-size: 2em;
 }
 
 /*input {

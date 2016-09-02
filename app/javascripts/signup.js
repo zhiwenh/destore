@@ -1,5 +1,4 @@
 const zxcvbn = require('zxcvbn');
-const $ = require('jquery');
 
 const strength = {
   0: 'Worst ☹',

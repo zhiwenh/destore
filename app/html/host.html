@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Destore: Decentralized File Storage</title>
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">
+  <link href="../stylesheets/bootstrap.min.css" rel="stylesheet" type="text/css">
   <link href="../stylesheets/app.css" rel="stylesheet" type="text/css">
   <script>
     window.nodeRequire = require;
@@ -14,14 +15,31 @@
   <script src="../vendors/jquery.min.js"></script>
   </head>
   <body>
-    <div class="row" id="host">
-      <h3>Host</h3>
+    <div class="row" id="hostContainer">
+      <h1>Welcome Host</h1>
+      <div id="hostDashboard">
+        <div class="dashboardBox" id="hostBalance">Host Balance:
+          <div id="balance">
+            
+          </div>
+        </div>
+        <div class="dashboardBox" id="hostGain">Money Gained:
+
+        </div>
+        <div class="dashboardBox" id="hostStorage">Host Storage: 
+        </div>
+        <div class="dashboardBox" id="hostOnline">Time Online: 
+          <div id="timer">00:00:00</div>
+          </div>
+        </div>
+      </div>
+
       <input id="hostInput" placeholder="Please enter space required in Mb" />
-      <button type="button" class="addHost btn btn-primary btn-lg gradient"> Add Host</button>
-      <button type="button" class="addHost2 btn btn-primary btn-lg gradient"> Add Host2</button>
-      <button type="button" class="addHost3 btn btn-primary btn-lg gradient"> Add Host3</button>
-      <button type="button" class="testReceiver btn btn-primary btn-lg gradient"> Test All of Receivers</button>
-      <button type="button" class="test3 btn btn-primary btn-lg gradient"> Download Available Files </button>
+      <button type="button" class="addHost btn btn-primary"> Add Host</button>
+      <button type="button" class="addHost2 btn btn-primary"> Add Host2</button>
+      <button type="button" class="addHost3 btn btn-primary"> Add Host3</button>
+      <button type="button" class="testReceiver btn btn-primary"> Test All of Receivers</button>
+      <button type="button" class="test3 btn btn-primary"> Download Available Files </button>
       <button class="clearList">CLEAR EVERYTHING</button>
     </div> <!-- HOST -->
     
