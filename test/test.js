@@ -134,7 +134,7 @@ test('DeStore ===', t => {
 
   Ethereum.init();
   let DeStore;
-  //
+
   t.test('Receiver Tests === Check functionality of deployment', t => {
     const deployOptions = {
       from: Ethereum.account,
@@ -348,6 +348,8 @@ test('DeStore ===', t => {
       });
   });
 
+
+
   /******** DEPLOYING NEW DESTORE CONTRACT ********/
 
   t.test('Deploying new DeStore contract', t => {
@@ -433,7 +435,7 @@ test('DeStore ===', t => {
       });
   });
 
-  t.test('Check that sending a file with 5 hashes to 5 receivers gives 5 hashes to those receivers plus the one hash that was added earlier', t => {
+  t.test('Check that sending a file with 5 hashes to 5 receivers gives 5 hashes to those receivers plus the one hash that was added earlier, then check to see if senderGetFileReceivers works', t => {
     const inputHashArr = [hashObjs.hash1, hashObjs.hash2, hashObjs.hash3, hashObjs.hash4, hashObjs.hash5];
     const resultHashArr = ['QmUNLLsPACCz1vLxQVkXqqLX5R1X345qqfHbsf67hvXXXX', hashObjs.hash1, hashObjs.hash2, hashObjs.hash3, hashObjs.hash4, hashObjs.hash5];
     const sizeArr = [500, 500, 500, 500, 500];
@@ -464,6 +466,18 @@ test('DeStore ===', t => {
         t.deepEqual(hashes3, resultHashArr, 'Expect hash retrieved from account 3 receiverGetHashes to equal inputHash plus hash added earlier');
         t.deepEqual(hashes4, resultHashArr, 'Expect hash retrieved from account 4 receiverGetHashes to equal inputHash plus hash added earlier');
         t.deepEqual(hashes5, resultHashArr, 'Expect hash retrieved from account 5 receiverGetHashes to equal inputHash plus hash added earlier');
+        return DeStore.senderGetFileReceivers('fileCoffeeBeans.txt');
+      })
+      .then(fileReceivers => {
+        // console.log(fileReceivers);
+        // const expectedFileReceivers = [];
+        // for (let i = 0; i < 5; i++) {
+        //   for (let j = 2; j < 6; j++) {
+        //     expectedFileReceivers.push(Ethereum.accounts[j]);
+        //   }
+        //   expectedFileReceivers.push(Ethereum.accounts[1]);
+        // }
+        t.equal(fileReceivers.length, 25, 'Expect senderGetFileReceivers to get an array of 25 length');
         t.end();
       })
       .catch(err => {
@@ -472,7 +486,7 @@ test('DeStore ===', t => {
       });
   });
 
-  /******** DEPLOYING NEW DESTORE CONTRACT ********/
+  // /******** DEPLOYING NEW DESTORE CONTRACT ********/
 
   t.test('Deploying new DeStore contract', t => {
     Ethereum.changeAccount(0);
@@ -586,6 +600,68 @@ test('DeStore ===', t => {
 
   /******** DEPLOYING NEW DESTORE CONTRACT ********/
 
+  reDeploy();
+
+  t.test('Check functionality of senderSendMoney, receiverGetBalance, and receiverWithdraw', t => {
+    DeStore.senderAdd()
+      .then(tx => {
+        return DeStore.receiverAdd(5000, {from: Ethereum.accounts[1]});
+      })
+      .then(tx => {
+        return DeStore.receiverGetBalance({from: Ethereum.accounts[1]});
+      })
+      .then(amount => {
+        lol(amount);
+        const inputHash = 'QmUNLLsPACCz1vLxQVkXqqLX5R1X345qqfHbsf67hvXXXX';
+        const splitArray = helper.hashesIntoSplitArr(inputHash);
+        const sizeArray = [100];
+        t.equal(web3.fromWei(amount, 'ether').c[0], 0, 'Expect receiverGetBalance to return 0 initially');
+        return DeStore.senderAddFile(splitArray, 'test', 50, sizeArray);
+      })
+      .then(tx => {
+        return DeStore.senderSendMoney(Ethereum.accounts[1], 'test', {from: Ethereum.account, value: web3.toWei(5, 'ether')});
+      })
+      .then(tx => {
+        return DeStore.receiverGetBalance({from: Ethereum.accounts[1]});
+      })
+      .then(amount => {
+        t.equal(web3.fromWei(amount, 'ether').c[0], 5, 'Expect eceiver balance to be 5');
+        return DeStore.senderSendMoney(Ethereum.accounts[1], 'no file', {from: Ethereum.account, value: web3.toWei(10, 'ether')});
+      })
+      .then(tx => {
+        return DeStore.receiverGetBalance({from: Ethereum.accounts[1]});
+      })
+      .then(amount => {
+        t.equal(web3.fromWei(amount, 'ether').c[0], 5, 'Expect eceiver balance to still be 5 when sending money for a file that the sender has made');
+        return DeStore.senderSendMoney(Ethereum.accounts[1], 'no file', {from: Ethereum.accounts[5], value: web3.toWei(10, 'ether')});
+      })
+      .then(tx => {
+        return DeStore.receiverGetBalance({from: Ethereum.accounts[1]});
+      })
+      .then(amount => {
+        t.equal(web3.fromWei(amount, 'ether').c[0], 5, 'Expect amount to still be 5 when sending money from an account that hasnt been initialized');
+
+        return DeStore.receiverWithdraw(web3.toWei(3, 'ether'), {from: Ethereum.accounts[1]});
+      })
+      .then(tx => {
+        return DeStore.receiverGetBalance({from: Ethereum.accounts[1]});
+      })
+      .then(amount => {
+        t.equal(web3.fromWei(amount, 'ether').c[0], 2, 'Expect receiver balance to be 2 after withdrawing 3');
+        return DeStore.receiverWithdraw(web3.toWei(3, 'ether'), {from: Ethereum.accounts[1]});
+      })
+      .then(tx => {
+        return DeStore.receiverGetBalance({from: Ethereum.accounts[1]});
+      })
+      .then(amount => {
+        t.equal(web3.fromWei(amount, 'ether').c[0], 2, 'Expect receiver balance to still be 2 after withdrawing over the amount avaliable, 3');
+        t.end();
+      })
+      .catch(err => {
+        console.error(err);
+        t.fix();
+      });
+  });
 
   t.end();
 });
