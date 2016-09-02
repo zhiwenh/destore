@@ -134,7 +134,7 @@ test('DeStore ===', t => {
 
   Ethereum.init();
   let DeStore;
-  //
+
   t.test('Receiver Tests === Check functionality of deployment', t => {
     const deployOptions = {
       from: Ethereum.account,
@@ -348,6 +348,8 @@ test('DeStore ===', t => {
       });
   });
 
+
+
   /******** DEPLOYING NEW DESTORE CONTRACT ********/
 
   t.test('Deploying new DeStore contract', t => {
@@ -433,7 +435,7 @@ test('DeStore ===', t => {
       });
   });
 
-  t.test('Check that sending a file with 5 hashes to 5 receivers gives 5 hashes to those receivers plus the one hash that was added earlier', t => {
+  t.test('Check that sending a file with 5 hashes to 5 receivers gives 5 hashes to those receivers plus the one hash that was added earlier, then check to see if senderGetFileReceivers works', t => {
     const inputHashArr = [hashObjs.hash1, hashObjs.hash2, hashObjs.hash3, hashObjs.hash4, hashObjs.hash5];
     const resultHashArr = ['QmUNLLsPACCz1vLxQVkXqqLX5R1X345qqfHbsf67hvXXXX', hashObjs.hash1, hashObjs.hash2, hashObjs.hash3, hashObjs.hash4, hashObjs.hash5];
     const sizeArr = [500, 500, 500, 500, 500];
@@ -464,6 +466,18 @@ test('DeStore ===', t => {
         t.deepEqual(hashes3, resultHashArr, 'Expect hash retrieved from account 3 receiverGetHashes to equal inputHash plus hash added earlier');
         t.deepEqual(hashes4, resultHashArr, 'Expect hash retrieved from account 4 receiverGetHashes to equal inputHash plus hash added earlier');
         t.deepEqual(hashes5, resultHashArr, 'Expect hash retrieved from account 5 receiverGetHashes to equal inputHash plus hash added earlier');
+        return DeStore.senderGetFileReceivers('fileCoffeeBeans.txt');
+      })
+      .then(fileReceivers => {
+        // console.log(fileReceivers);
+        // const expectedFileReceivers = [];
+        // for (let i = 0; i < 5; i++) {
+        //   for (let j = 2; j < 6; j++) {
+        //     expectedFileReceivers.push(Ethereum.accounts[j]);
+        //   }
+        //   expectedFileReceivers.push(Ethereum.accounts[1]);
+        // }
+        t.equal(fileReceivers.length, 25, 'Expect senderGetFileReceivers to get an array of 25 length');
         t.end();
       })
       .catch(err => {
@@ -472,120 +486,155 @@ test('DeStore ===', t => {
       });
   });
 
-  /******** DEPLOYING NEW DESTORE CONTRACT ********/
+  // /******** DEPLOYING NEW DESTORE CONTRACT ********/
+  //
+  // t.test('Deploying new DeStore contract', t => {
+  //   Ethereum.changeAccount(0);
+  //   const deployOptions = {
+  //     from: Ethereum.account,
+  //     value: 10
+  //   };
+  //   Ethereum.deploy('DeStore', [], deployOptions)
+  //     .then(instance => {
+  //       DeStore = instance;
+  //       DeStoreAddress.save(DeStore.address);
+  //       t.equal(DeStore.address.length, 42, 'Contract address should have a length of 42');
+  //       t.end();
+  //     })
+  //     .catch(err => {
+  //       t.fail();
+  //     });
+  // });
+  //
+  // t.test('Check to see that the recieverIndex works' , t => {
+  //   const inputHash = 'QmUNLLsPACCz1vLxQVkXqqLX5R1X345qqfHbsf67RINDEX';
+  //
+  //   DeStore.senderAdd()
+  //     .then(tx => {
+  //       return Promise.all([
+  //         DeStore.receiverAdd(5000, {from: Ethereum.accounts[1]}),
+  //         DeStore.receiverAdd(5000, {from: Ethereum.accounts[2]}),
+  //         DeStore.receiverAdd(5000, {from: Ethereum.accounts[3]}),
+  //         DeStore.receiverAdd(5000, {from: Ethereum.accounts[4]}),
+  //         DeStore.receiverAdd(5000, {from: Ethereum.accounts[5]})
+  //       ]);
+  //     })
+  //     .then(tx => {
+  //       const splitArray = helper.hashesIntoSplitArr(inputHash);
+  //       const sizeArr = [1];
+  //       return DeStore.senderAddFile(splitArray, 'test5', 100, sizeArr);
+  //     })
+  //     .then(tx => {
+  //       return DeStore.senderGetFileHost('test5', 1);
+  //     })
+  //     .then(tx => {
+  //       return DeStore.getReceiverIndex();
+  //     })
+  //     .then(index => {
+  //       t.equal(index.c[0], 1, 'Expect receiverIndex to equal 1');
+  //       return DeStore.senderGetFileHost('test5', 1);
+  //     })
+  //     .then(tx => {
+  //       return DeStore.getReceiverIndex();
+  //     })
+  //     .then(index => {
+  //       t.equal(index.c[0], 2, 'Expect receiverIndex to equal 2');
+  //       return DeStore.senderGetFileHost('test5', 1);
+  //     })
+  //     .then(tx => {
+  //       return DeStore.getReceiverIndex();
+  //     })
+  //     .then(index => {
+  //       t.equal(index.c[0], 3, 'Expect receiverIndex to equal 3');
+  //       return DeStore.senderGetFileHost('test5', 1);
+  //     })
+  //     .then(tx => {
+  //       return DeStore.getReceiverIndex();
+  //     })
+  //     .then(index => {
+  //       t.equal(index.c[0], 4, 'Expect receiverIndex to equal 4');
+  //       return DeStore.senderGetFileHost('test5', 1);
+  //     })
+  //     .then(tx => {
+  //       return DeStore.getReceiverIndex();
+  //     })
+  //
+  //     .then(index => {
+  //       t.equal(index.c[0], 0, 'Expect receiverIndex to equal 0');
+  //       return DeStore.senderGetFileHost('test5', 1);
+  //     })
+  //     .then(tx => {
+  //       return DeStore.getReceiverIndex();
+  //     })
+  //     .then(index => {
+  //       t.equal(index.c[0], 1, 'Expect receiverIndex to equal 1');
+  //       return DeStore.senderGetFileHost('test5', 1);
+  //     })
+  //     .then(tx => {
+  //       return Promise.all([
+  //         DeStore.receiverGetHashes({from: Ethereum.accounts[1]}),
+  //         DeStore.receiverGetHashes({from: Ethereum.accounts[2]}),
+  //         DeStore.receiverGetHashes({from: Ethereum.accounts[3]}),
+  //         DeStore.receiverGetHashes({from: Ethereum.accounts[4]}),
+  //         DeStore.receiverGetHashes({from: Ethereum.accounts[5]})
+  //       ]);
+  //     })
+  //     .then(hexArrArr => {
+  //       const hashes1 = helper.getAllHashes(hexArrArr[0]);
+  //       const hashes2 = helper.getAllHashes(hexArrArr[1]);
+  //       const hashes3 = helper.getAllHashes(hexArrArr[2]);
+  //       const hashes4 = helper.getAllHashes(hexArrArr[3]);
+  //       const hashes5 = helper.getAllHashes(hexArrArr[4]);
+  //
+  //       t.equal(hashes1.length, 2, 'Expect receiver 1 to return a hash array of length 2');
+  //       t.equal(hashes2.length, 2, 'Expect receiver 2 to return a hash array of length 2');
+  //       t.equal(hashes3.length, 1, 'Expect receiver 3 to return a hash array of length 1');
+  //       t.equal(hashes1[0], inputHash, 'Expect receiver 1 to return the input hash');
+  //       t.end();
+  //     })
+  //     .catch(err => {
+  //       console.error(err);
+  //       t.fail();
+  //     });
+  // });
+  //
+  // /******** DEPLOYING NEW DESTORE CONTRACT ********/
+  //
+  reDeploy();
 
-  t.test('Deploying new DeStore contract', t => {
-    Ethereum.changeAccount(0);
-    const deployOptions = {
-      from: Ethereum.account,
-      value: 10
-    };
-    Ethereum.deploy('DeStore', [], deployOptions)
-      .then(instance => {
-        DeStore = instance;
-        DeStoreAddress.save(DeStore.address);
-        t.equal(DeStore.address.length, 42, 'Contract address should have a length of 42');
-        t.end();
-      })
-      .catch(err => {
-        t.fail();
-      });
-  });
-
-  t.test('Check to see that the recieverIndex works' , t => {
-    const inputHash = 'QmUNLLsPACCz1vLxQVkXqqLX5R1X345qqfHbsf67RINDEX';
-
+  t.test('Check functionality of senderSendMoney, receiverGetBalance, and receiverWithdraw', t => {
     DeStore.senderAdd()
       .then(tx => {
-        return Promise.all([
-          DeStore.receiverAdd(5000, {from: Ethereum.accounts[1]}),
-          DeStore.receiverAdd(5000, {from: Ethereum.accounts[2]}),
-          DeStore.receiverAdd(5000, {from: Ethereum.accounts[3]}),
-          DeStore.receiverAdd(5000, {from: Ethereum.accounts[4]}),
-          DeStore.receiverAdd(5000, {from: Ethereum.accounts[5]})
-        ]);
+        return DeStore.receiverAdd(5000, {from: Ethereum.accounts[1]});
       })
       .then(tx => {
+        return DeStore.receiverGetBalance({from: Ethereum.accounts[1]});
+      })
+      .then(amount => {
+        lol(amount);
+        const inputHash = 'QmUNLLsPACCz1vLxQVkXqqLX5R1X345qqfHbsf67hvXXXX';
         const splitArray = helper.hashesIntoSplitArr(inputHash);
-        const sizeArr = [1];
-        return DeStore.senderAddFile(splitArray, 'test5', 100, sizeArr);
+        const sizeArray = [100];
+        t.equal(amount.c[0], 0, 'Expect receiverGetBalance to return 0 initially');
+        return DeStore.senderAddFile(splitArray, 'test', 50, sizeArray);
       })
       .then(tx => {
-        return DeStore.senderGetFileHost('test5', 1);
+        return DeStore.senderSendMoney(Ethereum.accounts[1], 'test', {from: Ethereum.account, value: 5});
       })
       .then(tx => {
-        return DeStore.getReceiverIndex();
+        return DeStore.receiverGetBalance({from: Ethereum.accounts[1]});
       })
-      .then(index => {
-        t.equal(index.c[0], 1, 'Expect receiverIndex to equal 1');
-        return DeStore.senderGetFileHost('test5', 1);
-      })
-      .then(tx => {
-        return DeStore.getReceiverIndex();
-      })
-      .then(index => {
-        t.equal(index.c[0], 2, 'Expect receiverIndex to equal 2');
-        return DeStore.senderGetFileHost('test5', 1);
-      })
-      .then(tx => {
-        return DeStore.getReceiverIndex();
-      })
-      .then(index => {
-        t.equal(index.c[0], 3, 'Expect receiverIndex to equal 3');
-        return DeStore.senderGetFileHost('test5', 1);
-      })
-      .then(tx => {
-        return DeStore.getReceiverIndex();
-      })
-      .then(index => {
-        t.equal(index.c[0], 4, 'Expect receiverIndex to equal 4');
-        return DeStore.senderGetFileHost('test5', 1);
-      })
-      .then(tx => {
-        return DeStore.getReceiverIndex();
-      })
-
-      .then(index => {
-        t.equal(index.c[0], 0, 'Expect receiverIndex to equal 0');
-        return DeStore.senderGetFileHost('test5', 1);
-      })
-      .then(tx => {
-        return DeStore.getReceiverIndex();
-      })
-      .then(index => {
-        t.equal(index.c[0], 1, 'Expect receiverIndex to equal 1');
-        return DeStore.senderGetFileHost('test5', 1);
-      })
-      .then(tx => {
-        return Promise.all([
-          DeStore.receiverGetHashes({from: Ethereum.accounts[1]}),
-          DeStore.receiverGetHashes({from: Ethereum.accounts[2]}),
-          DeStore.receiverGetHashes({from: Ethereum.accounts[3]}),
-          DeStore.receiverGetHashes({from: Ethereum.accounts[4]}),
-          DeStore.receiverGetHashes({from: Ethereum.accounts[5]})
-        ]);
-      })
-      .then(hexArrArr => {
-        const hashes1 = helper.getAllHashes(hexArrArr[0]);
-        const hashes2 = helper.getAllHashes(hexArrArr[1]);
-        const hashes3 = helper.getAllHashes(hexArrArr[2]);
-        const hashes4 = helper.getAllHashes(hexArrArr[3]);
-        const hashes5 = helper.getAllHashes(hexArrArr[4]);
-
-        t.equal(hashes1.length, 2, 'Expect receiver 1 to return a hash array of length 2');
-        t.equal(hashes2.length, 2, 'Expect receiver 2 to return a hash array of length 2');
-        t.equal(hashes3.length, 1, 'Expect receiver 3 to return a hash array of length 1');
-        t.equal(hashes1[0], inputHash, 'Expect receiver 1 to return the input hash');
+      .then(amount => {
+        lol(amount);
+        t.equal(amount.c[0], 5, 'Expect amount to be 5');
         t.end();
       })
       .catch(err => {
         console.error(err);
-        t.fail();
+        t.fix();
       });
+
   });
-
-  /******** DEPLOYING NEW DESTORE CONTRACT ********/
-
 
   t.end();
 });
