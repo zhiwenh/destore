@@ -98,7 +98,7 @@ class Ethereum {
     } else {
       amount = this._web3.eth.getBalance(this.accounts[index]);
     }
-    return amount;
+    return amount.c[0];
   }
 
   /**
