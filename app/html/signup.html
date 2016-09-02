@@ -6,7 +6,8 @@
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  <link href="../stylesheets/style.css" rel="stylesheet" type="text/css">
+  <link href="../stylesheets/signup.css" rel="stylesheet" type="text/css">
+  <script src="../javascripts/signup.js"></script>
   <script>
     window.nodeRequire = require;
     delete window.require;
@@ -16,44 +17,75 @@
   <script src="../vendors/jquery.min.js"></script>
   </head>
   <body>
-    <div class="container">
-      <div id="header">
-        <img src="http://placehold.it/350x150">
-        <h1>Destore Create Account</h1>
-      </div> <!-- header -->
-      <div class ="form-group" id="signup-zone">
-        <div class="row"> <!-- please enter pw, prob <p> -->
-          <label for="password">Select a strong password:</label>
+    <div id="header">
+      <img src="http://placehold.it/350x150">
+      <h1>Destore Create Account</h1>
+    </div> <!-- header -->
+    <div class="tabs">
+      <ul class="tab-links">
+          <li class="active"><a href="#tab-user">User</a></li>
+          <li><a href="#tab-host">Host</a></li>
+      </ul>
+
+      <div class="tab-content">
+        <div id="tab-user" class="tab active">
+          <p>User content goes here!</p>
+          <div class="container">
+            <div class ="form-group" id="signup-user">
+              <div class="row"> <!-- please enter pw, prob <p> -->
+                <label for="password">Select a strong password:</label>
+              </div>
+              <div class="row"> <!-- first password input and pw strength meter -->
+                <input type="password" id="password" placeholder="Enter Password" required />
+                <meter max="4" class="password-strength-meter"></meter>
+                <p class="password-strength-text"></p>
+              </div>
+              <div class="row"> <!-- please confirm password -->
+                <label for="password-confirm">Confirm password:</label>
+              </div>
+              <div class="row"> <!-- second password input and match checker -->
+                <input type="password" placeholder="Confirm Password" required />
+              </div>
+              <div class="row"> <!-- final submit button -->
+                <input class="btn col-md-1" type="submit" value="Submit">
+              </div>
+            </div>
+          </div> <!-- container -->
         </div>
-        <div class="row"> <!-- first password input and pw strength meter -->
-          <input type="password" id="password" placeholder="Enter Password" required />
-          <meter max="4" id="password-strength-meter"></meter>
-          <p id="password-strength-text"></p>
+
+        <div id="tab-host" class="tab">
+          <p>Host content goes here!</p>
+          <div class="container">
+            <div class ="form-group" id="signup-host">
+              <div class="row"> <!-- please enter pw, prob <p> -->
+                <label for="password">Select a strong password:</label>
+              </div>
+              <div class="row"> <!-- first password input and pw strength meter -->
+                <input type="password" class="password" placeholder="Enter Password" required />
+                <meter max="4" class="password-strength-meter"></meter>
+                <p class="password-strength-text"></p>
+              </div>
+              <div class="row"> <!-- please confirm password -->
+                <label for="password-confirm">Confirm password:</label>
+              </div>
+              <div class="row"> <!-- second password input and match checker -->
+                <input type="password" placeholder="Confirm Password" required />
+                <div class="registrationFormAlert" id="divCheckPasswordMatch"></div>
+              </div>
+              <div class="row">
+                <label for="host-storage">How much storage will you provide?</label>
+              </div>
+              <div class="row"> <!-- hosts only: gb to rent out input and verifier -->
+                <input type="number" placeholder="Storage Size" />GB
+              </div>
+              <div class="row"> <!-- final submit button -->
+                <input class="btn col-md-1" type="submit" value="Submit">
+              </div>
+            </div>
+          </div> <!-- container -->
         </div>
-        <div class="row"> <!-- please confirm password -->
-          <label for="password-confirm">Confirm password:</label>
-        </div>
-        <div class="row"> <!-- second password input and match checker -->
-          <input type="password" placeholder="Confirm Password" required />
-        </div>
-        <div class="row">
-          <label for="host-storage">Hosts: How much storage will you provide?</label>
-        </div>
-        <div class="row"> <!-- hosts only: gb to rent out input and verifier -->
-          <input type="number" placeholder="GB to Host" />
-        </div>
-        <div class="row"> <!-- Please select account type -->
-          <h3>Please select account type:</h3>
-        </div>
-        <div class="row"> <!-- host or user selection radio buttons -->
-          <button type="radio" name="account-type">I want to store files</button>
-          <button type="radio" name="account-type">I want to host files</button>
-        </div>
-        <div class="row"> <!-- final submit button -->
-          <input class="btn col-md-1" type="submit" value="Submit">
-        </div>
-      </div>
-    </div> <!-- container -->
+      </div> <!-- tab-content -->
+    </div>
   </body>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <script>
