@@ -71,6 +71,37 @@ class Ethereum {
   }
 
   /**
+  * @index {Number} index of the account to check the balance of in Ether
+  **/
+  getBalanceEther(index) {
+    let amount;
+    if (!index) {
+      amount = this._web3.eth.getBalance(this.account);
+    } else if (index < 0 || index >= this.accounts.length) {
+      amount = this._web3.eth.getBalance(this.account);
+    } else {
+      amount = this._web3.eth.getBalance(this.accounts[index]);
+    }
+    return this._web3.fromWei(amount, 'ether').c[0];
+  }
+
+  /**
+  * 1 Ether = 1,000,000,000,000,000,000 wei
+  * @index {Number} index of the account to check the balance of in wei
+  **/
+  getBalanceWei(index) {
+    let amount;
+    if (!index) {
+      amount = this._web3.eth.getBalance(this.account);
+    } else if (index < 0 || index >= this.accounts.length) {
+      amount = this._web3.eth.getBalance(this.account);
+    } else {
+      amount = this._web3.eth.getBalance(this.accounts[index]);
+    }
+    return amount.c[0];
+  }
+
+  /**
   * @contractName {String} name of contract in contractConfig.build
   * @returns {Object} built contract
   **/

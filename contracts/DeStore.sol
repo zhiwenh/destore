@@ -30,7 +30,7 @@ contract DeStore {
   event PayReceiver (
     address _receiver, // receiver getting paid
     address _sender, // sender whos paying
-    bytes _hash, // hash sender is paying for
+    uint _amount, // hash sender is paying for
     bytes _fileName  // name of the file that sender is paying for
   );
 
@@ -100,6 +100,10 @@ contract DeStore {
 
   modifier senderStatus(address _senderAddress) {
     if (senders[_senderAddress].status == true) _
+  }
+
+  modifier senderInit(address _senderAddress) {
+    if (senders[_senderAddress].init == true) _
   }
 
   modifier senderFileExists(address _senderAddress, bytes _fileName) {
@@ -280,16 +284,16 @@ contract DeStore {
     return senders[msg.sender].files[_fileName].receivers;
   }
 
-  /*function senderSendMoney(address _receiver, bytes _fileName, uint _value)
-    senderStatus(msg.sender)
+  function senderSendMoney(address _receiver, bytes _fileName)
+    senderInit(msg.sender)
     senderFileExists(msg.sender, _fileName)
+    receiverInit(_receiver)
+    /*senderFileExists(msg.sender, _fileName)*/
   {
-    if (balanceOf[msg.sender] < _value)  throw;
-    if (balanceOf[_to] + _value < balanceOf[_to]) throw;
-    balanceOf[msg.sender] -= _value;
-    balanceOf[_to] += _value;
-    PayReceiver(msg.sender, _receiver, msg.value);
-  }*/
+    receivers[_receiver].balance += msg.value;
+    PayReceiver(msg.sender, _receiver, msg.value, _fileName);
+  }
+
   /*function receiverAddHashes(address _receiverAddress, bytes23[2] _hashes)
     private
     receiverStatus(_receiverAddress)
