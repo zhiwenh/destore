@@ -1,5 +1,0 @@
-{"fileName":"kb.png","filePath":"/Users/zhiwen/Development/destore/test/kb.png","fileSize":21541,"hashAddress":"QmdMpNvXNKz5AswQ16D2vTFspLBbhsBADXENJnQ7tvDZWs","blocks":[],"blockSizes":[],"uploadTime":{"$$date":1472934146661},"_id":"8Z1uHJ3oOtw7BcgX"}
-{"$$indexCreated":{"fieldName":"hashAddress","unique":true,"sparse":true}}
-{"$$indexCreated":{"fieldName":"fileName","unique":true,"sparse":true}}
-{"$$deleted":true,"_id":"8Z1uHJ3oOtw7BcgX"}
-{"fileName":"kb.png","filePath":"/Users/zhiwen/Development/destore/test/kb.png","fileSize":21541,"hashAddress":"QmdMpNvXNKz5AswQ16D2vTFspLBbhsBADXENJnQ7tvDZWs","blocks":[],"blockSizes":[],"uploadTime":{"$$date":1472934272205},"_id":"K7MCOTMkv9LwjaFd"}
