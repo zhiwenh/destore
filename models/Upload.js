@@ -14,7 +14,8 @@ const Schema = {
   // contractAddress: null,
   blocks: [],
   blockSizes: [],
-  uploadTime: null
+  receivers: [],
+  uploadTime: null,
 };
 
 Upload.ensureIndex({ fieldName: 'hashAddress', unique: true, sparse: true }, err => {

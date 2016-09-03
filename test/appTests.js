@@ -40,9 +40,13 @@ test('Deploying new DeStore contract and adding a sender and receiver', t => {
       return Ethereum.deStore().senderAdd();
     })
     .then(tx => {
+      return Ethereum.deStore().receiverAdd(10000000000, {from: Ethereum.accounts[1]});
+    })
+    .then(tx => {
       t.end();
     })
     .catch(err => {
+      console.error(err);
       t.fail();
     });
 });
@@ -83,3 +87,42 @@ test('Testing uploadDeStore fail with invalid file name', t => {
       t.end();
     });
 });
+
+const distribute = require('./../libs/distribute');
+
+test('Testing distribute' , t => {
+  distribute('kb.png', 1)
+    .then(addresses => {
+      t.equal(addresses[0], Ethereum.accounts[1], 'Expect address returned to equal to Ethereum.accounts[1]');
+      t.end();
+    })
+    .catch(err => {
+      console.error(err);
+      t.fail();
+    });
+});
+
+
+test('Deploying new DeStore contract', t => {
+  Ethereum.changeAccount(0);
+  const deployOptions = {
+    from: Ethereum.account
+  };
+  Ethereum.deploy('DeStore', [], deployOptions)
+    .then(instance => {
+      config.contracts.deStore = instance.address;
+      t.ok('ok');
+      t.end();
+    })
+    .catch(err => {
+      console.error(err);
+      t.fail();
+    });
+});
+
+// test('Test creating new Ethereum account', t => {
+//   const numAccounts = Ethereum.accounts.length;
+//   Ethereum.createAccount('password');
+//   Ethereum.unlock('password');
+//
+// });

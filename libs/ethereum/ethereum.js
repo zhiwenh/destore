@@ -84,6 +84,13 @@ class Ethereum {
   }
 
   /**
+  * @password {String}
+  * @returns {Boolean} - status of the create account
+  **/
+  createAccount(password) {
+    this._web3.personal.newAccount(password);
+  }
+  /**
   * @address {String}
   * @password {String}
   **/
