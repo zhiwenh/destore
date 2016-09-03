@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "electron ./app/main.js",
-    "test": "node ./test/test.js"
+    "test": "node ./test/contractTests.js"
   },
   "repository": {
     "type": "git",
