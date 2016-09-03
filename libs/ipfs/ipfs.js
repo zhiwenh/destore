@@ -15,7 +15,6 @@ class IPFS {
     this.connect = false;
     this.publicKey = null;
     this.id = null;
-
   }
 
   // need to run before using IPFSObj
@@ -104,8 +103,6 @@ class IPFS {
         if (err) {
           callback(err);
           return;
-        } else {
-
         }
         stream.pipe(writeStream);
         let resArray = [];

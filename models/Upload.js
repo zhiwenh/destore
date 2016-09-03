@@ -10,12 +10,18 @@ const Schema = {
   fileName: null,
   filePath: null,
   fileSize: null,
-  senderHashAddress: null,
-  contractAddress: null,
+  hashAddress: null,
+  // contractAddress: null,
+  blocks: [],
+  blockSizes: [],
   uploadTime: null
 };
 
 Upload.ensureIndex({ fieldName: 'hashAddress', unique: true, sparse: true }, err => {
+  if (err) console.error(err);
+});
+
+Upload.ensureIndex({ fieldName: 'fileName', unique: true, sparse: true }, err => {
   if (err) console.error(err);
 });
 

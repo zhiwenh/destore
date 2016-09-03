@@ -250,7 +250,7 @@ contract DeStore {
     for (uint g = 0; g < file.sizes.length; g++) {
       uint i = 1;
       while (i <= _amount) {
-        if (file.sizes[g] < receivers[availReceivers[j]].availStorage) {
+        if (file.sizes[g] < receivers[availReceivers[j]].availStorage && msg.sender != availReceivers[j]) {
           i++;
           receivers[availReceivers[j]].hashes.push(file.hashes[g]);
           receivers[availReceivers[j]].senders.push(msg.sender);
@@ -273,6 +273,16 @@ contract DeStore {
     } else {
       receiverIndex++;
     }
+  }
+
+  function senderGetFileHashes(bytes _fileName)
+    senderStatus(msg.sender)
+    senderFileExists(msg.sender, _fileName)
+    public
+    constant
+    returns (bytes23[2][])
+  {
+    return senders[msg.sender].files[_fileName].hashes;
   }
 
   function senderGetFileReceivers(bytes _fileName)

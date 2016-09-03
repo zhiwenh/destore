@@ -1,2 +1,5 @@
-{"fileName":"kb.png","filePath":"./files/upload/kb.png","fileSize":21555,"hashAddress":"QmdMpNvXNKz5AswQ16D2vTFspLBbhsBADXENJnQ7tvDZWs","contractAddress":"0x8269bc740c02875fb9043e98d60bfcd79c5d32e0","uploadTime":{"$$date":1472240606084},"_id":"0tdFEywahAPwNMpH"}
+{"fileName":"kb.png","filePath":"/Users/zhiwen/Development/destore/test/kb.png","fileSize":21541,"hashAddress":"QmdMpNvXNKz5AswQ16D2vTFspLBbhsBADXENJnQ7tvDZWs","blocks":[],"blockSizes":[],"uploadTime":{"$$date":1472934146661},"_id":"8Z1uHJ3oOtw7BcgX"}
 {"$$indexCreated":{"fieldName":"hashAddress","unique":true,"sparse":true}}
+{"$$indexCreated":{"fieldName":"fileName","unique":true,"sparse":true}}
+{"$$deleted":true,"_id":"8Z1uHJ3oOtw7BcgX"}
+{"fileName":"kb.png","filePath":"/Users/zhiwen/Development/destore/test/kb.png","fileSize":21541,"hashAddress":"QmdMpNvXNKz5AswQ16D2vTFspLBbhsBADXENJnQ7tvDZWs","blocks":[],"blockSizes":[],"uploadTime":{"$$date":1472934272205},"_id":"K7MCOTMkv9LwjaFd"}
