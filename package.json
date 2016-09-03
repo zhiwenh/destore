@@ -42,7 +42,8 @@
     "solc": "^0.3.6",
     "systeminformation": "^3.0.1",
     "tar-stream": "^1.5.2",
-    "web3": "^0.17.0-alpha"
+    "web3": "^0.17.0-alpha",
+    "zxcvbn": "^4.3.0"
   },
   "devDependencies": {
     "electron": "^1.3.3",
