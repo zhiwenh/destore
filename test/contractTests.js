@@ -24,7 +24,6 @@ const test = tapes(tape);
 
 const lol = console.log.bind(console);
 
-
 const web3 = Ethereum.init();
 
 const helper = {
@@ -205,7 +204,7 @@ test('DeStore ===', t => {
         t.fail(err);
       });
   });
-
+  
   t.test('Check that status was changed with receiverGetStatus', t => {
     DeStore.receiverGetStatus(Ethereum.account)
       .then(acctStatus => {
@@ -476,6 +475,14 @@ test('DeStore ===', t => {
         //   expectedFileReceivers.push(Ethereum.accounts[1]);
         // }
         t.equal(fileReceivers.length, 25, 'Expect senderGetFileReceivers to get an array of 25 length');
+        return DeStore.receiverGetSizes({from: Ethereum.accounts[1]});
+      })
+      .then(sizes => {
+        t.equal(sizes[0].c[0], 100, 'Expect first size returend from recieverGetSizes to be correct');
+        return DeStore.receiverGetSenders({from: Ethereum.accounts[1]});
+      })
+      .then(senders => {
+        t.equal(senders[0], Ethereum.account, 'Expect senders from receiverGetSenders to be correct');
         t.end();
       })
       .catch(err => {
@@ -483,15 +490,6 @@ test('DeStore ===', t => {
         t.fail();
       });
   });
-
-  // t.test('Check functionality of host file', t => {
-  //   config.contracts.deStore = DeStore.address;
-  //   hostFile(Ethereum.accounts[1], (err, res) => {
-  //
-  //   });
-  //   // t.end();
-  // });
-
 
   // DEPLOYING NEW CONTRACT
   t.test('Deploying new DeStore contract', t => {

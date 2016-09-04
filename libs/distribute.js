@@ -9,7 +9,7 @@ const promisify = require('es6-promisify');
 const config = require('./config/config.js');
 
 /**
-* gives the file hashes associated with a particular file on the smart contract to receivers
+* Gives the file hashes associated with a particular file on the smart contract to receivers
 * @fileName {String}
 * @amount {Number}
 **/
@@ -21,8 +21,6 @@ module.exports = promisify((fileName, amount, callback) => {
     })
     .then(addresses => {
       Upload.db.update({fileName: fileName}, {$set: {receivers: addresses}}, (err, num) => {
-        console.log('err', err);
-        console.log('num', num);
         if (err) callback(err, null);
         else {
           callback(null, addresses);
