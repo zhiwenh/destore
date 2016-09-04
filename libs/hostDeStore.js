@@ -4,6 +4,7 @@ const IPFS = require('./ipfs/ipfs.js');
 const Ethereum = require('./ethereum/ethereum.js');
 const path = require('path');
 const Host = require('./../models/Host.js');
+const promisfy = require('es6-promisify');
 
 const web3 = Ethereum.init();
 
@@ -18,20 +19,19 @@ const lol = console.log.bind(console);
   @ receiverAddress - string - reciever contract address
   @ callback - function - returns the doc created from the Host.db storage
 */
-module.exports = (receiverAddress, callback) => {
+module.exports = promisfy((callback) => {
   const deStoreAddress = contractConfig.deStore;
   lol(deStoreAddress);
-  const options = {
-    from: receiverAddress
-  };
-  Ethereum.execAt('DeStore', deStoreAddress)
-    .receiverGetHashes(options)
+  Promise.all([Ethereum.deStore().receiverGetHashes(), Ethereum.deStore().receiverGetSenders()])
     .then((hexHashes) => { // hashes are in format [ [hash1, hash2], [hash1, hash2] .... ]
       const hashes = nestedHexToAscii(hexHashes);
+      const promises = [];
       for (let i = 0; i < hashes.length; i++) {
         const writePath = path.join(filesConfig.storage + hashes[i]);
-        IPFS.download(hashes[i], writePath)
-          .then(function(res) {
+        promises.push(IPFS.download(hashes[i], writePath));
+
+        Promise.all(promises)
+          .then(res => {
             console.log('File sucessfully hosted');
             console.log('writePath');
             const host = {
@@ -61,4 +61,4 @@ module.exports = (receiverAddress, callback) => {
       if (callback) callback(err);
       else throw(err);
     });
-};
+});

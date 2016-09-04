@@ -3,9 +3,8 @@ const ipfsAPI = require('ipfs-api');
 const fs = require('fs');
 const promisify = require('es6-promisify');
 const spawn = require('child_process').spawn;
-
 const networkConfig = require('./../config/config.js').network;
-
+const multihashes = require('multihashes');
 // config ipfs node. be able to change theirs
 // instead of having config file could just have method to change their actual ipfs config
 
@@ -15,7 +14,6 @@ class IPFS {
     this.connect = false;
     this.publicKey = null;
     this.id = null;
-
   }
 
   // need to run before using IPFSObj
@@ -87,9 +85,11 @@ class IPFS {
     })(filePaths);
   }
 
-  // @ hashAddress - string - of the file
-  // @ writePath - string - path in which to write the file to
-  // returns Promise with the response as an array of all buffer chunks
+  /**
+  * @ hashAddress - {String} - of the file
+  * @ writePath - {String} - path in which to write the file to
+  * returns {Promise} with the response as an array of all buffer chunks
+  **/
   download(hashAddress, writePath) {
     try {
       fs.accessSync(writePath);
@@ -100,12 +100,9 @@ class IPFS {
 
     return promisify((hashAddress, callback) => {
       this._ipfs.cat(hashAddress, (err, stream) => {
-        console.log(typeof stream);
         if (err) {
           callback(err);
           return;
-        } else {
-
         }
         stream.pipe(writeStream);
         let resArray = [];
@@ -126,6 +123,22 @@ class IPFS {
           callback(null, resArray);
         });
       });
+    })(hashAddress);
+  }
+
+  links(hashAddress) {
+    return promisify((hashAddress, callback) => {
+      this._ipfs.object.links('QmcSwTAwqbtGTt1MBobEjKb8rPwJJzfCLorLMs5m97axDW')
+        .then(res => {
+          res.map(DAGLink => {
+            DAGLink.hashAddress = multihashes.toB58String(DAGLink.hash);
+            return DAGLink;
+          });
+          callback(null, res);
+        })
+        .catch(err => {
+          callback(err, null);
+        });
     })(hashAddress);
   }
 
