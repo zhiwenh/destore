@@ -34,6 +34,7 @@ module.exports = promisify((filePath, fileSize, callback) => {
         hashAddress: hashArr[0].hash,
         blocks: [],
         blockSizes: [],
+        receivers: [],
         uploadTime: new Date()
       };
       Upload.db.insert(upload, (err, res) => {

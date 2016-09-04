@@ -16,8 +16,6 @@ const config = require('./config/config.js');
   @ callback - function - returns the doc created from the Upload.db storage
 */
 
-
-
 /**
 * gets hashAdddress of a file based on either filepath or name from db and uploads to DeStore
 * @fileName {String} - name of file that has been mounted ex 'kb.png'
