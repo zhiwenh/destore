@@ -47,6 +47,7 @@ contract DeStore {
     uint availStorage; // kilobytes
     bytes23[2][] hashes; // each nested array contains half of entire hash
     address[] senders; // the sender that stored the particular file hash
+    uint[] sizes; // sizes of each hash
     uint[] fileBalance; // the balance that particular hash has obtained
     bytes ipfsAddress;
     /*mapping(bytes => HostFile) files; // index of a certain file in files[]*/
@@ -154,6 +155,24 @@ contract DeStore {
     return receivers[msg.sender].hashes;
   }
 
+  function receiverGetSenders()
+    external
+    receiverStatus(msg.sender)
+    constant
+    returns (address[])
+  {
+    return receivers[msg.sender].senders;
+  }
+
+  function receiverGetSizes()
+    external
+    receiverStatus(msg.sender)
+    constant
+    returns (uint[])
+  {
+    return receivers[msg.sender].sizes;
+  }
+
   /*function receiverGetFileNames(bytes _fileName)
     external
     receiverStatus(msg.sender)
@@ -254,6 +273,7 @@ contract DeStore {
           i++;
           receivers[availReceivers[j]].hashes.push(file.hashes[g]);
           receivers[availReceivers[j]].senders.push(msg.sender);
+          receivers[availReceivers[j]].sizes.push(file.sizes[g]);
           receivers[availReceivers[j]].availStorage -= file.sizes[g];
           /*senders[msg.sender].files[_fileName].receivers[g].push(availReceivers[j]); // was not able to use memory file*/
           // need to verifiy this reciever list

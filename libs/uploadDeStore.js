@@ -8,16 +8,8 @@ const nestedHexToAscii = require('./nestedHexToAscii.js');
 
 const config = require('./config/config.js');
 
-
-/*
-  Adds file to IPFS, deploys sender contract with IPFS hash address, then uploads data to the Upload database
-  @ filePath - string - only does a single file in the electron app
-  @ fileName {String} name that user wants file to be callled in contract
-  @ callback - function - returns the doc created from the Upload.db storage
-*/
-
 /**
-* gets hashAdddress of a file based on either filepath or name from db and uploads to DeStore
+* Gets hashAdddress of a file based on either filepath from db and uploads to DeStore
 * @fileName {String} - name of file that has been mounted ex 'kb.png'
 * @returns {Array} - the hashes added to the contract
 **/

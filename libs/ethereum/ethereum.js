@@ -11,11 +11,13 @@ const contractsConfig = config.contracts;
 class Ethereum {
   constructor() {
     this._web3 = init();
+    this._init = false;
     this._execBind = null;
 
     this.account = null;
     this.accounts = [];
-    // deploy defaults
+
+    // deploy defaults will probably need to change
     this.defaults = {
       from: this.account,
       value: 0,
@@ -45,15 +47,19 @@ class Ethereum {
   * @returns connected web3 object
   **/
   init() {
-    this._web3 = init();
-    if (this.check() === false) {
-      throw ('Not connected to RPC');
-    } else {
-      this.accounts = this._web3.eth.accounts;
-      this._web3.eth.defaultAccount = this._web3.eth.accounts[0];
-      this.account = this.accounts[0];
-      return this._web3;
+    if (this._init === false) {
+      this._web3 = init();
+      this._init = true;
+      if (this.check() === false) {
+        throw ('Not connected to RPC');
+      } else {
+        this.accounts = this._web3.eth.accounts;
+        // rebinding this doesn't work
+        this._web3.eth.defaultAccount = this._web3.eth.accounts[0];
+        this.account = this.accounts[0];
+      }
     }
+    return this._web3;
   }
 
   /**
