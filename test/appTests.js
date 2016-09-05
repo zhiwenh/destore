@@ -50,10 +50,10 @@ test('Deploying new DeStore contract and adding a sender and receiver', t => {
     });
 });
 
-const mountFile = require('./../libs/mountFile.js');
+const mountFile = require('./../libs/sender/mountFile.js');
 
 test('Testing mountFile', t => {
-  mountFile(__dirname + '/lemon.gif', 1000)
+  mountFile(__dirname + '/lemon.gif', 1)
     .then(res => {
       t.equal(res.hashAddress, 'QmcSwTAwqbtGTt1MBobEjKb8rPwJJzfCLorLMs5m97axDW', 'Expect hash uploaded to equal');
       t.end();
@@ -64,7 +64,7 @@ test('Testing mountFile', t => {
     });
 });
 
-const chunkFile = require('./../libs/chunkFile.js');
+const chunkFile = require('./../libs/sender/chunkFile.js');
 test('Testing chunkFile', t => {
   chunkFile('lemon.gif')
     .then(links => {
@@ -76,7 +76,7 @@ test('Testing chunkFile', t => {
     });
 });
 
-const uploadDeStore = require('./../libs/uploadDeStore.js');
+const uploadDeStore = require('./../libs/sender/uploadDeStore.js');
 
 test('Testing uploadDeStore success', t => {
   uploadDeStore('lemon.gif')
@@ -101,7 +101,7 @@ test('Testing uploadDeStore fail with invalid file name', t => {
     });
 });
 
-const distribute = require('./../libs/distribute');
+const distribute = require('./../libs/sender/distribute');
 
 test('Testing distribute' , t => {
   distribute('lemon.gif', 1)
@@ -115,11 +115,11 @@ test('Testing distribute' , t => {
     });
 });
 
-const hostFileInfo = require('./../libs/hostFileInfo.js');
+const hostInfo = require('./../libs/receiver/hostInfo.js');
 
-test('Testing hostFileInfo', t => {
+test('Testing hostInfo', t => {
   Ethereum.changeAccount(1);
-  hostFileInfo()
+  hostInfo()
     .then(infos => {
       t.equal(infos[0].hashAddress, 'QmT6aQLRNWbDf38qHGmaUUw8Q4E3fCnn7wKec2haVrQoSS', 'Expect hashAddress of 1st link to equal 1st link of added file');
       t.equal(infos[0].senderAddress, Ethereum.accounts[0], 'Expect Ethereum account to equal account used to send file');
@@ -131,7 +131,94 @@ test('Testing hostFileInfo', t => {
     });
 });
 
+test('Testing hostInfo for duplicates', t => {
+  Ethereum.changeAccount(0);
+  let mountedHash;
+  mountFile(__dirname + '/kb.png', 1)
+    .then(doc => {
+      mountedHash = doc.hashAddress;
+      return uploadDeStore('kb.png');
+    })
+    .then(hashes => {
+      return distribute('kb.png', 1);
+    })
+    .then(receivers => {
 
+      Ethereum.changeAccount(1);
+      return hostInfo();
+    })
+    .then(docs => {
+      t.equal(docs.length, 1, 'Except length of docs returned to equal 1');
+      t.equal(docs[0].hashAddress, mountedHash, 'Expect hashAddress returned to equal to mounted hash');
+      t.end();
+    })
+    .catch(err => {
+      console.error(err);
+      t.fail();
+    });
+});
+
+const hostAll = require('./../libs/receiver/hostAll');
+test('Testing hostAll to see if it hosts all files', t => {
+  Ethereum.changeAccount(1);
+  hostAll()
+    .then(docs => {
+      t.equal(docs.length, 6, 'Except length of docs returned to equal 6');
+      t.end();
+    })
+    .catch(err => {
+      console.error(err);
+      t.fail();
+    });
+});
+
+test('Testing hostAll to see if it skips files already hosted', t => {
+  Ethereum.changeAccount(1);
+  hostAll()
+    .then(docs => {
+      t.fail();
+    })
+    .catch(err => {
+      t.ok('ok', 'Expected to catch an error');
+      t.end();
+    });
+});
+
+const payFile = require('./../libs/sender/payFile');
+test('Testing payFile', t => {
+  Ethereum.changeAccount(0);
+  const originalBalance = Ethereum.getBalanceEther();
+  payFile('lemon.gif')
+    .then(balance => {
+      t.equal(balance, originalBalance - 5, 'Expect balance to equal original minus 5');
+      Ethereum.changeAccount(1);
+      return Ethereum.deStore().receiverGetBalance({from: Ethereum.account});
+    })
+    .then(amount => {
+      const added = Ethereum.toEther(amount);
+      t.equal(added, 5, 'Except added to equal 5');
+      t.end();
+    })
+    .catch(err => {
+      console.error(err);
+      t.fail();
+    });
+});
+
+const withdrawAll = require('./../libs/receiver/withdrawAll');
+test('Testing withdrawAll', t => {
+  Ethereum.changeAccount(1);
+  withdrawAll()
+    .then(amount => {
+      t.equal(Ethereum.toEther(amount), 5, 'Except withdraw amount to equal 5');
+      t.end();
+    })
+    .catch(err => {
+      console.error(err);
+      t.fail();
+    });
+
+});
 
 
 // test('Deploying new DeStore contract', t => {

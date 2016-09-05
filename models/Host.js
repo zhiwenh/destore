@@ -8,8 +8,10 @@ const Host = new DataStore({
 
 const Schema = {
   fileSize: null,
-  recieverHashAddress: null,
+  hashAddress: null,
   senderAddress: null,
+  infoTime: null,
+  isHosted: null,
   hostTime: null
 };
 
@@ -22,9 +24,6 @@ module.exports = {
   reset: () => {
     Host.remove({}, { multi: true }, (err, numRemoved) => {
       if (err) throw err;
-      else {
-        console.log('Removed: ' + numRemoved);
-      }
     });
   }
 };

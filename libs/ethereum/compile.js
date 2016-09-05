@@ -1,17 +1,15 @@
 'use strict';
-
-// compiles Solidity (.sol) files
 const fs = require('fs');
 const solc = require('solc'); // https://github.com/ethereum/solc-js
-const init = require('./init.js');
 const path = require('path');
 const contractsConfig = require('./../config/contracts.js');
 
-// creates an object containing the contract data which is then returned and imported to a JSON file
-// @ contracts - string or array - array of string contract names
-// @ directoryPath - string - directory path to where contract is contained
-//   optional. if not given will be taken from config
-// returns compiled contracts object
+/**
+* Creates object containing necessary information for web3 contract creation, writes it to a JSON file, and also for ether-pudding building
+* @contractFiles {String} or {Array} - the contract names to build
+* @directoryPath {String} - the directory to look for the contracts
+* @return {Object} - contract object
+**/
 module.exports = (contractFiles, directoryPath) => {
   // to handle cases when there's no array of contract files, only contract file
   if (typeof contractFiles === 'string') {

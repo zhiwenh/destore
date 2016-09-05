@@ -31,9 +31,6 @@ module.exports = {
   reset: () => {
     Upload.remove({}, { multi: true }, (err, numRemoved) => {
       if (err) throw err;
-      else {
-        console.log('Removed: ' + numRemoved);
-      }
     });
   }
 };

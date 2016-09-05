@@ -96,6 +96,7 @@ class Ethereum {
   createAccount(password) {
     this._web3.personal.newAccount(password);
   }
+
   /**
   * @address {String}
   * @password {String}
@@ -134,6 +135,24 @@ class Ethereum {
       amount = this._web3.eth.getBalance(this.accounts[index]);
     }
     return amount.c[0];
+  }
+
+  /**
+  * Convert Ether amount to wei
+  * @amount {Number} or {BigNumber} - amount to convert
+  * @return {Number} - wei amount
+  **/
+  toWei(amount) {
+    return Number(this._web3.toWei(amount, 'ether').toString(10));
+  }
+
+  /**
+  * Convert wei amount to Ether
+  * @amount {Number} or {BigNumber} - amount to convert
+  * @return {Number} - Ether amount
+  **/
+  toEther(amount) {
+    return Number(this._web3.fromWei(amount, 'ether').toString(10));
   }
 
   /**
