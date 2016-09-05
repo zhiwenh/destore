@@ -20,41 +20,37 @@ module.exports = promisfy((callback) => {
   const options = {
     from: Ethereum.account
   };
+  const docs = []; // the result promise and callback return
   Promise.all([Ethereum.deStore().receiverGetHashes(options), Ethereum.deStore().receiverGetSenders(options), Ethereum.deStore().receiverGetSizes(options)])
     .then(resArr => {
       const hexHashes = resArr[0];
       const hashes = nestedHexToAscii(hexHashes);
       const senders = resArr[1];
       const sizes = resArr[2];
-      const docs = [];
+      const promises = [];
       for (let i = 0; i < resArr[0].length; i++) {
         const doc = {
           fileSize: Number(sizes[i].toString(10)),
           hashAddress: hashes[i],
           senderAddress: senders[i],
           infoTime: new Date(),
-          hosted: false,
+          isHosted: false,
           hostTime: null
         };
-        docs.push(doc);
+        const promise = new Promise((resolve, reject) => {
+          Host.db.insert(doc, (err, res) => {
+            if (!err && res !== null) docs.push(res);
+            resolve();
+          });
+        });
+        promises.push(promise);
       }
-
-      // Host.db.update(docs, (err, res) => {
-      //   if (err || res === null) {
-      //     callback(err, null);
-      //   } else {
-      //     console.log('Host file data sucessfully saved');
-      //     callback(null, res);
-      //   }
-      // });
-      Host.db.insert(docs, (err, res) => {
-        if (err || res === null) {
-          callback(err, null);
-        } else {
-          console.log('Host file data sucessfully saved');
-          callback(null, res);
-        }
-        // callback(null, res);
-      });
+      return Promise.all(promises);
+    })
+    .then(res => {
+      callback(null, docs);
+    })
+    .catch(err => {
+      callback(err, null);
     });
 });
