@@ -96,6 +96,7 @@ class Ethereum {
   createAccount(password) {
     this._web3.personal.newAccount(password);
   }
+  
   /**
   * @address {String}
   * @password {String}

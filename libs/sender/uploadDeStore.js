@@ -1,12 +1,12 @@
 'use strict';
-const IPFS = require('./ipfs/ipfs.js');
-const Ethereum = require('./ethereum/ethereum.js');
+const IPFS = require('./../ipfs/ipfs.js');
+const Ethereum = require('./../ethereum/ethereum.js');
 const path = require('path');
-const Upload = require('./../models/Upload.js');
+const Upload = require('./../../models/Upload.js');
 const promisify = require('es6-promisify');
-const nestedHexToAscii = require('./nestedHexToAscii.js');
+const nestedHexToAscii = require('./../nestedHexToAscii.js');
 
-const config = require('./config/config.js');
+const config = require('./../config/config.js');
 
 /**
 * Gets hashAdddress of a file based on either filepath from db and uploads to DeStore

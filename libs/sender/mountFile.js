@@ -1,22 +1,17 @@
 'use strict';
 
-// user puts in file path, user assigns a name to the file, it gets added to IPFS and the
-// hash returned is put into nedb, a promise of the nedb database is returned
-// this will allow the creation of a method that uses ipfs to break the object up
-// according to its merkle dag
-// have this happen when they drag the file into the box
-
-const IPFS = require('./ipfs/ipfs.js');
-const Upload = require('./../models/Upload.js');
+const IPFS = require('./../ipfs/ipfs.js');
+const Upload = require('./../../models/Upload.js');
 const promisify = require('es6-promisify');
-const config = require('./config/config.js');
+const config = require('./../config/config.js');
 const fs = require('fs');
 const path = require('path');
 
 /**
- * mounts a single file
+ * Mounts a single file
  * @filePath {String} or {Array} - path to file
- * @returns Promise - res is an array of the doc added to nedb
+ * @fileSize {String} - the size of file
+ * @returns Promise - res is an Object of the doc added to nedb
  **/
 module.exports = promisify((filePath, fileSize, callback) => {
   const fileName = path.basename(filePath);

@@ -1,11 +1,11 @@
 'use strict';
 
-const Upload = require('./../models/Upload.js');
+const Upload = require('./../../models/Upload.js');
 const promisify = require('es6-promisify');
-const config = require('./config/config.js');
+const config = require('./../config/config.js');
 const fs = require('fs');
 const path = require('path');
-const IPFS = require('./ipfs/ipfs.js');
+const IPFS = require('./../ipfs/ipfs.js');
 
 // user decides to break up file into the pieces that ipfs supplies
 
