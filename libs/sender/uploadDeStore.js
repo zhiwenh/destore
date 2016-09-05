@@ -1,19 +1,15 @@
 'use strict';
-const IPFS = require('./../ipfs/ipfs.js');
 const Ethereum = require('./../ethereum/ethereum.js');
-const path = require('path');
 const Upload = require('./../../models/Upload.js');
 const promisify = require('es6-promisify');
-const nestedHexToAscii = require('./../nestedHexToAscii.js');
-
-const config = require('./../config/config.js');
+const nestedHexToAscii = require('./../ethereum/nestedHexToAscii.js');
 
 /**
 * Gets hashAdddress of a file based on either filepath from db and uploads to DeStore
 * @fileName {String} - name of file that has been mounted ex 'kb.png'
+* @value {Number} - the value of the file
 * @returns {Array} - the hashes added to the contract
 **/
-
 module.exports = promisify((fileName, callback) => {
   Upload.db.findOne({fileName: fileName}, (err, doc) => {
     if (doc === null) {
@@ -22,6 +18,7 @@ module.exports = promisify((fileName, callback) => {
     }
     let hashArr;
     let sizeArr;
+    const value = doc.value;
     // for doc blocs to have existed would have needed to used method to break them up
     if (doc.blocks.length >= 1) {
       hashArr = doc.blocks;
@@ -38,7 +35,7 @@ module.exports = promisify((fileName, callback) => {
       splitArr.push([half1, half2]);
     }
 
-    Ethereum.deStore().senderAddFile(splitArr, fileName, 1, sizeArr)
+    Ethereum.deStore().senderAddFile(splitArr, fileName, value, sizeArr)
       .then(tx => {
         return Ethereum.deStore().senderGetFileHashes(fileName);
       })
