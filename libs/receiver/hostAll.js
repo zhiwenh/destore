@@ -34,7 +34,10 @@ module.exports = promisfy((callback) => {
               {$set: {isHosted: true, hostTime: new Date()}},
               {returnUpdatedDocs: true},
               (err, num, updatedDoc) => {
-                if (!err && updatedDoc !== null) returnDocs.push(updatedDoc);
+                if (!err && updatedDoc !== null) {
+                  returnDocs.push(updatedDoc);
+                  IPFS.pin(updatedDoc.hashAddress).then().catch();
+                }
                 resolve();
               });
           });
