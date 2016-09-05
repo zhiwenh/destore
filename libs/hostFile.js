@@ -22,7 +22,7 @@ module.exports = (receiverAddress, callback) => {
         hashAddress = hashAddress.split('').filter(char => {
           return char.match(/[A-Za-z0-9]/);
         }).join('');
-        const writePath = path.join(filesConfig.storage + hashAddress);
+        const writePath = path.join(filesConfig.host + hashAddress);
         IPFS.download(hashAddress, writePath)
           .then(function(res) {
             console.log('File sucessfully hosted');

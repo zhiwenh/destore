@@ -86,9 +86,9 @@ class IPFS {
   }
 
   /**
-  * @ hashAddress - {String} - of the file
-  * @ writePath - {String} - path in which to write the file to
-  * returns {Promise} with the response as an array of all buffer chunks
+  * @hashAddress - {String} - of the file
+  * @writePath - {String} - path in which to write the file to
+  * @returns {Promise} with the response as an array of all buffer chunks
   **/
   download(hashAddress, writePath) {
     try {
