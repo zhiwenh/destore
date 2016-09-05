@@ -2,19 +2,16 @@
 // hostFile2 - FOR THE NEW DESTORE CONTRACT
 const IPFS = require('./../ipfs/ipfs.js');
 const Ethereum = require('./../ethereum/ethereum.js');
-const path = require('path');
 const Host = require('./../../models/Host.js');
 const promisfy = require('es6-promisify');
 const nestedHexToAscii = require('./../nestedHexToAscii');
 
-const web3 = Ethereum.init();
-
-/*
+/**
 * Gets hash addresses from reciever contract and saves file info into Host db
 * @receiverAddress {String} - reciever contract address
 * @callback {Function} - returns the doc created from the Host.db storage
 * @returns Promise - Array of objects of the receivers hash and corresponding sender and size
-*/
+**/
 
 module.exports = promisfy((callback) => {
   const options = {

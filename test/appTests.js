@@ -158,7 +158,31 @@ test('Testing hostInfo for duplicates', t => {
     });
 });
 
+const hostAll = require('./../libs/receiver/hostAll');
+test('Testing hostAll to see if it hosts all files', t => {
+  Ethereum.changeAccount(1);
+  hostAll()
+    .then(docs => {
+      t.equal(docs.length, 6, 'Except length of docs returned to equal 6');
+      t.end();
+    })
+    .catch(err => {
+      console.error(err);
+      t.fail();
+    });
+});
 
+test('Testing hostAll to see if it skips files already hosted', t => {
+  Ethereum.changeAccount(1);
+  hostAll()
+    .then(docs => {
+      t.fail();
+    })
+    .catch(err => {
+      t.ok('ok', 'Expected to catch an error');
+      t.end();
+    });
+});
 
 
 
