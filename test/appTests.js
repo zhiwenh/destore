@@ -205,7 +205,20 @@ test('Testing payFile', t => {
     });
 });
 
+const withdrawAll = require('./../libs/receiver/withdrawAll');
+test('Testing withdrawAll', t => {
+  Ethereum.changeAccount(1);
+  withdrawAll()
+    .then(amount => {
+      t.equal(Ethereum.toEther(amount), 5, 'Except withdraw amount to equal 5');
+      t.end();
+    })
+    .catch(err => {
+      console.error(err);
+      t.fail();
+    });
 
+});
 
 
 // test('Deploying new DeStore contract', t => {

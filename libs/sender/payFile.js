@@ -2,8 +2,6 @@
 const Ethereum = require('./../ethereum/ethereum.js');
 const Upload = require('./../../models/Upload.js');
 const promisify = require('es6-promisify');
-const fs = require('fs');
-const path = require('path');
 
 /**
 * Pay all receivers associated with a file

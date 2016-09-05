@@ -1,5 +1,4 @@
 'use strict';
-
 const IPFS = require('./../ipfs/ipfs.js');
 const Host = require('./../../models/Host.js');
 const promisfy = require('es6-promisify');
