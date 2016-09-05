@@ -53,7 +53,7 @@ test('Deploying new DeStore contract and adding a sender and receiver', t => {
 const mountFile = require('./../libs/sender/mountFile.js');
 
 test('Testing mountFile', t => {
-  mountFile(__dirname + '/lemon.gif', 1000)
+  mountFile(__dirname + '/lemon.gif', 1)
     .then(res => {
       t.equal(res.hashAddress, 'QmcSwTAwqbtGTt1MBobEjKb8rPwJJzfCLorLMs5m97axDW', 'Expect hash uploaded to equal');
       t.end();
@@ -134,7 +134,7 @@ test('Testing hostInfo', t => {
 test('Testing hostInfo for duplicates', t => {
   Ethereum.changeAccount(0);
   let mountedHash;
-  mountFile(__dirname + '/kb.png', 1000)
+  mountFile(__dirname + '/kb.png', 1)
     .then(doc => {
       mountedHash = doc.hashAddress;
       return uploadDeStore('kb.png');
@@ -184,6 +184,26 @@ test('Testing hostAll to see if it skips files already hosted', t => {
     });
 });
 
+const payFile = require('./../libs/sender/payFile');
+test('Testing payFile', t => {
+  Ethereum.changeAccount(0);
+  const originalBalance = Ethereum.getBalanceEther();
+  payFile('lemon.gif')
+    .then(balance => {
+      t.equal(balance, originalBalance - 5, 'Expect balance to equal original minus 5');
+      Ethereum.changeAccount(1);
+      return Ethereum.deStore().receiverGetBalance({from: Ethereum.account});
+    })
+    .then(amount => {
+      const added = Ethereum.toEther(amount);
+      t.equal(added, 5, 'Except added to equal 5');
+      t.end();
+    })
+    .catch(err => {
+      console.error(err);
+      t.fail();
+    });
+});
 
 
 

@@ -1,5 +1,4 @@
 'use strict';
-// hostFile2 - FOR THE NEW DESTORE CONTRACT
 const IPFS = require('./ipfs/ipfs.js');
 const Ethereum = require('./ethereum/ethereum.js');
 const path = require('path');
@@ -8,7 +7,7 @@ const promisfy = require('es6-promisify');
 
 const web3 = Ethereum.init();
 
-const nestedHexToAscii = require('./nestedHexToAscii');
+const nestedHexToAscii = require('./ethereum/nestedHexToAscii');
 
 const filesConfig = require('./config/config.js').files;
 const contractConfig = require('./config/config.js').contracts;

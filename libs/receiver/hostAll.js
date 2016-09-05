@@ -8,10 +8,8 @@ const path = require('path');
 
 /**
 * User goes thru Host db and looks for docs that have an isHosted of false and starts downloading them
-*
 * @returns {Promise} - an array of docs updated in Host.db
 **/
-
 module.exports = promisfy((callback) => {
   Host.db.find({isHosted: false}, (err, docs) => {
     if (err || docs.length === 0) {

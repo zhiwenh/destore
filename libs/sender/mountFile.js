@@ -1,20 +1,18 @@
 'use strict';
-
 const IPFS = require('./../ipfs/ipfs.js');
 const Upload = require('./../../models/Upload.js');
 const promisify = require('es6-promisify');
-const config = require('./../config/config.js');
 const fs = require('fs');
 const path = require('path');
 
 /**
  * Mounts a single file
  * @filePath {String} or {Array} - path to file
- * @fileSize {String} - the size of file
  * @returns Promise - res is an Object of the doc added to nedb
  **/
-module.exports = promisify((filePath, fileSize, callback) => {
+module.exports = promisify((filePath, value, callback) => {
   const fileName = path.basename(filePath);
+  let fileSize;
   promisify(fs.stat)(filePath)
     .then(stats => {
       if (!stats.isFile()) callback(new Error('Not a file'), null);
@@ -27,6 +25,7 @@ module.exports = promisify((filePath, fileSize, callback) => {
         filePath: filePath,
         fileSize: fileSize,
         hashAddress: hashArr[0].hash, // the main hash
+        value: value, // amount to send hosts
         blocks: [], // hashes to the blocks
         blockSizes: [],
         receivers: [],
