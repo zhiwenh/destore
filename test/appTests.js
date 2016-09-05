@@ -140,17 +140,16 @@ test('Testing hostInfo for duplicates', t => {
       return uploadDeStore('kb.png');
     })
     .then(hashes => {
-      lol(hashes);
       return distribute('kb.png', 1);
     })
     .then(receivers => {
-      lol('receivers');
-      lol(receivers);
+
       Ethereum.changeAccount(1);
       return hostInfo();
     })
     .then(docs => {
-      lol(docs);
+      t.equal(docs.length, 1, 'Except length of docs returned to equal 1');
+      t.equal(docs[0].hashAddress, mountedHash, 'Expect hashAddress returned to equal to mounted hash');
       t.end();
     })
     .catch(err => {
