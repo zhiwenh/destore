@@ -16,7 +16,6 @@ class IPFS {
 
   // need to run before using IPFSObj
   init() {
-    console.log('init ipfs');
     this._ipfs = new ipfsAPI(networkConfig.host,
       networkConfig.port, {
         protocol: networkConfig.protocol
