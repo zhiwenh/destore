@@ -30,19 +30,34 @@ $(document).ready(function() {
   //Route to Host/User on Submit
   $('.form').submit(function(e) {
     e.preventDefault();
+
+    //get password
+    var userPass = $(this).find('.password').val();
+    //call function for password -> account
+    
+    //display account in popup (with Authenticate button)
+
+    //FOR NOW - routing to user or host page
+    var currentTab = $(this).data('tab');
+    config.set('startup', { path: currentTab });
+    window.location = `../html/${currentTab}.html`;
+  });
+
+  $('body').on('click', '#authenticate', function() {
+    //routing to user or host page
     var currentTab = $(this).data('tab');
     config.set('startup', { path: currentTab });
     window.location = `../html/${currentTab}.html`;
   });
 
   //password STUFF??
-  password.addEventListener('input', function() {
-    const val = password.value;
-    const result = zxcvbn(val);
+  // password.addEventListener('input', function() {
+  //   const val = password.value;
+  //   const result = zxcvbn(val);
 
-    // Update the password strength meter
-    meter.value = result.score;
-  });
+  //   // Update the password strength meter
+  //   meter.value = result.score;
+  // });
 
 // check that passwords match and then
   $(function() {

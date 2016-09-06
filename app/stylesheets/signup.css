@@ -12,6 +12,7 @@
 body {
   /*background-color: #070707;*/
   color: #C3CCDB;
+  text-align: center;
 }
 
 a {
@@ -34,21 +35,21 @@ a:focus {
 
 /*----- Tabs -----*/
 .tabs {
-  width:100%;
+  width:50%;
   display:inline-block;
+
 }
 
 /*----- Tab Links -----*/
 /* Clearfix */
 .tab-links:after {
-  display:block;
+  display:inline-block;
   clear:both;
   content:'';
 }
 
 .tab-links li {
-  margin:0px 5px;
-  float:left;
+  display:inline-block;
   list-style:none;
 }
 
@@ -63,14 +64,16 @@ a:focus {
   transition:all linear 0.15s;
 }
 
+/*a7cce5*/
+/*BUTTON COLOR*/
 .tab-links a:hover {
-  background:#a7cce5;
+  background:#6935ad;
   text-decoration:none;
 }
 
-li.active a, li.active a:hover {
-  background:#fff;
-  color:#4c4c4c;
+li.active a {
+  background: #6935ad;
+  color: white;
 }
 
 /*----- Content of Tabs -----*/
@@ -78,6 +81,7 @@ li.active a, li.active a:hover {
   padding:15px;
   border-radius:3px;
   background:#fff;
+  text-align: left;
 }
 
 .tab {
@@ -86,6 +90,12 @@ li.active a, li.active a:hover {
 
 .tab.active {
     display:block;
+}
+
+.signin-link {
+  position: absolute;
+  left: 40%;
+  bottom: 10%;
 }
 
 /*
