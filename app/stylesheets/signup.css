@@ -1,42 +1,71 @@
-/*body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+/*colors to use {
+  rich electric blue: #0095cb;
+  jet: #333333;
+  silver sand: #C4C4C4;
+  rich black: #070707;
+  space cadet: #173753;
+  h1 and the like: #A9C5E6;
+  copy text: #C3CCDB;
+  link text: #4A90E2;
 }*/
+
+body {
+  /*background-color: #070707;*/
+  color: #C3CCDB;
+}
+
+a {
+  color: #4A90E2;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #61A7F8;
+}
+
+a:focus {
+  color: #23527c;
+  text-decoration: underline;
+}
+
+.signup-submit-button {
+  margin-top: 8px;
+}
 
 /*----- Tabs -----*/
 .tabs {
-    width:100%;
-    display:inline-block;
+  width:100%;
+  display:inline-block;
 }
 
 /*----- Tab Links -----*/
 /* Clearfix */
 .tab-links:after {
-    display:block;
-    clear:both;
-    content:'';
+  display:block;
+  clear:both;
+  content:'';
 }
 
 .tab-links li {
-    margin:0px 5px;
-    float:left;
-    list-style:none;
+  margin:0px 5px;
+  float:left;
+  list-style:none;
 }
 
 .tab-links a {
-    padding:9px 15px;
-    display:inline-block;
-    border-radius:3px 3px 0px 0px;
-    background:#7FB5DA;
-    font-size:16px;
-    font-weight:600;
-    color:#4c4c4c;
-    transition:all linear 0.15s;
+  padding:9px 15px;
+  display:inline-block;
+  border-radius:3px 3px;
+  /*background:#4bb5db;*/
+  font-size:16px;
+  font-weight:600;
+  /*color:#4c4c4c;*/
+  transition:all linear 0.15s;
 }
 
 .tab-links a:hover {
-    background:#a7cce5;
-    text-decoration:none;
+  background:#a7cce5;
+  text-decoration:none;
 }
 
 li.active a, li.active a:hover {
@@ -46,10 +75,9 @@ li.active a, li.active a:hover {
 
 /*----- Content of Tabs -----*/
 .tab-content {
-    padding:15px;
-    border-radius:3px;
-    box-shadow:-1px 1px 1px rgba(0,0,0,0.15);
-    background:#fff;
+  padding:15px;
+  border-radius:3px;
+  background:#fff;
 }
 
 .tab {
@@ -64,16 +92,6 @@ li.active a, li.active a:hover {
 password strength check
 */
 
-meter {
-	margin: 0 auto 1em;
-	height: .5em;
-}
-
-meter::-webkit-meter-bar {
-	background: none;
-	background-color: rgba(0,0,0,0.1);
-}
-
 meter[value="1"]::-webkit-meter-optimum-value { background: red; }
 meter[value="2"]::-webkit-meter-optimum-value { background: yellow; }
 meter[value="3"]::-webkit-meter-optimum-value { background: orange; }
@@ -83,10 +101,3 @@ meter[value="1"]::-moz-meter-bar { background: red; }
 meter[value="2"]::-moz-meter-bar { background: yellow; }
 meter[value="3"]::-moz-meter-bar { background: orange; }
 meter[value="4"]::-moz-meter-bar { background: green; }
-
-.feedback {
-	color: #9ab;
-	font-size: 90%;
-	padding: 0 .25em;
-	margin-top: 1em;
-}

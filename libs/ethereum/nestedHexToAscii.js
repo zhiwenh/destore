@@ -1,5 +1,5 @@
 'use strict';
-const Ethereum = require('./ethereum/ethereum.js');
+const Ethereum = require('./ethereum.js');
 
 const web3 = Ethereum.init();
 

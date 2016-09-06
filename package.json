@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "electron ./app/main.js",
-    "test": "node ./test/test.js"
+    "test": "node ./test/contractTests.js"
   },
   "repository": {
     "type": "git",
@@ -36,6 +36,8 @@
     "ipfs": "^0.14.3",
     "ipfs-api": "^7.0.0",
     "milligram": "^1.1.0",
+    "multihashes": "^0.2.2",
+    "multihashing": "^0.2.1",
     "nedb": "^1.8.0",
     "path": "^0.12.7",
     "read-yaml": "^1.0.0",

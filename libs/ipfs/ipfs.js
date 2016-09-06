@@ -3,11 +3,8 @@ const ipfsAPI = require('ipfs-api');
 const fs = require('fs');
 const promisify = require('es6-promisify');
 const spawn = require('child_process').spawn;
-
 const networkConfig = require('./../config/config.js').network;
-
-// config ipfs node. be able to change theirs
-// instead of having config file could just have method to change their actual ipfs config
+const multihashes = require('multihashes');
 
 class IPFS {
   constructor() {
@@ -15,12 +12,10 @@ class IPFS {
     this.connect = false;
     this.publicKey = null;
     this.id = null;
-
   }
 
   // need to run before using IPFSObj
   init() {
-    console.log('init ipfs');
     this._ipfs = new ipfsAPI(networkConfig.host,
       networkConfig.port, {
         protocol: networkConfig.protocol
@@ -87,9 +82,11 @@ class IPFS {
     })(filePaths);
   }
 
-  // @ hashAddress - string - of the file
-  // @ writePath - string - path in which to write the file to
-  // returns Promise with the response as an array of all buffer chunks
+  /**
+  * @hashAddress - {String} - of the file
+  * @writePath - {String} - path in which to write the file to
+  * @returns {Promise} with the response as an array of all buffer chunks
+  **/
   download(hashAddress, writePath) {
     try {
       fs.accessSync(writePath);
@@ -100,12 +97,9 @@ class IPFS {
 
     return promisify((hashAddress, callback) => {
       this._ipfs.cat(hashAddress, (err, stream) => {
-        console.log(typeof stream);
         if (err) {
           callback(err);
           return;
-        } else {
-
         }
         stream.pipe(writeStream);
         let resArray = [];
@@ -129,6 +123,44 @@ class IPFS {
     })(hashAddress);
   }
 
+  /**
+  * Takes a hash address and retrieves the Merkle Dag links
+  * @hashAddress {String}
+  * @returns {Promise} - returns an array of Objects of DAGLink info. {name: String, hashAddress: String, size: Number, hash: Buffer of hash address}
+  **/
+  links(hashAddress) {
+    return promisify((hashAddress, callback) => {
+      this._ipfs.object.links('QmcSwTAwqbtGTt1MBobEjKb8rPwJJzfCLorLMs5m97axDW')
+        .then(res => {
+          res.map(DAGLink => {
+            DAGLink.hashAddress = multihashes.toB58String(DAGLink.hash);
+            return DAGLink;
+          });
+          callback(null, res);
+        })
+        .catch(err => {
+          callback(err, null);
+        });
+    })(hashAddress);
+  }
+
+  /**
+  * Pins a hash to the IPFS node so that it won't come off
+  * @hashAddress {String}
+  * @returns Promise - hashes pinned
+  **/
+  pin(hashAddress) {
+    return this._ipfs.pin.add(hashAddress);
+  }
+
+  /**
+  * Unpins a hash from the IPFS node
+  * @hashAddress {String}
+  * @returns Promise - hashes unpinned
+  **/
+  unpin(hashAddress) {
+    return this._ipfs.pin.rm(hashAddress);
+  }
 }
 
 module.exports = new IPFS();

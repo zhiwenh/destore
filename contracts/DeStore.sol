@@ -47,6 +47,8 @@ contract DeStore {
     uint availStorage; // kilobytes
     bytes23[2][] hashes; // each nested array contains half of entire hash
     address[] senders; // the sender that stored the particular file hash
+    uint[] sizes; // sizes of each hash
+    uint[] values;
     uint[] fileBalance; // the balance that particular hash has obtained
     bytes ipfsAddress;
     /*mapping(bytes => HostFile) files; // index of a certain file in files[]*/
@@ -154,6 +156,33 @@ contract DeStore {
     return receivers[msg.sender].hashes;
   }
 
+  function receiverGetSenders()
+    external
+    receiverStatus(msg.sender)
+    constant
+    returns (address[])
+  {
+    return receivers[msg.sender].senders;
+  }
+
+  function receiverGetSizes()
+    external
+    receiverStatus(msg.sender)
+    constant
+    returns (uint[])
+  {
+    return receivers[msg.sender].sizes;
+  }
+
+  function receiverGetValues()
+    external
+    receiverStatus(msg.sender)
+    constant
+    returns (uint[])
+  {
+    return receivers[msg.sender].values;
+  }
+
   /*function receiverGetFileNames(bytes _fileName)
     external
     receiverStatus(msg.sender)
@@ -250,10 +279,12 @@ contract DeStore {
     for (uint g = 0; g < file.sizes.length; g++) {
       uint i = 1;
       while (i <= _amount) {
-        if (file.sizes[g] < receivers[availReceivers[j]].availStorage) {
+        if (file.sizes[g] < receivers[availReceivers[j]].availStorage && msg.sender != availReceivers[j]) {
           i++;
           receivers[availReceivers[j]].hashes.push(file.hashes[g]);
           receivers[availReceivers[j]].senders.push(msg.sender);
+          receivers[availReceivers[j]].sizes.push(file.sizes[g]);
+          receivers[availReceivers[j]].values.push(file.value);
           receivers[availReceivers[j]].availStorage -= file.sizes[g];
           /*senders[msg.sender].files[_fileName].receivers[g].push(availReceivers[j]); // was not able to use memory file*/
           // need to verifiy this reciever list
@@ -275,6 +306,16 @@ contract DeStore {
     }
   }
 
+  function senderGetFileHashes(bytes _fileName)
+    senderStatus(msg.sender)
+    senderFileExists(msg.sender, _fileName)
+    public
+    constant
+    returns (bytes23[2][])
+  {
+    return senders[msg.sender].files[_fileName].hashes;
+  }
+
   function senderGetFileReceivers(bytes _fileName)
     senderStatus(msg.sender)
     senderFileExists(msg.sender, _fileName)
@@ -290,7 +331,7 @@ contract DeStore {
     receiverInit(_receiver)
     /*senderFileExists(msg.sender, _fileName)*/
   {
-    receivers[_receiver].balance += msg.value;
+    receivers[_receiver].balance = receivers[_receiver].balance + msg.value;
     PayReceiver(msg.sender, _receiver, msg.value, _fileName);
   }
 

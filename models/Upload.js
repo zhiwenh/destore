@@ -10,12 +10,19 @@ const Schema = {
   fileName: null,
   filePath: null,
   fileSize: null,
-  senderHashAddress: null,
-  contractAddress: null,
-  uploadTime: null
+  hashAddress: null,
+  // contractAddress: null,
+  blocks: [],
+  blockSizes: [],
+  receivers: [],
+  uploadTime: null,
 };
 
 Upload.ensureIndex({ fieldName: 'hashAddress', unique: true, sparse: true }, err => {
+  if (err) console.error(err);
+});
+
+Upload.ensureIndex({ fieldName: 'fileName', unique: true, sparse: true }, err => {
   if (err) console.error(err);
 });
 
@@ -24,9 +31,6 @@ module.exports = {
   reset: () => {
     Upload.remove({}, { multi: true }, (err, numRemoved) => {
       if (err) throw err;
-      else {
-        console.log('Removed: ' + numRemoved);
-      }
     });
   }
 };

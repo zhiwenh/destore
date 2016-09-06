@@ -3,33 +3,39 @@ const IPFS = require('./ipfs/ipfs.js');
 const Ethereum = require('./ethereum/ethereum.js');
 const path = require('path');
 const Host = require('./../models/Host.js');
+const promisfy = require('es6-promisify');
 
 const web3 = Ethereum.init();
 
-const filesConfig = require('./config/config.js').files;
+const nestedHexToAscii = require('./ethereum/nestedHexToAscii');
 
+const filesConfig = require('./config/config.js').files;
+const contractConfig = require('./config/config.js').contracts;
+
+const lol = console.log.bind(console);
 /*
   Gets hash addresses from reciever contract and downlaods the files from IPFS
   @ receiverAddress - string - reciever contract address
   @ callback - function - returns the doc created from the Host.db storage
 */
-module.exports = (receiverAddress, callback) => {
-  Ethereum.execAt('Receiver', receiverAddress)
-    .retrieveStorage()
-    .then((res) => {
-      for (var i = 0; i < res.length; i += 2) {
-        let hashAddress = (web3.toAscii(res[i]) + web3.toAscii(res[i + 1]));
-        hashAddress = hashAddress.split('').filter(char => {
-          return char.match(/[A-Za-z0-9]/);
-        }).join('');
-        const writePath = path.join(filesConfig.host + hashAddress);
-        IPFS.download(hashAddress, writePath)
-          .then(function(res) {
+module.exports = promisfy((callback) => {
+  const deStoreAddress = contractConfig.deStore;
+  lol(deStoreAddress);
+  Promise.all([Ethereum.deStore().receiverGetHashes(), Ethereum.deStore().receiverGetSenders()])
+    .then((hexHashes) => { // hashes are in format [ [hash1, hash2], [hash1, hash2] .... ]
+      const hashes = nestedHexToAscii(hexHashes);
+      const promises = [];
+      for (let i = 0; i < hashes.length; i++) {
+        const writePath = path.join(filesConfig.storage + hashes[i]);
+        promises.push(IPFS.download(hashes[i], writePath));
+
+        Promise.all(promises)
+          .then(res => {
             console.log('File sucessfully hosted');
             console.log('writePath');
             const host = {
               // fileSize: '',
-              hashAddress: hashAddress,
+              hashAddress: hashes[i],
               // senderAddress: 'will need to get later',
               hostTime: new Date()
             };
@@ -54,4 +60,4 @@ module.exports = (receiverAddress, callback) => {
       if (callback) callback(err);
       else throw(err);
     });
-};
+});
