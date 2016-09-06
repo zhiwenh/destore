@@ -9,7 +9,7 @@ const Web3 = require('web3');
 
 const rpcConfig = {
   host: 'localhost',
-  port: 5000,
+  port: 8545,
 };
 
 rpcConfig.provider = new Web3.providers.HttpProvider('http://' + rpcConfig.host + ':' + rpcConfig.port);

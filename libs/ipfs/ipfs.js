@@ -5,8 +5,6 @@ const promisify = require('es6-promisify');
 const spawn = require('child_process').spawn;
 const networkConfig = require('./../config/config.js').network;
 const multihashes = require('multihashes');
-// config ipfs node. be able to change theirs
-// instead of having config file could just have method to change their actual ipfs config
 
 class IPFS {
   constructor() {
@@ -18,7 +16,6 @@ class IPFS {
 
   // need to run before using IPFSObj
   init() {
-    console.log('init ipfs');
     this._ipfs = new ipfsAPI(networkConfig.host,
       networkConfig.port, {
         protocol: networkConfig.protocol
@@ -126,6 +123,11 @@ class IPFS {
     })(hashAddress);
   }
 
+  /**
+  * Takes a hash address and retrieves the Merkle Dag links
+  * @hashAddress {String}
+  * @returns {Promise} - returns an array of Objects of DAGLink info. {name: String, hashAddress: String, size: Number, hash: Buffer of hash address}
+  **/
   links(hashAddress) {
     return promisify((hashAddress, callback) => {
       this._ipfs.object.links('QmcSwTAwqbtGTt1MBobEjKb8rPwJJzfCLorLMs5m97axDW')
@@ -142,6 +144,23 @@ class IPFS {
     })(hashAddress);
   }
 
+  /**
+  * Pins a hash to the IPFS node so that it won't come off
+  * @hashAddress {String}
+  * @returns Promise - hashes pinned
+  **/
+  pin(hashAddress) {
+    return this._ipfs.pin.add(hashAddress);
+  }
+
+  /**
+  * Unpins a hash from the IPFS node
+  * @hashAddress {String}
+  * @returns Promise - hashes unpinned
+  **/
+  unpin(hashAddress) {
+    return this._ipfs.pin.rm(hashAddress);
+  }
 }
 
 module.exports = new IPFS();

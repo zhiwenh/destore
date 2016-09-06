@@ -220,7 +220,38 @@ test('Testing withdrawAll', t => {
 
 });
 
+const removeHash = require('./../libs/receiver/removeHash');
+const listHashes = require('./../libs/receiver/listHostDb');
+test('Testing removeHash and listHostDb', t => {
+  Ethereum.changeAccount(1);
+  removeHash('QmT6aQLRNWbDf38qHGmaUUw8Q4E3fCnn7wKec2haVrQoSS')
+    .then(returnPath => {
+      t.equal(returnPath, path.join(config.files.host, 'QmT6aQLRNWbDf38qHGmaUUw8Q4E3fCnn7wKec2haVrQoSS'), 'Expect path of file removed to equal the location of the file');
+      return listHashes();
+    })
+    .then(docs => {
+      t.equal(docs.length, 6, 'Expect length of docs retrieved to db to equal 6');
+      t.end();
+    })
+    .catch(err => {
+      console.error(err);
+      t.fail();
+    });
+});
 
+const retrieveFile = require('./../libs/sender/retrieveFile');
+test('Testing retrieveFile', t => {
+  retrieveFile('lemon.gif')
+    .then(returnedPath => {
+      t.equal(returnedPath, path.join(config.files.download, 'lemon.gif'), 'Expect retrieved path to equal config files download location and file name');
+      lol(returnedPath);
+      t.end();
+    })
+    .catch(err => {
+      console.error(err);
+      t.fail();
+    });
+});
 // test('Deploying new DeStore contract', t => {
 //   Ethereum.changeAccount(0);
 //   const deployOptions = {

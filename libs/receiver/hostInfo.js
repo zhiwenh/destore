@@ -32,6 +32,7 @@ module.exports = promisfy((callback) => {
           value: Number(values[i].toString(10)),
           infoTime: new Date(),
           isHosted: false,
+          filePath: null,
           hostTime: null
         };
         const promise = new Promise((resolve, reject) => {
