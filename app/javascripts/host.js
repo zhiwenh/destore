@@ -4,11 +4,15 @@ const Host = nodeRequire('../../libs/HostMethods.js');
 const User = nodeRequire('../../libs/UserMethods.js');
 const Watcher = nodeRequire('../../libs/watcherMethods.js');
 const IPFS = nodeRequire('../../libs/ipfs/ipfs.js');
+const hostFiles = nodeRequire('../../libs/hostFiles.js');
 const path = nodeRequire('path');
 const Config = nodeRequire('electron-config');
 const config = new Config();
 const fs = nodeRequire('fs');
 const getSize = nodeRequire('get-folder-size');
+
+Ethereum.changeAccount(5);
+// Ethereum.execAt('DeStore').receiverAdd(1000000);
 
 var hash;
 var recInstance = {address: '0x8ca22b74e3640541462b04399479212958df0490'};
@@ -66,11 +70,11 @@ $("button.addHost").click(() => {
 // });
 
 $("button.hostLink").click(() => {
-  config.set('')
+  config.set('');
 });
 
 $("button.userLink").click(() => {
-  console.log('USER')
+  console.log('USER');
 });
 
 // tests masterInstance to see if it got a Receiver
@@ -92,11 +96,13 @@ $("button.test2").click(function() {
 });
 
 // retrives all files stored in reciever contract and downloads
-$("button.test3").click(function() {
+$("button.downloadFiles").click(function() {
   console.log('press download')
-  retrieveFilesDownload(recInstance.address)
 
-
+  hostFiles(Ethereum.account, function (err, res) {
+    console.log(err);
+    console.log(res);
+  });
 });
 
 // gets config storage
@@ -276,9 +282,15 @@ setInterval(function() {
 }, 1000);
 
 //1 minute Balance Checker
+checkBalance();
 setInterval(function() {
-  
+  checkBalance();
 }, 60000);
+
+function checkBalance () {
+  balance = Ethereum.getBalanceEther() || 0;
+  $('#balance').text(balance + ' Ether');
+}
 
 function addFileAndDeploy(filePaths) {
   // use after adding a file to IPFS to deploy the file contract

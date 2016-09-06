@@ -11,7 +11,7 @@ let mainWindow;
 
 let startupPath;
 startupPath = config.get('startup.path');
-if(!startupPath) startupPath = 'host.html';
+if(!startupPath) startupPath = 'signup.html';
 
 function createWindow () {
   // Create the browser window.

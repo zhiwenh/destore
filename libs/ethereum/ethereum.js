@@ -163,7 +163,7 @@ class Ethereum {
     this.init();
     const contract = this.getBuiltContract(contractName);
     contract.setProvider(rpcConfig.provider);
-    const contractInstance = contract.at(contractAddress);
+    const contractInstance = contract.at(contractsConfig.deStore);
     return contractInstance;
   }
 

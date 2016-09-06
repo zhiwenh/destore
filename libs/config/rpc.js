@@ -5,7 +5,7 @@ const Web3 = require('web3');
 // ex: localhost? port?
 // maybe ipfs configurations as well
 
-//Zhiwen's ip: 192.168.1.41 (Use only while testing - replace host)
+//Zhiwen's ip: 192.168.0.116 (Use only while testing - replace host)
 
 const rpcConfig = {
   host: 'localhost',
