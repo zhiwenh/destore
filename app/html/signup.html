@@ -22,12 +22,12 @@
     </div> <!-- header -->
     <div class="tabs">
       <ul class="tab-links">
-          <li class="active"><a href="#tab-user">User</a></li>
+          <li><a href="#tab-user">User</a></li>
           <li><a href="#tab-host">Host</a></li>
       </ul>
 
       <div class="tab-content">
-        <div id="tab-user" class="tab active">
+        <div id="tab-user" class="tab">
           <p>User content goes here!</p>
           <div class="container">
             <div class ="form-group" id="signup-user">
@@ -56,30 +56,32 @@
           <p>Host content goes here!</p>
           <div class="container">
             <div class ="form-group" id="signup-host">
-              <div class="row"> <!-- please enter pw, prob <p> -->
-                <label for="password">Select a strong password:</label>
-              </div>
-              <div class="row"> <!-- first password input and pw strength meter -->
-                <input type="password" class="password" placeholder="Enter Password" required />
-                <meter max="4" class="password-strength-meter"></meter>
-                <p class="password-strength-text"></p>
-              </div>
-              <div class="row"> <!-- please confirm password -->
-                <label for="password-confirm">Confirm password:</label>
-              </div>
-              <div class="row"> <!-- second password input and match checker -->
-                <input type="password" placeholder="Confirm Password" required />
-                <div class="registrationFormAlert" id="divCheckPasswordMatch"></div>
-              </div>
-              <div class="row">
-                <label for="host-storage">How much storage will you provide?</label>
-              </div>
-              <div class="row"> <!-- hosts only: gb to rent out input and verifier -->
-                <input type="number" placeholder="Storage Size" />GB
-              </div>
-              <div class="row"> <!-- final submit button -->
-                <input class="btn col-md-1 signup-submit-button" type="submit" value="Submit">
-              </div>
+              <form>
+                <div class="row"> <!-- please enter pw, prob <p> -->
+                  <label for="password">Select a strong password:</label>
+                </div>
+                <div class="row"> <!-- first password input and pw strength meter -->
+                  <input type="password" class="password" placeholder="Enter Password" required />
+                  <meter max="4" class="password-strength-meter"></meter>
+                  <p class="password-strength-text"></p>
+                </div>
+                <div class="row"> <!-- please confirm password -->
+                  <label for="password-confirm">Confirm password:</label>
+                </div>
+                <div class="row"> <!-- second password input and match checker -->
+                  <input type="password" placeholder="Confirm Password" required />
+                  <div class="registrationFormAlert" id="divCheckPasswordMatch"></div>
+                </div>
+                <div class="row">
+                  <label for="host-storage">How much storage will you provide?</label>
+                </div>
+                <div class="row"> <!-- hosts only: gb to rent out input and verifier -->
+                  <input type="number" placeholder="Storage Size" />GB
+                </div>
+                <div class="row"> <!-- final submit button -->
+                  <input class="btn col-md-1 signup-submit-button" type="submit" value="Submit">
+                </div>
+              </form>
             </div>
           </div> <!-- container -->
         </div>
