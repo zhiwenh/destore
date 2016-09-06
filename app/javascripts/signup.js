@@ -33,8 +33,10 @@ $(document).ready(function() {
 
     //get password
     var userPass = $(this).find('.password').val();
-    //call function for password -> account
+    config.set('password', { pass: userPass });
     
+    //call function for password -> account
+
     //display account in popup (with Authenticate button)
 
     //FOR NOW - routing to user or host page
