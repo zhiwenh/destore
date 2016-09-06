@@ -47,7 +47,7 @@
                 <input type="password" placeholder="Confirm Password" required />
               </div>
               <div class="row"> <!-- final submit button -->
-                <input class="btn col-md-1" type="submit" value="Submit">
+                <input class="btn col-md-1 signup-submit-button" type="submit" value="Submit">
               </div>
             </div>
           </div> <!-- container -->
@@ -79,13 +79,24 @@
                 <input type="number" placeholder="Storage Size" />GB
               </div>
               <div class="row"> <!-- final submit button -->
-                <input class="btn col-md-1" type="submit" value="Submit">
+                <input class="btn col-md-1 signup-submit-button" type="submit" value="Submit">
               </div>
             </div>
           </div> <!-- container -->
         </div>
+        <div id="tab-signin" class="tab">
+          <div class="row">
+            <label for="signin-preexisting-account">Please enter your Destore-generated account hash:</label>
+          </div>
+          <div class="row">
+            <input id="signin-preexisting-account" type="text" maxlength="42" />
+          </div>
+        </div>
+      </div>
+      <div class="signin-link" id="signin-link">
+        <a href="#tab-signin">Already have an account? Sign in.</a>
+      </div>
       </div> <!-- tab-content -->
-    </div>
   </body>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <script>
