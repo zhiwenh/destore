@@ -4,7 +4,7 @@ const Host = nodeRequire('../../libs/HostMethods.js');
 const User = nodeRequire('../../libs/UserMethods.js');
 const Watcher = nodeRequire('../../libs/watcherMethods.js');
 const IPFS = nodeRequire('../../libs/ipfs/ipfs.js');
-const hostFiles = nodeRequire('../../libs/hostFiles.js');
+const hostFiles = nodeRequire('../../libs/hostDeStore.js');
 const path = nodeRequire('path');
 const Config = nodeRequire('electron-config');
 const config = new Config();
@@ -43,7 +43,8 @@ fileIpfsArray = config.get('fileList.address');
 //TODO: ON CLOSE, take out all undefined
 
 $(document).on('click', '.clearList', () => {
-  config.clear('startup')
+  config.clear('startup');
+  window.location = "../html/signup.html";
 });
 
 $("button.addMasterList").click(() => {

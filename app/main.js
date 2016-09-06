@@ -11,14 +11,14 @@ let mainWindow;
 
 let startupPath;
 startupPath = config.get('startup.path');
-if(!startupPath) startupPath = 'signup.html';
+if(!startupPath) startupPath = 'signup';
 
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 800, height: 600});
 
   // and load the index.html of the app.
-  mainWindow.loadURL(`file://${__dirname}/html/${startupPath}`);
+  mainWindow.loadURL(`file://${__dirname}/html/${startupPath}.html`);
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();

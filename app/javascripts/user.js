@@ -95,7 +95,8 @@ $("button.addHost").click(() => {
 // });
 
 $(document).on('click', '.clearList', () => {
-  config.clear('startup')
+  config.clear('startup');
+  window.location = "../html/signup.html";
 });
 
 // adds a sender file contract

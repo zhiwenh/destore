@@ -31,23 +31,25 @@
           <p>User content goes here!</p>
           <div class="container">
             <div class ="form-group" id="signup-user">
-              <div class="row"> <!-- please enter pw, prob <p> -->
-                <label for="password">Select a strong password:</label>
-              </div>
-              <div class="row"> <!-- first password input and pw strength meter -->
-                <input type="password" id="password" placeholder="Enter Password" required />
-                <meter max="4" class="password-strength-meter"></meter>
-                <p class="password-strength-text"></p>
-              </div>
-              <div class="row"> <!-- please confirm password -->
-                <label for="password-confirm">Confirm password:</label>
-              </div>
-              <div class="row"> <!-- second password input and match checker -->
-                <input type="password" placeholder="Confirm Password" required />
-              </div>
-              <div class="row"> <!-- final submit button -->
-                <input class="btn col-md-1 signup-submit-button" type="submit" value="Submit">
-              </div>
+              <form data-tab="user" class="form">
+                <div class="row"> <!-- please enter pw, prob <p> -->
+                  <label for="password">Select a strong password:</label>
+                </div>
+                <div class="row"> <!-- first password input and pw strength meter -->
+                  <input type="password" id="password" placeholder="Enter Password" required />
+                  <meter max="4" class="password-strength-meter"></meter>
+                  <p class="password-strength-text"></p>
+                </div>
+                <div class="row"> <!-- please confirm password -->
+                  <label for="password-confirm">Confirm password:</label>
+                </div>
+                <div class="row"> <!-- second password input and match checker -->
+                  <input type="password" placeholder="Confirm Password" required />
+                </div>
+                <div class="row"> <!-- final submit button -->
+                  <input class="btn col-md-1 signup-submit-button" type="submit" value="Submit">
+                </div>
+              </form>
             </div>
           </div> <!-- container -->
         </div>
@@ -56,7 +58,7 @@
           <p>Host content goes here!</p>
           <div class="container">
             <div class ="form-group" id="signup-host">
-              <form>
+              <form data-tab="host" class="form">
                 <div class="row"> <!-- please enter pw, prob <p> -->
                   <label for="password">Select a strong password:</label>
                 </div>
