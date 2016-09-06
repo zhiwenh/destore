@@ -10,7 +10,7 @@ const BrowserWindow = electron.BrowserWindow;
 let mainWindow;
 
 let startupPath;
-startupPath = config.get('startup.path');
+startupPath = config.get('user.path');
 if(!startupPath) startupPath = 'signup';
 
 function createWindow () {

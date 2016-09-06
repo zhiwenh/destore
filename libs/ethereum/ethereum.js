@@ -64,7 +64,6 @@ class Ethereum {
 
   /**
   * checks connection to RPC
-  * @index {Number} index of the account in web3.eth.accounts to change to
   * @returns connection status
   **/
   check() {
@@ -91,19 +90,20 @@ class Ethereum {
 
   /**
   * @password {String}
-  * @returns {Boolean} - status of the create account
+  * @returns {String} - id of created account
   **/
   createAccount(password) {
-    this._web3.personal.newAccount(password);
+    return this._web3.personal.newAccount(password);
   }
 
   /**
   * @address {String}
   * @password {String}
+  * @returns {Boolean} - indication if the account was unlocked
   **/
   unlock(address, password) {
     this.init();
-    this._web3.personal.unlockAccount(address, password);
+    return this._web3.personal.unlockAccount(address, password);
   }
 
   /**
