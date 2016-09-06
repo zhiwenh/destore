@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="UTF-8">
+  <title>Destore: Decentralized File Storage</title>
+  <link href="../stylesheets/app.css" rel="stylesheet" type="text/css">
+  <link href="../stylesheets/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <script>
+    window.nodeRequire = require;
+    delete window.require;
+    delete window.exports;
+    delete window.module;
+  </script>
+  <script src="../vendors/jquery.min.js"></script>
+  </head>
+  <body>
+
+    <script>
+    nodeRequire('../javascripts/renderer.js');
+    </script>
+  </body>
+</html>
