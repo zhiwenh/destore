@@ -1,6 +1,7 @@
-const zxcvbn = require('zxcvbn');
-const Config = require('electron-config');
+const zxcvbn = nodeRequire('zxcvbn');
+const Config = nodeRequire('electron-config');
 const config = new Config();
+const Ethereum = nodeRequire('../../libs/ethereum/ethereum.js');
 
 const strength = {
   0: 'Worst ☹',
@@ -33,22 +34,27 @@ $(document).ready(function() {
 
     //get password
     var userPass = $(this).find('.password').val();
-    config.set('password', { pass: userPass });
-    
+    config.set('user', { password: userPass });
+
     //call function for password -> account
+    var userID;
+    if(!Ethereum.check()) userID = Ethereum.createAccount(userPass);
+    else userID = '0x8cf0451e8e69ac504cd0a89d6874a827770e80e6';
+    console.log(userID);
+    config.set('user', { id: userID });
 
     //display account in popup (with Authenticate button)
 
     //FOR NOW - routing to user or host page
-    var currentTab = $(this).data('tab');
-    config.set('startup', { path: currentTab });
-    window.location = `../html/${currentTab}.html`;
+    // var currentTab = $(this).data('tab');
+    // config.set('user', { path: currentTab });
+    // window.location = `../html/${currentTab}.html`;
   });
 
   $('body').on('click', '#authenticate', function() {
     //routing to user or host page
     var currentTab = $(this).data('tab');
-    config.set('startup', { path: currentTab });
+    config.set('user', { path: currentTab });
     window.location = `../html/${currentTab}.html`;
   });
 
