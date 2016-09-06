@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/DeStore/destore#readme",
   "dependencies": {
+    "bcrypt": "^0.8.7",
     "blue-tape": "^0.2.0",
     "bluebird": "^3.4.1",
     "chokidar": "^1.6.0",
@@ -40,6 +41,7 @@
     "multihashing": "^0.2.1",
     "nedb": "^1.8.0",
     "path": "^0.12.7",
+    "pouchdb": "^6.0.4",
     "read-yaml": "^1.0.0",
     "solc": "^0.3.6",
     "systeminformation": "^3.0.1",
