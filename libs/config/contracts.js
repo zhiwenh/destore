@@ -17,7 +17,7 @@ const contractsConfig = {
   built: __dirname + '/../contracts/',
   abiPath: __dirname + '/../../contracts-abi/',
   abiFormat: '.json',
-  deStore: '0x2647470b606615cd3eea868cb97043a2258febce'
+  deStore: '0x5736cdd3fa9fefa4331542c0ee158dfad12c136a'
 };
 
 module.exports = contractsConfig;

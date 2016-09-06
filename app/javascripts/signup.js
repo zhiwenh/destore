@@ -1,5 +1,6 @@
 const zxcvbn = require('zxcvbn');
-const $ = require('jquery');
+const Config = require('electron-config');
+const config = new Config();
 
 const strength = {
   0: 'Worst ☹',
@@ -14,11 +15,10 @@ const meter = document.getElementById('password-strength-meter');
 const text = document.getElementById('password-strength-text');
 
 $(document).ready(function() {
+  // Show/Hide Tabs
   $('.tabs .tab-links a').on('click', function(e) {
     var currentAttrValue = $(this).attr('href');
 
-    // Show/Hide Tabs
-    // $('.tabs ' + currentAttrValue).show().siblings().hide();
     $('.tabs ' + currentAttrValue).fadeIn(400).siblings().hide();
 
     // Change/remove current tab to active
@@ -27,13 +27,39 @@ $(document).ready(function() {
     e.preventDefault();
   });
 
-  password.addEventListener('input', function() {
-    const val = password.value;
-    const result = zxcvbn(val);
+  //Route to Host/User on Submit
+  $('.form').submit(function(e) {
+    e.preventDefault();
 
-    // Update the password strength meter
-    meter.value = result.score;
+    //get password
+    var userPass = $(this).find('.password').val();
+    config.set('password', { pass: userPass });
+    
+    //call function for password -> account
+
+    //display account in popup (with Authenticate button)
+
+    //FOR NOW - routing to user or host page
+    var currentTab = $(this).data('tab');
+    config.set('startup', { path: currentTab });
+    window.location = `../html/${currentTab}.html`;
   });
+
+  $('body').on('click', '#authenticate', function() {
+    //routing to user or host page
+    var currentTab = $(this).data('tab');
+    config.set('startup', { path: currentTab });
+    window.location = `../html/${currentTab}.html`;
+  });
+
+  //password STUFF??
+  // password.addEventListener('input', function() {
+  //   const val = password.value;
+  //   const result = zxcvbn(val);
+
+  //   // Update the password strength meter
+  //   meter.value = result.score;
+  // });
 
 // check that passwords match and then
   $(function() {

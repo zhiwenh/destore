@@ -4,11 +4,15 @@ const Host = nodeRequire('../../libs/HostMethods.js');
 const User = nodeRequire('../../libs/UserMethods.js');
 const Watcher = nodeRequire('../../libs/watcherMethods.js');
 const IPFS = nodeRequire('../../libs/ipfs/ipfs.js');
+const hostFiles = nodeRequire('../../libs/hostDeStore.js');
 const path = nodeRequire('path');
 const Config = nodeRequire('electron-config');
 const config = new Config();
 const fs = nodeRequire('fs');
 const getSize = nodeRequire('get-folder-size');
+
+Ethereum.changeAccount(5);
+// Ethereum.execAt('DeStore').receiverAdd(1000000);
 
 var hash;
 var recInstance = {address: '0x8ca22b74e3640541462b04399479212958df0490'};
@@ -24,6 +28,8 @@ var fileContractArray;
 
 // if(config.get('key')=={sup:'sup'}) console.log('GETTTT', config.get('key'));
 
+
+
 //Initializes daemon when on page
 IPFS.init();
 IPFS.daemon();
@@ -37,7 +43,8 @@ fileIpfsArray = config.get('fileList.address');
 //TODO: ON CLOSE, take out all undefined
 
 $(document).on('click', '.clearList', () => {
-  config.clear('startup')
+  config.clear('startup');
+  window.location = "../html/signup.html";
 });
 
 $("button.addMasterList").click(() => {
@@ -64,11 +71,11 @@ $("button.addHost").click(() => {
 // });
 
 $("button.hostLink").click(() => {
-  config.set('')
+  config.set('');
 });
 
 $("button.userLink").click(() => {
-  console.log('USER')
+  console.log('USER');
 });
 
 // tests masterInstance to see if it got a Receiver
@@ -90,11 +97,13 @@ $("button.test2").click(function() {
 });
 
 // retrives all files stored in reciever contract and downloads
-$("button.test3").click(function() {
+$("button.downloadFiles").click(function() {
   console.log('press download')
-  retrieveFilesDownload(recInstance.address)
 
-
+  hostFiles(Ethereum.account, function (err, res) {
+    console.log(err);
+    console.log(res);
+  });
 });
 
 // gets config storage
@@ -241,6 +250,48 @@ window.onbeforeunload = (ev) => {
     sup: 'sup'
   });
 };
+
+function get_elapsed_time_string(total_seconds) {
+  function pretty_time_string(num) {
+    return ( num < 10 ? "0" : "" ) + num;
+  }
+
+  var hours = Math.floor(total_seconds / 3600);
+  total_seconds = total_seconds % 3600;
+
+  var minutes = Math.floor(total_seconds / 60);
+  total_seconds = total_seconds % 60;
+
+  var seconds = Math.floor(total_seconds);
+
+  // Pad the minutes and seconds with leading zeros, if required
+  hours = pretty_time_string(hours);
+  minutes = pretty_time_string(minutes);
+  seconds = pretty_time_string(seconds);
+
+  // Compose the string for display
+  var currentTimeString = hours + ":" + minutes + ":" + seconds;
+
+  return currentTimeString;
+}
+
+//1 second Interval for Timer
+var elapsed_seconds = 0;
+setInterval(function() {
+  elapsed_seconds = elapsed_seconds + 1;
+  $('#timer').text(get_elapsed_time_string(elapsed_seconds));
+}, 1000);
+
+//1 minute Balance Checker
+checkBalance();
+setInterval(function() {
+  checkBalance();
+}, 60000);
+
+function checkBalance () {
+  balance = Ethereum.getBalanceEther() || 0;
+  $('#balance').text(balance + ' Ether');
+}
 
 function addFileAndDeploy(filePaths) {
   // use after adding a file to IPFS to deploy the file contract

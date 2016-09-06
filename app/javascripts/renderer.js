@@ -33,8 +33,16 @@ IPFS.daemon();
 
 $('#signupForm').submit((e) => {
   e.preventDefault();
+  passwordAuth();
+  
+});
 
-})
+// function passwordAuth () {
+//   var pass1 = $('#password1');
+//   var pass2 = $('#password2');
+//   if (pass1 !== pass2) 
+//   else 
+// }
 
 
 //Makes encrypt/download folder (hidden) if not made

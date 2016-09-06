@@ -5,9 +5,8 @@
   <title>Destore: Decentralized File Storage</title>
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link href="../stylesheets/signup.css" rel="stylesheet" type="text/css">
-  <script src="../javascripts/signup.js"></script>
+  <link href="../stylesheets/bootstrap.min.css" rel="stylesheet" type="text/css">
   <script>
     window.nodeRequire = require;
     delete window.require;
@@ -18,37 +17,39 @@
   </head>
   <body>
     <div id="header">
-      <img src="http://placehold.it/350x150">
+      <img src="" alt="DeStore Logo">
       <h1>Destore Create Account</h1>
     </div> <!-- header -->
     <div class="tabs">
       <ul class="tab-links">
-          <li class="active"><a href="#tab-user">User</a></li>
+          <li><a href="#tab-user">User</a></li>
           <li><a href="#tab-host">Host</a></li>
       </ul>
 
       <div class="tab-content">
-        <div id="tab-user" class="tab active">
+        <div id="tab-user" class="tab">
           <p>User content goes here!</p>
           <div class="container">
             <div class ="form-group" id="signup-user">
-              <div class="row"> <!-- please enter pw, prob <p> -->
-                <label for="password">Select a strong password:</label>
-              </div>
-              <div class="row"> <!-- first password input and pw strength meter -->
-                <input type="password" id="password" placeholder="Enter Password" required />
-                <meter max="4" class="password-strength-meter"></meter>
-                <p class="password-strength-text"></p>
-              </div>
-              <div class="row"> <!-- please confirm password -->
-                <label for="password-confirm">Confirm password:</label>
-              </div>
-              <div class="row"> <!-- second password input and match checker -->
-                <input type="password" placeholder="Confirm Password" required />
-              </div>
-              <div class="row"> <!-- final submit button -->
-                <input class="btn col-md-1 signup-submit-button" type="submit" value="Submit">
-              </div>
+              <form data-tab="user" class="form">
+                <div class="row"> <!-- please enter pw, prob <p> -->
+                  <label for="password">Select a strong password:</label>
+                </div>
+                <div class="row"> <!-- first password input and pw strength meter -->
+                  <input type="password" class="password" placeholder="Enter Password" required />
+                  <meter max="4" class="password-strength-meter"></meter>
+                  <p class="password-strength-text"></p>
+                </div>
+                <div class="row"> <!-- please confirm password -->
+                  <label for="password-confirm">Confirm password:</label>
+                </div>
+                <div class="row"> <!-- second password input and match checker -->
+                  <input type="password" placeholder="Confirm Password" required />
+                </div>
+                <div class="row"> <!-- final submit button -->
+                  <input class="btn col-md-1 signup-submit-button" type="submit" value="Submit">
+                </div>
+              </form>
             </div>
           </div> <!-- container -->
         </div>
@@ -57,30 +58,32 @@
           <p>Host content goes here!</p>
           <div class="container">
             <div class ="form-group" id="signup-host">
-              <div class="row"> <!-- please enter pw, prob <p> -->
-                <label for="password">Select a strong password:</label>
-              </div>
-              <div class="row"> <!-- first password input and pw strength meter -->
-                <input type="password" class="password" placeholder="Enter Password" required />
-                <meter max="4" class="password-strength-meter"></meter>
-                <p class="password-strength-text"></p>
-              </div>
-              <div class="row"> <!-- please confirm password -->
-                <label for="password-confirm">Confirm password:</label>
-              </div>
-              <div class="row"> <!-- second password input and match checker -->
-                <input type="password" placeholder="Confirm Password" required />
-                <div class="registrationFormAlert" id="divCheckPasswordMatch"></div>
-              </div>
-              <div class="row">
-                <label for="host-storage">How much storage will you provide?</label>
-              </div>
-              <div class="row"> <!-- hosts only: gb to rent out input and verifier -->
-                <input type="number" placeholder="Storage Size" />GB
-              </div>
-              <div class="row"> <!-- final submit button -->
-                <input class="btn col-md-1 signup-submit-button" type="submit" value="Submit">
-              </div>
+              <form data-tab="host" class="form">
+                <div class="row"> <!-- please enter pw, prob <p> -->
+                  <label for="password">Select a strong password:</label>
+                </div>
+                <div class="row"> <!-- first password input and pw strength meter -->
+                  <input type="password" class="password" placeholder="Enter Password" required />
+                  <meter max="4" class="password-strength-meter"></meter>
+                  <p class="password-strength-text"></p>
+                </div>
+                <div class="row"> <!-- please confirm password -->
+                  <label for="password-confirm">Confirm password:</label>
+                </div>
+                <div class="row"> <!-- second password input and match checker -->
+                  <input type="password" placeholder="Confirm Password" required />
+                  <div class="registrationFormAlert" id="divCheckPasswordMatch"></div>
+                </div>
+                <div class="row">
+                  <label for="host-storage">How much storage will you provide?</label>
+                </div>
+                <div class="row"> <!-- hosts only: gb to rent out input and verifier -->
+                  <input type="number" placeholder="Storage Size" />GB
+                </div>
+                <div class="row"> <!-- final submit button -->
+                  <input class="btn col-md-1 signup-submit-button" type="submit" value="Submit">
+                </div>
+              </form>
             </div>
           </div> <!-- container -->
         </div>
@@ -94,12 +97,13 @@
         </div>
       </div>
       <div class="signin-link" id="signin-link">
-        <a href="#tab-signin">Already have an account? Sign in.</a>
+        <a class="btn btn-primary signin" href="#tab-signin">Already have an account? Sign in.</a>
       </div>
       </div> <!-- tab-content -->
   </body>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <script>
+    nodeRequire('../javascripts/signup.js');
     nodeRequire('../javascripts/renderer.js');
   </script>
 </html>
