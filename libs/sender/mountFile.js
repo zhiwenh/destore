@@ -32,11 +32,7 @@ module.exports = promisify((filePath, value, callback) => {
         uploadTime: new Date()
       };
       Upload.db.insert(upload, (err, res) => {
-        if (err) {
-          callback(err, null);
-        } else {
-          callback(null, res);
-        }
+        callback(null, res);
       });
     })
     .catch(err => {

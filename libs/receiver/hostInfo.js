@@ -7,7 +7,6 @@ const nestedHexToAscii = require('./../ethereum/nestedHexToAscii');
 
 /**
 * Gets hash addresses from reciever contract and saves file info into Host db
-* @receiverAddress {String} - reciever contract address
 * @callback {Function} - returns the doc created from the Host.db storage
 * @returns Promise - Array of objects of the receivers hash and corresponding sender and size
 **/
