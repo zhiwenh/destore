@@ -8,6 +8,15 @@
   border-radius: 5px;
 }*/
 
+.info {
+  background: white;
+  border: 5px solid black;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  height: 100px;
+  text-align: center;
+}
+
 .file {
   position: relative;
   height: 20px;
