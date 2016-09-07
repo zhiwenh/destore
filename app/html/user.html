@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <title>Destore: Decentralized File Storage</title>
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">
-  <link href="../stylesheets/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="../vendors/bootstrap.min.css" rel="stylesheet" type="text/css">
   <link href="../stylesheets/app.css" rel="stylesheet" type="text/css">
+  <link href="../stylesheets/user.css" rel="stylesheet" type="text/css">
   <script>
     window.nodeRequire = require;
     delete window.require;
@@ -26,6 +27,10 @@
       <div class="row" id="dropzone">
         <div class="panel panel-default">
           <div class="panel-heading">
+           <img class="question dragdropQ" src="../../images/question.png" alt="question">
+            <div id="dragdropHelp">
+              Your Public Account ID identifies your account in Ethereum, allowing you to access/store files. Before you are able to store files, please deposit money into your account using a transfer service (i.e. Coinbase, Ethereum Wallet, Mist).
+            </div>
             <strong>Destore File</strong>
           </div>
           <div class="panel-body">
@@ -36,7 +41,16 @@
           </div>
         </div>
       </div>
-      <div id="fileTable"></div>
+      
+      <div id="fileTable">
+        <div class="table-header">
+          <img class="question uploadQ" src="../../images/question.png" alt="question">
+          <div id="uploadHelp">
+            Your Public Account ID identifies your account in Ethereum, allowing you to access/store files. Before you are able to store files, please deposit money into your account using a transfer service (i.e. Coinbase, Ethereum Wallet, Mist).
+          </div>
+          File Uploaded
+        </div>
+      </div>
       <div class="row">
         <button type="button" class="test btn btn-primary btn-lg"> Test </button>
         <button class="clearList btn btn-lg btn-danger">CLEAR EVERYTHING</button>

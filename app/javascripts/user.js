@@ -11,20 +11,52 @@ const fs = nodeRequire('fs');
 IPFS.init();
 IPFS.daemon();
 
-// Ethereum.deStore().senderAdd({from: Ethereum.account})
-//           .then(tx => {
-//             console.log('Sender Added')
-//           })
-//           .catch(err => {
-//             console.error(err);
-//           });
-
 Sender.listUploadDb()
   .then((docs) => {
+    console.log(docs)
     docs.map((item) => {
-      $('#fileTable').append('<div data-filepath="'+item.filePath+'" class="file">' + path.basename(item.filePath) + '<button class="send">Send</button></div>');
+      if(item.isUploaded) {
+        $('#fileTable').append(`<div data-filepath="${item.filePath}" class="file">${path.basename(item.filePath)}<div class="filesize">${(item.fileSize/(1024*1024)).toFixed(2)} MB</div><div class="cost">${((item.fileSize/(1024*1024*1024)) * 10).toFixed(3) } cents/month</div><button class="btn-up retrieve">Retrieve</button></div>`);
+      }
+      else if(item.isMounted) {
+        $('#fileTable').append(`<div data-filepath="${item.filePath}" class="file">${path.basename(item.filePath)}<div class="filesize">${(item.fileSize/(1024*1024)).toFixed(2)} MB</div><div class="cost">${((item.fileSize/(1024*1024*1024)) * 10).toFixed(3) } cents/month</div><input class="recNum" type="number" placeholder="# of hosts"></input><button class="btn-up distribute">Distribute</button></div>`);
+      }
     });
   });
+$('.dragdropQ').on({
+  mouseenter: function() {
+    $('#dragdropHelp').css('display', 'inline-block');
+  },
+  mouseleave: function() {
+    $('#dragdropHelp').css('display', 'none');
+  }
+});
+
+$('.uploadQ').on({
+  mouseenter: function() {
+    $('#uploadHelp').css('display', 'inline-block');
+  },
+  mouseleave: function() {
+    $('#uploadHelp').css('display', 'none');
+  }
+});
+
+$(document).on('click', '.distribute', () => {
+  var filePath = $(this).closest('.file').data('filepath');
+  var userNum = $(this).closest('.file').find('.recNum').val() || 3;
+      console.log(userNum);
+
+  Sender.distribute(filePath, userNum)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  console.log();
+  $(this).closest('.file').find('.recNum').remove();
+  $(this).replaceWith('<button class="retrieve">Retrieve</button>');
+});
 
 $(document).on('click', '.clearList', () => {
   config.clear('startup');
@@ -51,16 +83,22 @@ $('.upload-drop-zone').on('dragleave', (ev) => {
   $('.upload-drop-zone').css('background-color', 'white')
 });
 
+//ON FILE DROP
 $(".upload-drop-zone").on("drop", (ev) => {
   ev.preventDefault();
   $('.upload-drop-zone').css('background-color', 'white');
   var filePath = ev.originalEvent.dataTransfer.files[0].path;
+  var fileSize = Sender.filesize(filePath); 
   console.log(filePath);
+  //check if it's a folder
+
+  //check if it's already there in the list
+
   Sender.copyFile(filePath)
   .then((res) => {
     console.log(res);
-    $('#fileTable').append('<div data-filepath="'+res+'" class="file">' + path.basename(filePath) + '<button class="send">Send</button></div>');
-    })
+    $('#fileTable').append(`<div data-filepath="${filePath}" class="file">${path.basename(filePath)}<div class="filesize">${(fileSize/(1024*1024)).toFixed(2)} MB</div><div class="cost">${((fileSize/(1024*1024*1024)) * 10).toFixed(3) } cents/month</div><button class="btn-up mount">Mount</button></div>`);
+  })
   .catch((res) => {
     console.log('Error', res);
   });
@@ -72,7 +110,7 @@ $('body').on('click', '.send', function() {
   Sender.mountFile(filePath, 1)
     .then((doc) => {
       console.log(doc);
-      return Sender.uploadDeStore(doc.fileName) //returns receivers
+      return Sender.uploadDeStore(doc.fileName);
     })
     .then((hashes) => {
       console.log(hashes);
@@ -101,27 +139,6 @@ $('body').on('click', '.retrieve', function() {
   IPFS.download(fileHashArray[index], path.join(__dirname + '/../../files/download/' + path.basename(filePathArray[index])))
     .then((res) => console.log(res))
     .catch(res => console.error('ERROR: ', res));
-});
-
-$('body').on('click', '.delete', function() {
-  index = $(this).closest('.file').prop('id').replace(/file/, "");
-  filePathArray = config.get('fileList.path');
-  fileSizeArray = config.get('fileList.size');
-  fileHashArray = config.get('fileList.size');
-  console.log(index);
-  console.log(filePathArray);
-  filePathArray[index] = undefined;
-  fileSizeArray[index] = undefined;
-  fileHashArray[index] = undefined;
-  fileContractArray[index] = undefined;
-  console.log(filePathArray);
-  config.set('fileList', {
-    path: filePathArray,
-    size: fileSizeArray,
-    hash: filePathArray,
-    contract: fileContractArray
-  });
-  $(this).closest('.file').remove();
 });
 
 document.body.ondrop = (ev) => {

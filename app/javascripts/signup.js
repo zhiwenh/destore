@@ -85,7 +85,7 @@ $(document).ready(function() {
     if(Ethereum.getBalanceEther(0) > 5) {
       var userType = config.get('user.path');
       if(userType === 'host') {
-        var storage = 1024*1024*config.get('user.store');
+        var storage = 1024*1024*1024*config.get('user.store');
         Ethereum.deStore().receiverAdd(storage, {from: Ethereum.account})
           .then(tx => {
             console.log(tx);
