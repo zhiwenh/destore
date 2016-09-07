@@ -18,12 +18,13 @@ const lol = console.log.bind(console);
 program
   .version('0.0.1')
   .option('init', 'Initialize')
+  .option('start')
   .option('check', 'Check Ethereum Connection')
   .option('accounts', 'Get a list of Ethereum accounts')
   // .option('test', 'test command to test random things')
   .option('test', 'test command to test random things')
   // .option('save', 'Save a contract with ether-pudding into .sol.js')
-  .option('deploy', 'Deploy a pudding contract ')
+  .option('deploy', 'Deploy DeStore Contract ')
   .option('exec', 'Execute a deployed pudding contract')
   .option('execAt', 'Execute a pudding contract at specifiied address')
   .option('delete', 'Deletes all entries in database')
@@ -82,18 +83,6 @@ if (program.accounts) {
   Ethereum.getAccounts();
 }
 
-
-
-if (program.deploy) {
-  console.log('deploy');
-  Ethereum.deploy('MasterList')
-    .then(function(res) {
-      console.log(res.address);
-    })
-    .catch(function(err) {
-      console.log(err);
-    });
-}
 
 if (program.exec) {
   console.log('exec');
@@ -473,4 +462,20 @@ if (program.etest8) {
     // .catch(err => {
     //   console.error(err);
     // });
+}
+
+if (program.deploy) {
+  Ethereum.changeAccount(0);
+  const deployOptions = {
+    from: Ethereum.account
+  };
+  Ethereum.deploy('DeStore', [], deployOptions)
+    .then(instance => {
+      config.contracts.deStore = instance.address;
+      console.log(instance.address);
+      DeStoreAddress.save(instance.address);
+    })
+    .catch(err => {
+      console.error(err);
+    });
 }
