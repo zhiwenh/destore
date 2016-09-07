@@ -27,9 +27,6 @@ Sender.listUploadDb()
     });
   });
 
-
-
-
 $(document).on('click', '.clearList', () => {
   config.clear('startup');
   window.location = "../html/signup.html";

@@ -12,3 +12,4 @@ libs/contracts/**
 contracts-abi/**
 .node-xmlhttprequest**
 TODO
+files/
