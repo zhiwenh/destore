@@ -126,6 +126,10 @@ h3 {
   color: black;
 }
 
+.userID {
+  font-weight: 700;
+}
+
 #balance {
   color: black;
 }

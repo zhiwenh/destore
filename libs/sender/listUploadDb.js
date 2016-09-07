@@ -1,5 +1,5 @@
 'use strict';
-const Upload = require('./../../models/Host.js');
+const Upload = require('./../../models/Upload.js');
 const promisify = require('es6-promisify');
 
 /**

@@ -48,6 +48,10 @@ a:focus {
   content:'';
 }
 
+.tab-links {
+  margin-right: 30px;
+}
+
 .tab-links li {
   display:inline-block;
   list-style:none;
@@ -94,12 +98,20 @@ li.active a {
 
 .signin-link {
   position: absolute;
-  left: 40%;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
   bottom: 10%;
 }
 
 #signinHelp {
   display: none;
+  position: absolute;
+  margin: 0 ;
+  background-color: black;
+  color: white;
+  padding: 5px;
 }
 
 #popup {
@@ -116,6 +128,8 @@ li.active a {
 }
 
 #authenticate {
+  margin: 0 auto;
+  margin-top: 100px;
   color: black;
 }
 

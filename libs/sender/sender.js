@@ -1,3 +1,4 @@
+const filesize = require('./filesize.js');
 const chunkFile = require('./chunkFile');
 const mountFile = require('./mountFile');
 const uploadDeStore = require('./uploadDeStore');
@@ -12,6 +13,7 @@ const zipFile = require('./zipFile');
 const copyFile = require('./copyFile');
 
 module.exports = {
+  filesize: filesize,
   chunkFile: chunkFile,
   mountFile: mountFile,
   uploadDeStore: uploadDeStore,

@@ -16,6 +16,7 @@ const Schema = {
   blockSizes: [],
   receivers: [],
   uploadTime: null,
+  isMounted: null
 };
 
 Upload.ensureIndex({ fieldName: 'hashAddress', unique: true, sparse: true }, err => {

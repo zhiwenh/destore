@@ -26,16 +26,20 @@ var index, filePathArray, fileSizeArray, fileHashArray, fileIpfsArray, filePath,
 
 var fileContractArray;
 
-// if(config.get('key')=={sup:'sup'}) console.log('GETTTT', config.get('key'));
-
-
 
 //Initializes daemon when on page
 IPFS.init();
 IPFS.daemon();
 
+
+
+
+
+
+
+
+
 //Makes encrypt/download folder (hidden) if not made
-User.mkdir('fileStorage');
 
 fileIpfsArray = config.get('fileList.address');
 
