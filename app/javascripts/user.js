@@ -3,13 +3,18 @@ const web3 = Ethereum.init();
 const IPFS = nodeRequire('../../libs/ipfs/ipfs.js');
 const Sender = nodeRequire('../../libs/sender/sender.js');
 const path = nodeRequire('path');
+const configs = nodeRequire('../../libs/config/config.js')
 const Config = nodeRequire('electron-config');
 const config = new Config();
 const fs = nodeRequire('fs');
+const DeStoreAddress = nodeRequire('../../models/DeStoreAddress');
 
 //Initializes daemon when on page
 IPFS.init();
 IPFS.daemon();
+
+//TESTING
+configs.contracts.deStore = DeStoreAddress.get();
 
 Sender.listUploadDb()
   .then((docs) => {

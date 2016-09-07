@@ -5,21 +5,22 @@ const configs = nodeRequire('../../libs/config/config.js')
 const Ethereum = nodeRequire('../../libs/ethereum/ethereum.js');
 const DeStoreAddress = nodeRequire('../../models/DeStoreAddress');
 
+//TESTING
 configs.contracts.deStore = DeStoreAddress.get();
-const strength = {
-  0: 'Worst ☹',
-  1: 'Bad ☹',
-  2: 'Weak ☹',
-  3: 'Good ☺',
-  4: 'Strong ☻'
-};
+// const strength = {
+//   0: 'Worst ☹',
+//   1: 'Bad ☹',
+//   2: 'Weak ☹',
+//   3: 'Good ☺',
+//   4: 'Strong ☻'
+// };
 
-const password = document.getElementById('password');
-const meter = document.getElementById('password-strength-meter');
-const text = document.getElementById('password-strength-text');
+// const password = document.getElementById('password');
+// const meter = document.getElementById('password-strength-meter');
+// const text = document.getElementById('password-strength-text');
 
 $(document).ready(function() {
-
+Ethereum.init();
   // Show/Hide Tabs
   $('.tabs .tab-links a').on('click', function(e) {
     var currentAttrValue = $(this).attr('href');

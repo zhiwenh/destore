@@ -110,6 +110,8 @@ class Ethereum {
   * @index {Number} index of the account to check the balance of in Ether
   **/
   getBalanceEther(index) {
+    console.log(index)
+    console.log(this.accounts[1])
     let amount;
     if (!index) {
       amount = this._web3.eth.getBalance(this.account);
