@@ -73,9 +73,10 @@ Ethereum.init();
 
   $('body').on('click', '#authenticate', function() {
     //check if coin balance > 0.01
-    if(Ethereum.getBalanceEther(0) > 5) {
+    if(Ethereum.getBalanceEther() > 5) {
       var userType = config.get('user.path');
       if(userType === 'host') {
+        Ethereum.changeAccount(0);
         var storage = 1024*1024*1024*config.get('user.store');
         Ethereum.deStore().receiverAdd(storage, {from: Ethereum.account})
           .then(tx => {
@@ -87,6 +88,7 @@ Ethereum.init();
           })
       }
       else {
+        Ethereum.changeAccount(1);
         Ethereum.deStore().senderAdd({from: Ethereum.account})
           .then(tx => {
             console.log('Sender Added')
