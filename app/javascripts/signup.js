@@ -3,7 +3,9 @@ const Config = nodeRequire('electron-config');
 const config = new Config();
 const configs = nodeRequire('../../libs/config/config.js')
 const Ethereum = nodeRequire('../../libs/ethereum/ethereum.js');
+const DeStoreAddress = nodeRequire('../../models/DeStoreAddress');
 
+configs.contracts.deStore = DeStoreAddress.get();
 const strength = {
   0: 'Worst ☹',
   1: 'Bad ☹',
@@ -17,18 +19,6 @@ const meter = document.getElementById('password-strength-meter');
 const text = document.getElementById('password-strength-text');
 
 $(document).ready(function() {
-  //TESTING
-  Ethereum.changeAccount(0);
-  const deployOptions = {
-    from: Ethereum.account
-  };
-  Ethereum.deploy('DeStore', [], deployOptions)
-    .then(instance => {
-      configs.contracts.deStore = instance.address;
-    })
-
-
-
 
   // Show/Hide Tabs
   $('.tabs .tab-links a').on('click', function(e) {

@@ -105,10 +105,10 @@ $('body').on('click', '.mount', function() {
 });
 
 $('body').on('click', '.distribute', function() {
-  var filePath = $(this).closest('.file').data('filepath');
+  var fileName = path.basename($(this).closest('.file').data('filepath'));
   var userNum = $(this).closest('.file').find('.recNum').val() || 3;
-
-  Sender.distribute(filePath, userNum)
+  console.log(userNum)
+  Sender.distribute(fileName, userNum)
     .then((res) => {
       console.log(res);
     })
@@ -121,14 +121,20 @@ $('body').on('click', '.distribute', function() {
 });
 
 $('body').on('click', '.retrieve', function() {
-  User.mkdir('Downloaded');
-  index = $(this).closest('.file').prop('id').replace(/file/, "");
-  fileHashArray = config.get('fileList.hash');
-  filePathArray = config.get('fileList.path');
-  console.log(path.join(__dirname + '/../../Downloaded/' + path.basename(filePathArray[index])));
-  IPFS.download(fileHashArray[index], path.join(__dirname + '/../../files/download/' + path.basename(filePathArray[index])))
-    .then((res) => console.log(res))
-    .catch(res => console.error('ERROR: ', res));
+  var fileName = path.basename($(this).closest('.file').data('filepath'));  
+  Sender.retrieveFile(fileName)
+    .then((res) => {
+      console.log(fileName, 'written to ', res)
+    });
+
+  // User.mkdir('Downloaded');
+  // index = $(this).closest('.file').prop('id').replace(/file/, "");
+  // fileHashArray = config.get('fileList.hash');
+  // filePathArray = config.get('fileList.path');
+  // console.log(path.join(__dirname + '/../../Downloaded/' + path.basename(filePathArray[index])));
+  // IPFS.download(fileHashArray[index], path.join(__dirname + '/../../files/download/' + path.basename(filePathArray[index])))
+  //   .then((res) => console.log(res))
+  //   .catch(res => console.error('ERROR: ', res));
 });
 
 document.body.ondrop = (ev) => {

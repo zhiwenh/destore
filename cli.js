@@ -82,8 +82,6 @@ if (program.accounts) {
   Ethereum.getAccounts();
 }
 
-
-
 if (program.deploy) {
   console.log('deploy');
   Ethereum.deploy('MasterList')
