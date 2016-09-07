@@ -3,33 +3,24 @@ const Config = nodeRequire('electron-config');
 const config = new Config();
 const configs = nodeRequire('../../libs/config/config.js')
 const Ethereum = nodeRequire('../../libs/ethereum/ethereum.js');
+const DeStoreAddress = nodeRequire('../../models/DeStoreAddress');
 
-const strength = {
-  0: 'Worst ☹',
-  1: 'Bad ☹',
-  2: 'Weak ☹',
-  3: 'Good ☺',
-  4: 'Strong ☻'
-};
+//TESTING
+configs.contracts.deStore = DeStoreAddress.get();
+// const strength = {
+//   0: 'Worst ☹',
+//   1: 'Bad ☹',
+//   2: 'Weak ☹',
+//   3: 'Good ☺',
+//   4: 'Strong ☻'
+// };
 
-const password = document.getElementById('password');
-const meter = document.getElementById('password-strength-meter');
-const text = document.getElementById('password-strength-text');
+// const password = document.getElementById('password');
+// const meter = document.getElementById('password-strength-meter');
+// const text = document.getElementById('password-strength-text');
 
 $(document).ready(function() {
-  //TESTING
-  Ethereum.changeAccount(0);
-  const deployOptions = {
-    from: Ethereum.account
-  };
-  Ethereum.deploy('DeStore', [], deployOptions)
-    .then(instance => {
-      configs.contracts.deStore = instance.address;
-    })
-
-
-
-
+Ethereum.init();
   // Show/Hide Tabs
   $('.tabs .tab-links a').on('click', function(e) {
     var currentAttrValue = $(this).attr('href');
@@ -82,9 +73,10 @@ $(document).ready(function() {
 
   $('body').on('click', '#authenticate', function() {
     //check if coin balance > 0.01
-    if(Ethereum.getBalanceEther(0) > 5) {
+    if(Ethereum.getBalanceEther() > 5) {
       var userType = config.get('user.path');
       if(userType === 'host') {
+        Ethereum.changeAccount(0);
         var storage = 1024*1024*1024*config.get('user.store');
         Ethereum.deStore().receiverAdd(storage, {from: Ethereum.account})
           .then(tx => {
@@ -96,6 +88,7 @@ $(document).ready(function() {
           })
       }
       else {
+        Ethereum.changeAccount(1);
         Ethereum.deStore().senderAdd({from: Ethereum.account})
           .then(tx => {
             console.log('Sender Added')

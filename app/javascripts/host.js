@@ -3,37 +3,18 @@ const web3 = Ethereum.init();
 const Receiver = nodeRequire('../../libs/receiver/receiver.js');
 const IPFS = nodeRequire('../../libs/ipfs/ipfs.js');
 const path = nodeRequire('path');
+const configs = nodeRequire('../../libs/config/config.js')
 const Config = nodeRequire('electron-config');
 const config = new Config();
 const fs = nodeRequire('fs');
-
-Ethereum.changeAccount(5);
-// Ethereum.execAt('DeStore').receiverAdd(1000000);
-
-var hash;
-var recInstance = {address: '0x8ca22b74e3640541462b04399479212958df0490'};
-var masterInstance = {address: '0x4e140616dc42d606909864d9ae8911f95b752133'};
-
-var senderInstance;
-
-let i = 0;
-
-var index, filePathArray, fileSizeArray, fileHashArray, fileIpfsArray, filePath, fileSize, ipfsHash, folder, count = 0;
-
-var fileContractArray;
-
+const DeStoreAddress = nodeRequire('../../models/DeStoreAddress');
 
 //Initializes daemon when on page
 IPFS.init();
 IPFS.daemon();
 
-
-
-
-
-
-
-
+//TESTING
+configs.contracts.deStore = DeStoreAddress.get();
 
 //Makes encrypt/download folder (hidden) if not made
 

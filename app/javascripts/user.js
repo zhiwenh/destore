@@ -3,23 +3,28 @@ const web3 = Ethereum.init();
 const IPFS = nodeRequire('../../libs/ipfs/ipfs.js');
 const Sender = nodeRequire('../../libs/sender/sender.js');
 const path = nodeRequire('path');
+const configs = nodeRequire('../../libs/config/config.js')
 const Config = nodeRequire('electron-config');
 const config = new Config();
 const fs = nodeRequire('fs');
+const DeStoreAddress = nodeRequire('../../models/DeStoreAddress');
 
 //Initializes daemon when on page
 IPFS.init();
 IPFS.daemon();
+
+//TESTING
+configs.contracts.deStore = DeStoreAddress.get();
 
 Sender.listUploadDb()
   .then((docs) => {
     console.log(docs)
     docs.map((item) => {
       if(item.isUploaded) {
-        $('#fileTable').append(`<div data-filepath="${item.filePath}" class="file">${path.basename(item.filePath)}<div class="filesize">${(item.fileSize/(1024*1024)).toFixed(2)} MB</div><div class="cost">${((item.fileSize/(1024*1024*1024)) * 10).toFixed(3) } cents/month</div><button class="btn-up retrieve">Retrieve</button></div>`);
+        $('#fileTable').append(`<div data-filepath="${item.filePath}" class="file"><span class="basename">${path.basename(item.filePath)}</span><div class="filesize">${(item.fileSize/(1024*1024)).toFixed(2)} MB</div><div class="cost">${((item.fileSize/(1024*1024*1024)) * 10).toFixed(3) } cents/month</div><button class="btn-up retrieve">Retrieve</button></div>`);
       }
       else if(item.isMounted) {
-        $('#fileTable').append(`<div data-filepath="${item.filePath}" class="file">${path.basename(item.filePath)}<div class="filesize">${(item.fileSize/(1024*1024)).toFixed(2)} MB</div><div class="cost">${((item.fileSize/(1024*1024*1024)) * 10).toFixed(3) } cents/month</div><input class="recNum" type="number" placeholder="# of hosts"></input><button class="btn-up distribute">Distribute</button></div>`);
+        $('#fileTable').append(`<div data-filepath="${item.filePath}" class="file"><span class="basename">${path.basename(item.filePath)}</span><div class="filesize">${(item.fileSize/(1024*1024)).toFixed(2)} MB</div><div class="cost">${((item.fileSize/(1024*1024*1024)) * 10).toFixed(3) } cents/month</div><input class="recNum" type="number" placeholder="# of hosts"></input><button class="btn-up distribute">Distribute</button></div>`);
       }
     });
   });
@@ -39,23 +44,6 @@ $('.uploadQ').on({
   mouseleave: function() {
     $('#uploadHelp').css('display', 'none');
   }
-});
-
-$(document).on('click', '.distribute', () => {
-  var filePath = $(this).closest('.file').data('filepath');
-  var userNum = $(this).closest('.file').find('.recNum').val() || 3;
-      console.log(userNum);
-
-  Sender.distribute(filePath, userNum)
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  console.log();
-  $(this).closest('.file').find('.recNum').remove();
-  $(this).replaceWith('<button class="retrieve">Retrieve</button>');
 });
 
 $(document).on('click', '.clearList', () => {
@@ -104,7 +92,7 @@ $(".upload-drop-zone").on("drop", (ev) => {
   });
 });
 
-$('body').on('click', '.send', function() {
+$('body').on('click', '.mount', function() {
   var filePath = $(this).closest('.file').data('filepath');
   console.log(filePath);
   Sender.mountFile(filePath, 1)
@@ -115,30 +103,43 @@ $('body').on('click', '.send', function() {
     .then((hashes) => {
       console.log(hashes);
       return hashes[0];
+    })
+    .then(() => {
+      $(this).replaceWith('<input class="recNum" type="number" placeholder="# of hosts"></input><button class="btn-up distribute">Distribute</button>');
     });
-  // addFileAndDeploy(filePathArray[index]);
-  // IPFS.addFiles(filePathArray[index])
-  //   .then(res => {
-  //     console.log(res);
-  //   })
-  //   .catch(err => {
-  //     fileHashArray[index] = err[0].hash;
-  //     console.log(fileHashArray)
-  //     config.set('fileList.hash', fileHashArray);
-  //     deploySender(fileHashArray[index], fileSize);
-  //   });
-  // $(this).replaceWith('<button class="retrieve">Retrieve</button>');
+});
+
+$('body').on('click', '.distribute', function() {
+  var fileName = path.basename($(this).closest('.file').data('filepath'));
+  var userNum = $(this).closest('.file').find('.recNum').val() || 3;
+  console.log(userNum)
+  Sender.distribute(fileName, userNum)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+  $(this).closest('.file').find('.recNum').remove();
+  $(this).replaceWith('<button class="btn-up retrieve">Retrieve</button>');
 });
 
 $('body').on('click', '.retrieve', function() {
-  User.mkdir('Downloaded');
-  index = $(this).closest('.file').prop('id').replace(/file/, "");
-  fileHashArray = config.get('fileList.hash');
-  filePathArray = config.get('fileList.path');
-  console.log(path.join(__dirname + '/../../Downloaded/' + path.basename(filePathArray[index])));
-  IPFS.download(fileHashArray[index], path.join(__dirname + '/../../files/download/' + path.basename(filePathArray[index])))
-    .then((res) => console.log(res))
-    .catch(res => console.error('ERROR: ', res));
+  var fileName = path.basename($(this).closest('.file').data('filepath'));  
+  Sender.retrieveFile(fileName)
+    .then((res) => {
+      console.log(fileName, 'written to ', res)
+    });
+
+  // User.mkdir('Downloaded');
+  // index = $(this).closest('.file').prop('id').replace(/file/, "");
+  // fileHashArray = config.get('fileList.hash');
+  // filePathArray = config.get('fileList.path');
+  // console.log(path.join(__dirname + '/../../Downloaded/' + path.basename(filePathArray[index])));
+  // IPFS.download(fileHashArray[index], path.join(__dirname + '/../../files/download/' + path.basename(filePathArray[index])))
+  //   .then((res) => console.log(res))
+  //   .catch(res => console.error('ERROR: ', res));
 });
 
 document.body.ondrop = (ev) => {
