@@ -17,3 +17,13 @@ const Schema = {
 Credentials.ensureIndex({}, (err) => {
   if(err) console.log('Credentials.ensureIndex error: ', err);
 });
+
+
+module.exports = {
+  db: Credentials,
+  reset: () => {
+    Credentials.remove({}, { multi: true }, (err, numRemoved) => {
+      if (err) throw err;
+    });
+  }
+};
