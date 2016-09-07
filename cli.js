@@ -83,7 +83,6 @@ if (program.accounts) {
   Ethereum.getAccounts();
 }
 
-
 if (program.exec) {
   console.log('exec');
   Ethereum.exec('Test').getValue()
