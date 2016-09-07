@@ -112,6 +112,7 @@ li.active a {
   background-color: black;
   color: white;
   padding: 5px;
+  width: 500px;
 }
 
 #popup {

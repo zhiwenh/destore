@@ -2,7 +2,6 @@ const Ethereum = nodeRequire('../../libs/ethereum/ethereum.js');
 const web3 = Ethereum.init();
 const IPFS = nodeRequire('../../libs/ipfs/ipfs.js');
 const Sender = nodeRequire('../../libs/sender/sender.js');
-const Receiver = nodeRequire('../../libs/receiver/receiver.js');
 const path = nodeRequire('path');
 const Config = nodeRequire('electron-config');
 const config = new Config();
