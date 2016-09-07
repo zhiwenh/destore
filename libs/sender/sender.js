@@ -11,6 +11,7 @@ const encrypt = require('./encrypt');
 const decrypt = require('./decrypt');
 const zipFile = require('./zipFile');
 const copyFile = require('./copyFile');
+const mkdir = require('./mkdir');
 
 module.exports = {
   filesize: filesize,
@@ -24,5 +25,6 @@ module.exports = {
   encrypt: encrypt,
   decrypt: decrypt,
   zipFile: zipFile,
-  copyFile: copyFile
+  copyFile: copyFile,
+  mkdir: mkdir,
 };
