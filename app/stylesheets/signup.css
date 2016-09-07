@@ -98,6 +98,35 @@ li.active a {
   bottom: 10%;
 }
 
+#signinHelp {
+  display: none;
+}
+
+#popup {
+  display: none;
+  background: #4c4c4c;
+  color: white;
+  text-align: left;
+  padding: 7px 10px;
+}
+
+#authFail {
+  display: none;
+  color: red;
+}
+
+#authenticate {
+  color: black;
+}
+
+.no-close .ui-dialog-titlebar-close {
+  display: none;
+}
+
+.ui-widget-overlay {
+  background: red;
+}
+
 /*
 password strength check
 */

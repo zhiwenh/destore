@@ -32,6 +32,11 @@ $(document).ready(function() {
   $('.form').submit(function(e) {
     e.preventDefault();
 
+    //set path based on form
+    var currentTab = $(this).data('tab');
+    config.set('user', { path: currentTab });
+    currentTab = config.get('user.path');
+    console.log(currentTab)
     //get password
     var userPass = $(this).find('.password').val();
     config.set('user', { password: userPass });
@@ -41,9 +46,25 @@ $(document).ready(function() {
     if(!Ethereum.check()) userID = Ethereum.createAccount(userPass);
     else userID = '0x8cf0451e8e69ac504cd0a89d6874a827770e80e6';
     console.log(userID);
-    config.set('user', { id: userID });
+    config.set('user', { path: currentTab, password: userPass, id: userID });
 
     //display account in popup (with Authenticate button)
+    $("#popup").dialog({
+          dialogClass: "no-close",
+          draggable: false,
+          resizable: false,
+          modal: true,
+          width: 400,
+          height: 200,
+          // open: function() {
+          //   $('body').css('background', '#000000');
+          // },
+          // close: function() {
+          //   $('body').css('background', '#ccc');
+          // }
+    });
+    $('.userID').text(userID);
+    $( ".selector" ).dialog( "option", "modal", true );
 
     //FOR NOW - routing to user or host page
     // var currentTab = $(this).data('tab');
@@ -52,10 +73,27 @@ $(document).ready(function() {
   });
 
   $('body').on('click', '#authenticate', function() {
-    //routing to user or host page
-    var currentTab = $(this).data('tab');
-    config.set('user', { path: currentTab });
-    window.location = `../html/${currentTab}.html`;
+    //check if coin balance > 0.01
+    if(Ethereum.getBalanceEther(1) > 5) {
+      //routing to user or host page
+      var currentTab = config.get('user.path');
+      window.location = `../html/${currentTab}.html`;
+    } else {
+      $('#authFail').css('display', 'block')
+    }
+
+  });
+
+  //display signin information
+  $('.signinQ').on({
+    mouseenter: function() {
+      console.log('hover')
+      $('#signinHelp').css('display', 'inline-block');
+    },
+    mouseleave: function() {
+      console.log('hover leave')
+      $('#signinHelp').css('display', 'none');
+    }
   });
 
   //password STUFF??
