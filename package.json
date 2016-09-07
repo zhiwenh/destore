@@ -45,6 +45,7 @@
     "read-yaml": "^1.0.0",
     "solc": "^0.3.6",
     "systeminformation": "^3.0.1",
+    "tapes": "^4.1.0",
     "tar-stream": "^1.5.2",
     "web3": "^0.17.0-alpha",
     "zxcvbn": "^4.3.0"

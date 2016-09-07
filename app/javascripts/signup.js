@@ -1,6 +1,7 @@
 const zxcvbn = nodeRequire('zxcvbn');
 const Config = nodeRequire('electron-config');
 const config = new Config();
+const configs = nodeRequire('../../libs/config/config.js')
 const Ethereum = nodeRequire('../../libs/ethereum/ethereum.js');
 
 const strength = {
@@ -16,6 +17,19 @@ const meter = document.getElementById('password-strength-meter');
 const text = document.getElementById('password-strength-text');
 
 $(document).ready(function() {
+  //TESTING
+  Ethereum.changeAccount(0);
+  const deployOptions = {
+    from: Ethereum.account
+  };
+  Ethereum.deploy('DeStore', [], deployOptions)
+    .then(instance => {
+      configs.contracts.deStore = instance.address;
+    })
+
+
+
+
   // Show/Hide Tabs
   $('.tabs .tab-links a').on('click', function(e) {
     var currentAttrValue = $(this).attr('href');
@@ -34,19 +48,19 @@ $(document).ready(function() {
 
     //set path based on form
     var currentTab = $(this).data('tab');
-    config.set('user', { path: currentTab });
-    currentTab = config.get('user.path');
-    console.log(currentTab)
     //get password
     var userPass = $(this).find('.password').val();
-    config.set('user', { password: userPass });
+    //get host storage
+    var storage;
+    if(currentTab === "host") {
+      storage = $(this).find('.storage').val();
+    }
 
     //call function for password -> account
     var userID;
     if(!Ethereum.check()) userID = Ethereum.createAccount(userPass);
     else userID = '0x8cf0451e8e69ac504cd0a89d6874a827770e80e6';
-    console.log(userID);
-    config.set('user', { path: currentTab, password: userPass, id: userID });
+    config.set('user', { path: currentTab, password: userPass, id: userID, store: storage });
 
     //display account in popup (with Authenticate button)
     $("#popup").dialog({
@@ -54,8 +68,8 @@ $(document).ready(function() {
           draggable: false,
           resizable: false,
           modal: true,
-          width: 400,
-          height: 200,
+          width: 600,
+          height: 300,
           // open: function() {
           //   $('body').css('background', '#000000');
           // },
@@ -64,34 +78,44 @@ $(document).ready(function() {
           // }
     });
     $('.userID').text(userID);
-    $( ".selector" ).dialog( "option", "modal", true );
-
-    //FOR NOW - routing to user or host page
-    // var currentTab = $(this).data('tab');
-    // config.set('user', { path: currentTab });
-    // window.location = `../html/${currentTab}.html`;
   });
 
   $('body').on('click', '#authenticate', function() {
     //check if coin balance > 0.01
-    if(Ethereum.getBalanceEther(1) > 5) {
-      //routing to user or host page
-      var currentTab = config.get('user.path');
-      window.location = `../html/${currentTab}.html`;
+    if(Ethereum.getBalanceEther(0) > 5) {
+      var userType = config.get('user.path');
+      if(userType === 'host') {
+        var storage = 1024*1024*1024*config.get('user.store');
+        Ethereum.deStore().receiverAdd(storage, {from: Ethereum.account})
+          .then(tx => {
+            console.log(tx);
+            console.log('Receiver Added')
+          })
+          .catch(err => {
+            // console.error(err);
+          })
+      }
+      else {
+        Ethereum.deStore().senderAdd({from: Ethereum.account})
+          .then(tx => {
+            console.log('Sender Added')
+          })
+          .catch(err => {
+            console.error(err);
+          });
+      }
+      window.location = `../html/${userType}.html`;
     } else {
       $('#authFail').css('display', 'block')
     }
-
   });
 
   //display signin information
   $('.signinQ').on({
     mouseenter: function() {
-      console.log('hover')
       $('#signinHelp').css('display', 'inline-block');
     },
     mouseleave: function() {
-      console.log('hover leave')
       $('#signinHelp').css('display', 'none');
     }
   });

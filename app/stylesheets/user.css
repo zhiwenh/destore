@@ -1,0 +1,161 @@
+/*.file {
+  display: absolute;
+  font-weight:;
+  color: white;
+  line-height: 0px;
+  height: 50px;
+  background-color: green;
+  border-radius: 5px;
+}*/
+
+.file {
+  position: relative;
+  height: 20px;
+  font-size: 15px;
+  margin-bottom: 5px;
+}
+
+.btn-up {
+  position: absolute;
+  left: 82%;
+  top: 0px;
+  height: 20px;
+  font-size: 15px;
+  line-height: 15px;
+}
+
+.filesize {
+  position: absolute;
+  right: 75%;
+  top: 0px;
+}
+
+.cost {
+  position: absolute;
+  top: 0px;
+  right: 45%;
+}
+
+.recNum {
+  font-size: 12px;
+}
+
+.panel-heading {
+  position: relative;
+}
+
+.dragdropQ {
+  position: absolute;
+  left: 5px;
+}
+
+#dragdropHelp {
+  position: absolute;
+  left: 35px;
+  display: none;
+  background-color: black;
+  color: white;
+  padding: 5px;
+  width: 500px;
+  z-index: 2;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.uploadQ {
+  position: absolute;
+  left: 15px;
+}
+
+#uploadHelp {
+  position: absolute;
+  left: 50px;
+  display: none;
+  background-color: black;
+  color: white;
+  padding: 5px;
+  z-index: 2;
+  font-size: 14px;
+  width: 500px;
+}
+
+#fileTable {
+  position: relative;
+}
+
+.table-header {
+  text-align: center;
+  font-weight: 700;
+  font-size: 18px;
+  margin-bottom: 5px;
+  padding: 5px;
+  background: black;
+}
+
+.recNum {
+  position: absolute;
+  right: 20%;
+  width: 100px;
+  top: -2px;
+}
+
+.mount {
+  background: #4543c1;
+  color: white;
+  border: 1px solid black;
+  border-radius: 4px;
+}
+
+.mount:hover {
+  background: #1b7ef7;
+  color: black;
+}
+
+.retrieve {
+  border-radius: 4px;
+  border: 1px solid black;
+  background: #49ce10;
+  color: black;
+}
+
+.retrieve:hover {
+  background: #3e7f19;
+  color: white;
+}
+
+.distribute {
+  width: 90px;
+  border-radius: 4px;
+  border: 1px solid black;
+  color: black;
+  background: #84361a;
+}
+
+.distribute:hover {
+  background: #e0932f;
+}
+
+/* layout.css Style */
+.upload-drop-zone {
+  height: 200px;
+  border-width: 2px;
+  margin-bottom: 20px;
+}
+
+/* skin.css Style*/
+.upload-drop-zone {
+  color: #ccc;
+  border-style: dashed;
+  border-color: #ccc;
+  line-height: 200px;
+  text-align: center
+}
+/*.upload-drop-zone.drop {
+  color: #222;
+  border-color: #222;
+}*/
+
+#dropzone {
+  text-align: center;
+  font-size: 20px;
+}

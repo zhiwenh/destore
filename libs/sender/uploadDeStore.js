@@ -34,12 +34,12 @@ module.exports = promisify((fileName, callback) => {
       const half2 = hashArr[i].substring(23, 46);
       splitArr.push([half1, half2]);
     }
-
     Ethereum.deStore().senderAddFile(splitArr, fileName, value, sizeArr)
       .then(tx => {
         return Ethereum.deStore().senderGetFileHashes(fileName);
       })
       .then(hexHashes => {
+        console.log(hexHashes)
         const asciiHashes = nestedHexToAscii(hexHashes);
         callback(null, asciiHashes);
       })

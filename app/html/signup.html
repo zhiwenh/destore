@@ -7,7 +7,9 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
   <link href="../stylesheets/signup.css" rel="stylesheet" type="text/css">
   <link href="../stylesheets/app.css" rel="stylesheet" type="text/css">
-  <link href="../stylesheets/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="../vendors/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="../vendors/jquery-ui.min.css" rel="stylesheet" type="text/css">
+  <link href="../vendors/jquery-ui.theme.min.css" rel="stylesheet" type="text/css">
   <script>
     window.nodeRequire = require;
     delete window.require;
@@ -20,8 +22,10 @@
   <body>
     <div id="header">
       <img src="" alt="DeStore Logo">
-      <h1>Destore Create Account</h1>
     </div> <!-- header -->
+    <div>
+      <h1>Destore Create Account</h1>
+    </div>
     <div class="tabs">
       <ul class="tab-links">
           <li><a href="#tab-user">User</a></li>
@@ -80,7 +84,7 @@
                   <label for="host-storage">How much storage will you provide?</label>
                 </div>
                 <div class="row"> <!-- hosts only: gb to rent out input and verifier -->
-                  <input type="number" placeholder="Storage Size" />GB
+                  <input class="storage" type="number" placeholder="Storage Size" />GB
                 </div>
                 <div class="row"> <!-- final submit button -->
                   <input class="btn col-md-1 signup-submit-button" type="submit" value="Submit">
@@ -106,12 +110,12 @@
       Your Public Account ID is:
       <div class="userID"></div>
       Please add at least 0.09 ether into your account before continuing.
-      <br/>
+      <br/><br/>
       <img class="question signinQ" src="../../images/question.png" alt="question">
       <div id="signinHelp">
         Your Public Account ID identifies your account in Ethereum, allowing you to access/store files. Before you are able to store files, please deposit money into your account using a transfer service (i.e. Coinbase, Ethereum Wallet, Mist).
       </div>
-      <div>
+      <div style="text-align: center;">
         <button id="authenticate">Authenticate</button>
       </div>
       <div id="authFail">Please enter more money and try again</div>
@@ -120,6 +124,6 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <script>
     nodeRequire('../javascripts/signup.js');
-    nodeRequire('../javascripts/renderer.js');
+    // nodeRequire('../javascripts/renderer.js');
   </script>
 </html>

@@ -29,7 +29,9 @@ module.exports = promisify((filePath, value, callback) => {
         blocks: [], // hashes to the blocks
         blockSizes: [],
         receivers: [],
-        uploadTime: new Date()
+        uploadTime: new Date(),
+        isMounted: true,
+        isUploaded: false,
       };
       Upload.db.insert(upload, (err, res) => {
         callback(null, res);

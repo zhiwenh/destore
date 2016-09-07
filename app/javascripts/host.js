@@ -1,15 +1,11 @@
 const Ethereum = nodeRequire('../../libs/ethereum/ethereum.js');
 const web3 = Ethereum.init();
-const Host = nodeRequire('../../libs/HostMethods.js');
-const User = nodeRequire('../../libs/UserMethods.js');
-const Watcher = nodeRequire('../../libs/watcherMethods.js');
+const Receiver = nodeRequire('../../libs/receiver/receiver.js');
 const IPFS = nodeRequire('../../libs/ipfs/ipfs.js');
-const hostFiles = nodeRequire('../../libs/hostDeStore.js');
 const path = nodeRequire('path');
 const Config = nodeRequire('electron-config');
 const config = new Config();
 const fs = nodeRequire('fs');
-const getSize = nodeRequire('get-folder-size');
 
 Ethereum.changeAccount(5);
 // Ethereum.execAt('DeStore').receiverAdd(1000000);
@@ -26,16 +22,20 @@ var index, filePathArray, fileSizeArray, fileHashArray, fileIpfsArray, filePath,
 
 var fileContractArray;
 
-// if(config.get('key')=={sup:'sup'}) console.log('GETTTT', config.get('key'));
-
-
 
 //Initializes daemon when on page
 IPFS.init();
 IPFS.daemon();
 
+
+
+
+
+
+
+
+
 //Makes encrypt/download folder (hidden) if not made
-User.mkdir('fileStorage');
 
 fileIpfsArray = config.get('fileList.address');
 
