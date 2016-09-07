@@ -112,6 +112,11 @@ h3 {
   font-size: 24px;
 }
 
+.question {
+  height: 20px;
+  text-align: left;
+}
+
 .logo {
   width: 600px;
   text-align: center;
