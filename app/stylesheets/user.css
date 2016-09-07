@@ -79,6 +79,12 @@
   width: 500px;
 }
 
+.basename {
+  color: black;
+  font-size: 15px;
+/*  background: white;
+*/}
+
 #fileTable {
   position: relative;
 }
@@ -90,6 +96,7 @@
   margin-bottom: 5px;
   padding: 5px;
   background: black;
+  color: white;
 }
 
 .recNum {
