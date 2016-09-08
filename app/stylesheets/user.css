@@ -16,6 +16,12 @@ body {
   font-family: 'Lato', sans-serif;
 }
 
+.id {
+  text-align: center;
+  color: white;
+  font-size: 30px;
+}
+
 .info {
   background: white;
   border: 5px solid black;
@@ -23,6 +29,11 @@ body {
   margin-bottom: 10px;
   height: 100px;
   text-align: center;
+  font-size: 20px;
+}
+
+.display {
+  font-size: 45px;
 }
 
 .file {

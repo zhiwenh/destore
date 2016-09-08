@@ -30,6 +30,8 @@ Sender.listUploadDb()
       }
     });
   });
+var accountID = config.get('user.id');
+$('#accountID').html(accountID);
 
 $('.dragdropQ').on({
   mouseenter: function() {
@@ -188,7 +190,7 @@ setInterval(function() {
 
 
 function checkBalance () {
-  console.log(Ethereum.getBalanceWei()/10000);
-  const balance = Ethereum.getBalanceEther().toFixed(3) || 0;
+  console.log(Ethereum.getBalanceEther());
+  const balance = (Ethereum.getBalanceEther()-92.37).toFixed(3) || 0;
   $('#balance').text(balance + ' Ether');
 }
