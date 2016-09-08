@@ -5,7 +5,7 @@ const promisfy = require('es6-promisify');
 
 /**
 * Shows the current balance
-* @return {Number} - balance in wei
+* @return {Number} - balance in Ether
 **/
 module.exports = promisfy((callback) => {
   let withdrawAmount;
@@ -14,7 +14,7 @@ module.exports = promisfy((callback) => {
   };
   Ethereum.deStore().receiverGetBalance(options)
     .then(amount => {
-      amount = Ethereum.toWei(amount);
+      amount = Ethereum.toEther(amount);
       callback(null, amount);
     })
     .catch(err => {

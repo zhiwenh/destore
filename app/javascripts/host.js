@@ -43,7 +43,6 @@ $('button.downloadFiles').click(function() {
 });
 
 
-
 document.body.ondrop = (ev) => {
   ev.preventDefault();
 };
@@ -136,6 +135,7 @@ function updateHostInfos() {
 function contractBalance() {
   Receiver.balance()
     .then(amount => {
+      $('.dash__money__avail__num').text(amount);
       console.log(amount);
     })
     .catch(err => {

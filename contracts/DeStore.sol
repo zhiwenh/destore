@@ -44,12 +44,16 @@ contract DeStore {
     bool status; // whether this receiver is on or off
     uint index; // position in availReceivers[]
     uint balance;
+    uint totalGained;
+
     uint availStorage; // kilobytes
+
     bytes23[2][] hashes; // each nested array contains half of entire hash
     address[] senders; // the sender that stored the particular file hash
     uint[] sizes; // sizes of each hash
     uint[] values;
-    uint[] fileBalance; // the balance that particular hash has obtained
+    uint[] fileBalances; // the balance that particular hash has obtained
+    mapping(bytes => uint) fileIndexes; // so the sender knows what hash to add file balances ++ to
     bytes ipfsAddress;
     /*mapping(bytes => HostFile) files; // index of a certain file in files[]*/
     /*bytes23[] fileNames; // receiver will get an array of names to know whats avaliable inside files mapping*/
@@ -227,6 +231,14 @@ contract DeStore {
     return receivers[msg.sender].balance;
   }
 
+  function receiverGetTotalGained()
+    receiverInit(msg.sender)
+    constant
+    returns (uint)
+  {
+    return receivers[msg.sender].totalGained;
+  }
+
   // double check the security of this later
   function receiverWithdraw(uint withdrawAmount) public receiverInit(msg.sender) returns (uint) {
     if (receivers[msg.sender].balance >= withdrawAmount) {
@@ -332,6 +344,7 @@ contract DeStore {
     /*senderFileExists(msg.sender, _fileName)*/
   {
     receivers[_receiver].balance = receivers[_receiver].balance + msg.value;
+    receivers[_receiver].totalGained = receivers[_receiver].totalGained + msg.value;
     PayReceiver(msg.sender, _receiver, msg.value, _fileName);
   }
 
