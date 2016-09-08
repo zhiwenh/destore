@@ -90,6 +90,7 @@ class Ethereum {
   }
 
   /**
+   * NEED TO CALL PROCESS.EXIT() IN CALLBACK!
    * @password {String}
    * @returns {String} - id of created account
    **/

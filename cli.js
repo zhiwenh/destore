@@ -85,7 +85,16 @@ if (program.resetUpload) {
 }
 
 if (program.createAccount) {
-  console.log(Ethereum.createAccount('hello'));
+  Ethereum.createAccount('hello')
+    .then(res => {
+      console.log('created new account');
+      console.log(res);
+      process.exit();
+    })
+    .catch(err => {
+      console.error(err);
+      process.exit();
+    });
 }
 
 if (program.unlock) {

@@ -1,7 +1,10 @@
-const web3_extended = require('web3_extended');
+const web3_extended = require('web3_ipc');
+const promisify = require('es6-promisify');
+const config = require('./../config/config.js');
+
 
 const options = {
-  host: '/var/folders/nq/v4r9d3j17lgg69ljdhlpjyhc0000gn/T/ethereum_dev_mode/geth.ipc',
+  host: config.ipc.host,
   ipc: true,
   personal: true,
   admin: true,
@@ -10,10 +13,17 @@ const options = {
 
 const web3Extended = web3_extended.create(options);
 
-module.exports = (password) => {
+/**
+* NEED TO CALL PROCESS.EXIT() in callback
+* @password {String} - password for account
+* @returns {String} - promise with a response thats the account number
+**/
+module.exports = promisify((password, callback) => {
   return web3Extended.personal.newAccount(password, (err, res) => {
-    console.log(res);
-    console.log(err);
+    if (err) {
+      callback(err, null);
+    } else {
+      callback(null, res);
+    }
   });
-  // return web3Extended.admin.datadir();
-};
+});
