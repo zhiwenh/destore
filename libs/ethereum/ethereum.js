@@ -144,7 +144,7 @@ class Ethereum {
     } else {
       amount = this._web3.eth.getBalance(this.accounts[index]);
     }
-    return this._web3.fromWei(amount, 'ether').c[0];
+    return Number(this._web3.fromWei(amount, 'ether').toString());
   }
 
   /**
@@ -160,7 +160,7 @@ class Ethereum {
     } else {
       amount = this._web3.eth.getBalance(this.accounts[index]);
     }
-    return amount.c[0];
+    return Number(amount.toString());
   }
 
   /**
