@@ -10,14 +10,12 @@ body {
   background-color: #BBC1E6;
   position: relative;
 }
-#dash div:first-child {
-   height: 200px;
-}
 
 .dash__balance {
   background-color: red;
 }
 .dash__balance__title {
+
 }
 #dash__balance__value {
   color: black;
@@ -51,8 +49,9 @@ body {
   background-color: purple;
 }
 .dash__storage__size {
-  background-color: red;
+
 }
+
 .dash__storage__size__des {
 
 }
@@ -109,6 +108,11 @@ body {
 .dash__box {
   height: 275px;
   position: relative;
+  opacity: 0.9;
+}
+
+.dash__box:hover {
+  opacity: 1;
 }
 
 .question {
