@@ -27,37 +27,29 @@ const fileIpfsArray = config.get('fileList.address');
 
 updateHostInfos();
 
+var accountID = config.get('user.id');
+$('#accountID').html(accountID);
+
 $(document).on('click', '.clearList', () => {
   config.clear('startup');
   window.location = '../html/signup.html';
 });
 
-$('body').on('click', '.hostAll', function() {
-  Receiver.hostAll()
-    .then(docs => {
-      updateHostInfos();
-    })
-    .catch(err => {
-      console.error(err);
-    });
+//display signin information
+$('.question').on({
+  mouseenter: function() {
+    console.log($(this).data('help'));
+    $($(this).data('help')).css('visibility', 'visible');
+  },
+  mouseleave: function() {
+    $($(this).data('help')).css('visibility', 'hidden');
+  }
 });
 
+//withdraws all the money in the smart contract
 $('body').on('click', '.withdraw', function() {
   withdrawAll();
 });
-
-document.body.ondrop = (ev) => {
-  ev.preventDefault();
-};
-
-window.onbeforeunload = (ev) => {
-  ev.preventDefault();
-  config.set('check', {
-    sup: 'sup'
-  });
-};
-
-
 
 //1 second Interval for Timer
 var elapsed_seconds = 0;
@@ -66,7 +58,7 @@ setInterval(function() {
   $('#dash__time__timer ').text(get_elapsed_time_string(elapsed_seconds));
 }, 1000);
 
-//1 minute Balance Checker
+//Checks Contract and Account Balance (every minute)
 checkBalance();
 contractBalance();
 setInterval(function() {
@@ -74,6 +66,13 @@ setInterval(function() {
   contractBalance();
 }, 60000);
 
+//Downloads all files available in contract (every minute)
+$('body').on('click', '.hostAll', function() {
+  hostAll();
+  setInterval(function() {
+    hostAll();
+  }, 60000);
+});
 
 
 function get_elapsed_time_string(total_seconds) {
@@ -134,7 +133,6 @@ function updateHostInfos() {
 
 /**
 * Gets the account's balance from the DeStore contract
-* Total amount gained doesn't work. Something to do with msg.value in the contract
 **/
 function contractBalance() {
   Receiver.balance()
@@ -156,6 +154,16 @@ function withdrawAll() {
       console.log(amount);
       checkBalance();
       contractBalance();
+    })
+    .catch(err => {
+      console.error(err);
+    });
+}
+
+function hostAll() {
+  Receiver.hostAll()
+    .then(docs => {
+      updateHostInfos();
     })
     .catch(err => {
       console.error(err);

@@ -1,24 +1,32 @@
-<<<<<<< HEAD
+body {
+  background-image: url("../../images/wallpaperUser.jpg");
+  /*background-repeat: no-repeat;*/
+  background-attachment: fixed;
+  background-position: center;
+  font-family: 'Lato', sans-serif;
+}
+
+header {
+  text-align: center;
+  color: #4A90E2;
+  font-weight: 700;
+}
 
 #dash {
   background-color: #BBC1E6;
-}
-#dash div:first-child {
-   height: 200px;
+  position: relative;
 }
 
 .dash__balance {
-  background-color: red;
 }
 .dash__balance__title {
-  background-color: blue;
+
 }
 #dash__balance__value {
   color: black;
 }
 
 .dash__money {
-  background-color: orange;
   display: flex;
   flex-direction: column;
 }
@@ -42,11 +50,11 @@
 }
 
 .dash__storage {
-  background-color: purple;
 }
 .dash__storage__size {
-  background-color: red;
+
 }
+
 .dash__storage__size__des {
 
 }
@@ -62,10 +70,10 @@
 }
 
 .dash__time {
-  background-color: grey;
   display: flex;
   flex-direction: column;
 }
+
 #dash__time__timer {
   width: 100%;
   /*border: 1px solid black;*/
@@ -75,6 +83,10 @@
 #hashList {
   width: 100%;
   background-color: gray;
+}
+
+.dash__display {
+  font-size: 60px;
 }
 
 .grid2x2 {
@@ -95,28 +107,48 @@
   flex-direction: row;
 }
 
+.dash__box {
+  height: 250px;
+  position: relative;
+  opacity: 0.8;
+  border: 2px solid black;
+  background: #dadbe5;
+}
+
+.dash__box:hover {
+  opacity: 1;
+}
+
+.question {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+}
+
+.help__info {
+  background: black;
+  color: white;
+  position: absolute;
+  left: 35px;
+  top: 5px;
+  width: 90%;
+  visibility: hidden;
+}
+
+.public__id {
+  text-align: center;
+  color: white;
+  font-size: 20px;
+  background: black;
+  margin-top: 90px;
+  height: 50px;
+  line-height: 50px;
+  padding-left: 10px;
+}
 
 h1 {
   font-size: 6rem;
 }
-
-
-.dashboardBox {
-  margin: 0;
-  padding: 0;
-  /*flex: 3;*/
-  /*position: relative;
-  width: 49%;
-  height: 0;
-  padding-bottom: 30%;
-  display: inline-block;*/
-  /*border: 1px solid black;*/
-}
-
-.dashboardBox:hover {
-  background-color: #94A1ED;
-}
-
 
 #storage {
   font-size: 0.5em;
