@@ -16,18 +16,27 @@
   color: black;
 }
 
-.dash__gained {
+.dash__money {
   background-color: orange;
   display: flex;
   flex-direction: column;
 }
-.dash__gained-wrap {
+.dash__money__gain {
 
 }
-.dash__gained-wrap__des {
+.dash__money__gain__des {
 
 }
-.dash__gained-wrap__num {
+.dash__money__gain__num {
+
+}
+.dash__money__avail {
+
+}
+.dash__money__avail__des {
+
+}
+.dash__money__avail__num {
 
 }
 

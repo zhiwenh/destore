@@ -66,9 +66,11 @@ setInterval(function() {
 
 //1 minute Balance Checker
 checkBalance();
+contractBalance();
 setInterval(function() {
   checkBalance();
 }, 60000);
+
 
 
 function get_elapsed_time_string(total_seconds) {
@@ -122,6 +124,19 @@ function updateHostInfos() {
         // $('#hashList').append(hashDiv);
       }
       $('.dash__storage__size__num').text(storageSize);
+    })
+    .catch(err => {
+      console.error(err);
+    });
+}
+
+/**
+* Gets the account's balance from the DeStore contract
+**/
+function contractBalance() {
+  Receiver.balance()
+    .then(amount => {
+      console.log(amount);
     })
     .catch(err => {
       console.error(err);
