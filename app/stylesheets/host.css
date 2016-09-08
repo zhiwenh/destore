@@ -6,6 +6,12 @@ body {
   font-family: 'Lato', sans-serif;
 }
 
+header {
+  text-align: center;
+  color: #4A90E2;
+  font-weight: 700;
+}
+
 #dash {
   background-color: #BBC1E6;
   position: relative;
@@ -109,6 +115,7 @@ body {
   height: 275px;
   position: relative;
   opacity: 0.9;
+  border: 2px solid black;
 }
 
 .dash__box:hover {

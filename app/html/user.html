@@ -17,26 +17,17 @@
   <script src="../vendors/jquery.min.js"></script>
   </head>
   <body>
-    <div style="text-align: center; margin-top: 20px;">
-      <h1>Welcome User</h1>
+    <img class="logoAbs" src="../../images/DeStoreWhite.png" alt="DeStore Logo">
+    <div style="text-align: center; margin-top: 20px; color: white">
+      <h1>User Dashboard</h1>
     </div>
-    <div class="id">
-      Your Public Account ID is <span id="accountID"></span>
-    </div>
-    <div class="container-fluid" id="infoContainer">
-        <div class="col-sm-3 col-xs-3 info">Total Cost/Month: 
-          <div class="display" id="cost">N/A</div>
-        </div>
-        <div class="col-sm-1 col-xs-1"></div>
-        <div class="col-sm-4 col-xs-4 info">Ether Balance: 
-          <div class="display" id="balance"></div>
-        </div>
-        <div class="col-sm-1 col-xs-1"></div>
-        <div class="col-sm-3 col-xs-3 info">Time Up: 
-          <div class="display" id="timer">00:00:00</div>
-        </div>
-    </div>
+    
+
+
     <div class="container-fluid padding" id="user">
+      <div class="public__id">
+        Your Public Account ID is <span id="accountID"></span>
+      </div>
       <div class="panel panel-default">
         <div class="panel-heading">
          <img class="question dragdropQ" src="../../images/question.png" alt="question">
@@ -52,6 +43,18 @@
           </div>
         </div>
       </div>
+
+      <div class="col-sm-3 col-xs-3 info">Total Cost/Month: 
+          <div class="display" id="cost">N/A</div>
+        </div>
+        <div class="col-sm-1 col-xs-1"></div>
+        <div class="col-sm-4 col-xs-4 info">Ether Balance: 
+          <div class="display" id="balance"></div>
+        </div>
+        <div class="col-sm-1 col-xs-1"></div>
+        <div class="col-sm-3 col-xs-3 info">Time Up: 
+          <div class="display" id="timer">00:00:00</div>
+        </div>
 
       <div id="fileTable">
         <div class="table-header">

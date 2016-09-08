@@ -17,10 +17,11 @@
   <script src="../vendors/jquery.min.js"></script>
   </head>
   <body>
+    <img class="logoAbs" src="../../images/DeStoreWhite.png" alt="DeStore Logo">
     <header>
-      <h1>Welcome Host</h1>
+      <h1>Host Dashboard</h1>
     </header>
-    <div class="id">
+    <div class="public__id">
       Your Public Account ID is <span id="accountID"></span>
     </div>
 
@@ -31,7 +32,7 @@
         <div class="help__info" id="balance__help">
           Your Public Account ID identifies your account in Ethereum, allowing you to access/store files. Before you are able to store files, please deposit money into your account using a transfer service (i.e. Coinbase, Ethereum Wallet, Mist).
         </div>
-        <div class="dash__balance__title">Host Balance:</div>
+        <div class="dash__balance__title">Balance:</div>
         <div id="dash__display dash__balance__value"></div>
       </div>
 
@@ -41,10 +42,10 @@
           Your Public Account ID identifies your account in Ethereum, allowing you to access/store files. Before you are able to store files, please deposit money into your account using a transfer service (i.e. Coinbase, Ethereum Wallet, Mist).
         </div>
         <div class="dash__money__avail">
-          <div class="dash__money__avail__des">Balance on Contract: </div>
+          <div class="dash__money__avail__des">Contract Balance: </div>
           <div class="dash__display dash__money__avail__num"></div>
           <div>
-            <button class="btn btn-danger withdraw">Withdraw Balance</button>
+            <button class="btn btn-danger withdraw">Transfer to Account</button>
           </div>
         </div>
       </div>
@@ -55,7 +56,7 @@
           Your Public Account ID identifies your account in Ethereum, allowing you to access/store files. Before you are able to store files, please deposit money into your account using a transfer service (i.e. Coinbase, Ethereum Wallet, Mist).
         </div>
         <div class="dash__storage__size">
-          <div class="dash__storage__size__des">Host Storage:</div>
+          <div class="dash__storage__size__des">Storage Left:</div>
           <div class="dash__display dash__storage__size__num"></div>
         </div>
         <div class="dash__storage__hashes"></div>
@@ -73,6 +74,7 @@
     </div>
       
       <button class="btn btn-danger clearList">CLEAR EVERYTHING</button>
+      <button class="btn btn-primary">Change Storage Limit</button>
     </div> <!-- HOST -->
     <div id="hashList">
 
