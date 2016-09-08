@@ -96,30 +96,7 @@ class Ethereum {
    * @returns {String} - id of created account
    **/
   createAccount(password) {
-    return promisifiy(password => {
-      const account = spawn('geth', ['account', 'new']);
-      account.stdout.on('data', (data) => {
-        const dataIn = data.toString().trim();
-        if (dataIn === 'Passphrase:') {
-          account.stdin.write(password);
-        } else if (dataIn === 'Repeat passphrase:') {
-          account.stdin.write(password);
-        }
-        console.log(`stdout: ${data}`);
-      });
-
-      account.stderr.on('data', (data) => {
-        console.log(`stderr: ${data}`);
-      });
-
-      account.on('error', (error) => {
-        console.error(error);
-      });
-
-      account.on('close', (code) => {
-        console.log(`child process exited with code ${code}`);
-      });
-    })(password);
+    return this._web3.personal.newAccount(password);
   }
 
   /**

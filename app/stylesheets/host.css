@@ -1,3 +1,82 @@
+<<<<<<< HEAD
+
+#dash {
+  background-color: #BBC1E6;
+}
+#dash div:first-child {
+   height: 200px;
+}
+
+.dash__balance {
+  background-color: red;
+}
+.dash__balance__title {
+  background-color: blue;
+}
+#dash__balance__value {
+  color: black;
+}
+
+.dash__money {
+  background-color: orange;
+  display: flex;
+  flex-direction: column;
+}
+.dash__money__gain {
+
+}
+.dash__money__gain__des {
+
+}
+.dash__money__gain__num {
+
+}
+.dash__money__avail {
+
+}
+.dash__money__avail__des {
+
+}
+.dash__money__avail__num {
+
+}
+
+.dash__storage {
+  background-color: purple;
+}
+.dash__storage__size {
+  background-color: red;
+}
+.dash__storage__size__des {
+
+}
+.dash__storage__size__num {
+
+}
+.dash__storage__hashes {
+  display: flex;
+  flex-flow: column;
+  font-size: 10px;
+}
+.dash__storage__hashes div {
+}
+
+.dash__time {
+  background-color: grey;
+  display: flex;
+  flex-direction: column;
+}
+#dash__time__timer {
+  width: 100%;
+  /*border: 1px solid black;*/
+  font-size: 2em;
+}
+
+#hashList {
+  width: 100%;
+  background-color: gray;
+}
+
 .grid2x2 {
   min-height: 100%;
   display: flex;
@@ -5,8 +84,8 @@
   flex-direction: row;
 }
 .grid2x2 > div {
-  display: flex; 
-  flex-basis: calc(50%);  
+  display: flex;
+  flex-basis: calc(50%);
   justify-content: center;
   flex-direction: column;
 }
@@ -16,27 +95,11 @@
   flex-direction: row;
 }
 
- .box { height: 200px; } 
-.box1 { background-color: red; }
-.box2 { background-color: orange; }
-.box3 { background-color: purple; }
-.box4 { background-color: grey; }
 
 h1 {
   font-size: 6rem;
 }
 
-#hostContainer {
-  text-align: center;
-  font-size: 16pt;
-  font-weight: 700;
-  display: flex;
-  width: 1000px;
-}
-
-#hostDashboard {
-  background-color: #BBC1E6;
-}
 
 .dashboardBox {
   margin: 0;
@@ -54,12 +117,14 @@ h1 {
   background-color: #94A1ED;
 }
 
-#timer {
-  width: 100%;
-  /*border: 1px solid black;*/
-  font-size: 2em;
-}
 
 #storage {
   font-size: 0.5em;
+}
+#hostContainer {
+  text-align: center;
+  font-size: 16pt;
+  font-weight: 700;
+  display: flex;
+  width: 1000px;
 }

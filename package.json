@@ -36,6 +36,7 @@
     "multihashing": "^0.2.1",
     "nedb": "^1.8.0",
     "path": "^0.12.7",
+    "rpc-stream": "^2.1.2",
     "solc": "^0.3.6",
     "systeminformation": "^3.0.1",
     "tar-stream": "^1.5.2",

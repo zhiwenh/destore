@@ -20,6 +20,7 @@ program
   .option('reset-db')
   .option('reset-host')
   .option('reset-upload')
+  .option('create-account')
 
 program
   .command('save <file>')
@@ -75,4 +76,10 @@ if (program.resetHost) {
 
 if (program.resetUpload) {
   Upload.reset();
+}
+
+if (program.createAccount) {
+  Ethereum.init();
+  console.log(Ethereum.createAccount('hello'));
+
 }
