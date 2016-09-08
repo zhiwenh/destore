@@ -53,7 +53,11 @@
 
 }
 .dash__storage__hashes {
-  background-color: green;
+  display: flex;
+  flex-flow: column;
+  font-size: 10px;
+}
+.dash__storage__hashes div {
 }
 
 .dash__time {

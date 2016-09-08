@@ -15,7 +15,7 @@ module.exports = promisfy((callback) => {
   Ethereum.deStore().receiverGetBalance(options)
     .then(amount => {
       withdrawAmount = amount;
-      return Ethereum.deStore().receiverWithdraw(amount.toString(10), options);
+      return Ethereum.deStore().receiverWithdraw(amount.toString(), options);
     })
     .then(tx => {
       callback(null, withdrawAmount);

@@ -344,7 +344,7 @@ contract DeStore {
     /*senderFileExists(msg.sender, _fileName)*/
   {
     receivers[_receiver].balance = receivers[_receiver].balance + msg.value;
-    receivers[_receiver].totalGained = receivers[_receiver].totalGained + msg.value;
+    /*receivers[_receiver].totalGained = receivers[_receiver].totalGained + tempValue;*/
     PayReceiver(msg.sender, _receiver, msg.value, _fileName);
   }
 

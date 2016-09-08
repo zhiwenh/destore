@@ -32,7 +32,7 @@ $(document).on('click', '.clearList', () => {
   window.location = '../html/signup.html';
 });
 
-$('button.downloadFiles').click(function() {
+$('body').on('click', '.hostAll', function() {
   Receiver.hostAll()
     .then(docs => {
       updateHostInfos();
@@ -42,6 +42,9 @@ $('button.downloadFiles').click(function() {
     });
 });
 
+$('body').on('click', '.withdraw', function() {
+  withdrawAll();
+});
 
 document.body.ondrop = (ev) => {
   ev.preventDefault();
@@ -68,6 +71,7 @@ checkBalance();
 contractBalance();
 setInterval(function() {
   checkBalance();
+  contractBalance();
 }, 60000);
 
 
@@ -110,17 +114,16 @@ function updateHostInfos() {
       return Receiver.listHostDb();
     })
     .then(docs => {
-      console.log(docs);
       let storageSize = 0;
       for (let i = 0; i < docs.length; i++) {
         if (docs[i].isHosted === true) {
           storageSize += docs[i].fileSize;
         }
 
-        // const hashAddress = docs[i].hashAddress;
+        const hashAddress = docs[i].hashAddress;
         // const hashDiv = $('<div></div>');
         // hashDiv.text(hashAddress);
-        // $('#hashList').append(hashDiv);
+        $('.dash__storage__hashes').append(hashAddress + '<br>');
       }
       $('.dash__storage__size__num').text(storageSize);
     })
@@ -131,12 +134,28 @@ function updateHostInfos() {
 
 /**
 * Gets the account's balance from the DeStore contract
+* Total amount gained doesn't work. Something to do with msg.value in the contract
 **/
 function contractBalance() {
   Receiver.balance()
+    .then(amounts => {
+      $('.dash__money__avail__num').text(amounts[0]);
+      $('.dash__money__gain__num').text(amounts[1]);
+    })
+    .catch(err => {
+      console.error(err);
+    });
+}
+
+/**
+* Calls receiver withdrawAll and then updates the dash
+**/
+function withdrawAll() {
+  Receiver.withdrawAll()
     .then(amount => {
-      $('.dash__money__avail__num').text(amount);
       console.log(amount);
+      checkBalance();
+      contractBalance();
     })
     .catch(err => {
       console.error(err);

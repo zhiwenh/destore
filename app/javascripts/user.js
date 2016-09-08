@@ -23,7 +23,7 @@ Sender.listUploadDb()
     console.log(docs);
     docs.map((item) => {
       if(item.isUploaded) {
-        $('#fileTable').append(`<div data-filepath="${item.filePath}" class="file"><span class="basename">${path.basename(item.filePath)}</span><div class="filesize">${(item.fileSize/(1024*1024)).toFixed(2)} MB</div><div class="cost">${((item.fileSize/(1024*1024*1024)) * 10).toFixed(3) } cents/month</div><button class="btn-up retrieve">Retrieve</button></div>`);
+        $('#fileTable').append(`<div data-filepath="${item.filePath}" class="file"><span class="basename">${path.basename(item.filePath)}</span><div class="filesize">${(item.fileSize/(1024*1024)).toFixed(2)} MB</div><div class="cost">${((item.fileSize/(1024*1024*1024)) * 10).toFixed(3) } cents/month</div>'<button class="btn-up retrieve">Retrieve</button><button class="btn-up pay">Pay</button>'`);
       }
       else if(item.isMounted) {
         $('#fileTable').append(`<div data-filepath="${item.filePath}" class="file"><span class="basename">${path.basename(item.filePath)}</span><div class="filesize">${(item.fileSize/(1024*1024)).toFixed(2)} MB</div><div class="cost">${((item.fileSize/(1024*1024*1024)) * 10).toFixed(3) } cents/month</div><input class="recNum" type="number" placeholder="# of hosts"></input><button class="btn-up distribute">Distribute</button></div>`);
@@ -49,10 +49,7 @@ $('.uploadQ').on({
   }
 });
 
-$(document).on('click', '.clearList', () => {
-  config.clear('startup');
-  window.location = '../html/signup.html';
-});
+
 
 // DROPZONE FUNCTIONALITY
 document.ondragover = document.ondrop = (ev) => {
@@ -118,24 +115,26 @@ $('body').on('click', '.distribute', function() {
     });
 
   $(this).closest('.file').find('.recNum').remove();
-  $(this).replaceWith('<button class="btn-up retrieve">Retrieve</button>');
+  $(this).replaceWith('<button class="btn-up retrieve">Retrieve</button><button class="btn-up pay">Pay</button>');
 });
 
 $('body').on('click', '.retrieve', function() {
-  var fileName = path.basename($(this).closest('.file').data('filepath'));
+  const fileName = path.basename($(this).closest('.file').data('filepath'));
   Sender.retrieveFile(fileName)
     .then((res) => {
       console.log(fileName, 'written to ', res);
     });
+});
 
-  // User.mkdir('Downloaded');
-  // index = $(this).closest('.file').prop('id').replace(/file/, "");
-  // fileHashArray = config.get('fileList.hash');
-  // filePathArray = config.get('fileList.path');
-  // console.log(path.join(__dirname + '/../../Downloaded/' + path.basename(filePathArray[index])));
-  // IPFS.download(fileHashArray[index], path.join(__dirname + '/../../files/download/' + path.basename(filePathArray[index])))
-  //   .then((res) => console.log(res))
-  //   .catch(res => console.error('ERROR: ', res));
+$('body').on('click', '.pay', function() {
+  const fileName = path.basename($(this).closest('.file').data('filepath'));
+  Sender.payFile(fileName)
+    .then(balance => {
+      console.log(balance);
+    })
+    .catch(err => {
+      console.error(err);
+    });
 });
 
 document.body.ondrop = (ev) => {
@@ -148,3 +147,8 @@ window.onbeforeunload = (ev) => {
     sup: 'sup'
   });
 };
+
+$(document).on('click', '.clearList', () => {
+  config.clear('startup');
+  window.location = '../html/signup.html';
+});
