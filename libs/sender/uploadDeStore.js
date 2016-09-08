@@ -39,7 +39,6 @@ module.exports = promisify((fileName, callback) => {
         return Ethereum.deStore().senderGetFileHashes(fileName);
       })
       .then(hexHashes => {
-        console.log(hexHashes)
         const asciiHashes = nestedHexToAscii(hexHashes);
         callback(null, asciiHashes);
       })

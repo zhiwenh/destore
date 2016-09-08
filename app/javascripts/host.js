@@ -1,3 +1,4 @@
+const nodeRequire = require;
 const Ethereum = nodeRequire('../../libs/ethereum/ethereum.js');
 const web3 = Ethereum.init();
 const Receiver = nodeRequire('../../libs/receiver/receiver.js');
