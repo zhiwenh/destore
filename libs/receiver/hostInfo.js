@@ -11,9 +11,7 @@ const nestedHexToAscii = require('./../ethereum/nestedHexToAscii');
 * @returns Promise - Array of objects of the receivers hash and corresponding sender and size
 **/
 module.exports = promisfy((callback) => {
-  const options = {
-    from: Ethereum.account
-  };
+  const options = Ethereum.defaults;
   const docs = []; // the result promise and callback return
   Promise.all([Ethereum.deStore().receiverGetHashes(options), Ethereum.deStore().receiverGetSenders(options), Ethereum.deStore().receiverGetSizes(options), Ethereum.deStore().receiverGetValues(options)])
     .then(resArr => {

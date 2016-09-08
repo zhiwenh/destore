@@ -9,9 +9,7 @@ const promisfy = require('es6-promisify');
 **/
 module.exports = promisfy((callback) => {
   let withdrawAmount;
-  const options = {
-    from: Ethereum.account
-  };
+  const options = Ethereum.defaults;
   Ethereum.deStore().receiverGetBalance(options)
     .then(amount => {
       withdrawAmount = amount;

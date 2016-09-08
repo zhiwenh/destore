@@ -4,7 +4,8 @@ const config = new Config();
 const configs = nodeRequire('../../libs/config/config.js');
 const Ethereum = nodeRequire('../../libs/ethereum/ethereum.js');
 const DeStoreAddress = nodeRequire('../../models/DeStoreAddress');
-
+// const Sender = nodeRequire('../../libs/sender/sender.js');
+// const Receiver = nodeRequire('../../libs/receiver/receiver.js');
 
 //TESTING
 configs.contracts.deStore = DeStoreAddress.get();
@@ -70,25 +71,27 @@ $(document).ready(function() {
       if(userType === 'host') {
         Ethereum.changeAccount(1);
         var storage = 1024*1024*1024*config.get('user.store');
-        Ethereum.deStore().receiverAdd(storage, {from: Ethereum.account})
+        Ethereum.deStore().receiverAdd(storage, {from: Ethereum.account, gas: 1000000})
           .then(tx => {
             console.log(tx);
             console.log('Receiver Added');
+            window.location = `../html/${userType}.html`;
           })
           .catch(err => {
             console.error(err);
           });
       } else {
         Ethereum.changeAccount(0);
-        Ethereum.deStore().senderAdd({from: Ethereum.account})
+        Ethereum.deStore().senderAdd({from: Ethereum.account, gas: 1000000})
           .then(tx => {
             console.log('Sender Added');
+            window.location = `../html/${userType}.html`;
           })
           .catch(err => {
             console.error(err);
           });
       }
-      window.location = `../html/${userType}.html`;
+
     } else {
       $('#authFail').css('display', 'block');
     }
