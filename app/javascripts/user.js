@@ -101,7 +101,10 @@ $('body').on('click', '.mount', function() {
     })
     .then(() => {
       $(this).replaceWith('<input class="recNum" type="number" placeholder="# of hosts"></input><button class="btn-up distribute">Distribute</button>');
-    });
+    })
+    .catch(err => {
+      console.error(err);
+    })
 });
 
 $('body').on('click', '.distribute', function() {
@@ -110,6 +113,8 @@ $('body').on('click', '.distribute', function() {
   console.log(userNum);
   Sender.distribute(fileName, userNum)
     .then((res) => {
+      $(this).closest('.file').find('.recNum').remove();
+      $(this).replaceWith('<button class="btn-up retrieve">Retrieve</button><button class="btn-up pay">Pay</button>');
       console.log(res);
       $(this).closest('.file').find('.recNum').remove();
       $(this).replaceWith('<button class="btn-up retrieve">Retrieve</button><button class="btn-pay pay">Pay</button>');
@@ -117,6 +122,7 @@ $('body').on('click', '.distribute', function() {
     .catch((err) => {
       console.log(err);
     });
+
 });
 
 $('body').on('click', '.retrieve', function() {

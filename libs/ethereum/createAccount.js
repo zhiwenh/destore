@@ -1,32 +1,29 @@
-var headers = {
-  'User-Agent': 'Super Agent/0.0.1',
-  'Content-Type': 'application/json-rpc',
-  'Accept': 'application/json-rpc'
-}
+const web3_extended = require('web3_ipc');
+const promisify = require('es6-promisify');
+const config = require('./../config/config.js');
 
-var options = {
-  url: "http://localhost:8545",
-  method: 'POST',
-  headers: headers,
-  body: JSON.stringify({
-    jsonrpc: '2.0',
-    method: 'personal_newAccount',
-    params: ['pass'],
-    id: 1
-  })
-}
 
-request(options, function(error, response, body) {
-  if (!error && response.statusCode == 200) {
-    res.writeHeader(200, {
-      "Content-Type": "text/plain"
-    });
-    res.write(res.statusCode.toString() + " " + body);
-  } else {
-    res.writeHeader(response.statusCode, {
-      "Content-Type": "text/plain"
-    });
-    res.write(response.statusCode.toString() + " " + error);
-  }
-  res.end();
+const options = {
+  host: config.ipc.host,
+  ipc: true,
+  personal: true,
+  admin: true,
+  debug: false
+};
+
+const web3Extended = web3_extended.create(options);
+
+/**
+* NEED TO CALL PROCESS.EXIT() in callback
+* @password {String} - password for account
+* @returns {String} - promise with a response thats the account number
+**/
+module.exports = promisify((password, callback) => {
+  return web3Extended.personal.newAccount(password, (err, res) => {
+    if (err) {
+      callback(err, null);
+    } else {
+      callback(null, res);
+    }
+  });
 });

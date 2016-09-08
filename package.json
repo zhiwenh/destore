@@ -41,7 +41,9 @@
     "solc": "^0.3.6",
     "systeminformation": "^3.0.1",
     "tar-stream": "^1.5.2",
-    "web3": "^0.17.0-alpha"
+    "web3": "^0.17.0-alpha",
+    "web3_extended": "^1.0.0",
+    "web3_ipc": "^1.2.0"
   },
   "devDependencies": {
     "asar": "^0.12.3",

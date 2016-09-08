@@ -9,9 +9,8 @@ const promisify = require('es6-promisify');
 * @return {Number} - remaining ether balance
 **/
 module.exports = promisify((fileName, callback) => {
-  const options = {
-    from: Ethereum.account
-  };
+  const options = Ethereum.defaults;
+
   Upload.db.findOne({fileName: fileName}, (err, doc) => {
     if (err || doc === null) {
       callback(new Error('File name not found'), null);

@@ -6,11 +6,10 @@ const path = require('path');
 const fs = require('fs');
 const promisifiy = require('es6-promisify');
 
+const createAccount = require('./createAccount');
+
 const rpcConfig = config.rpc;
 const contractsConfig = config.contracts;
-
-// const newAccount = require('.');
-const spawn = require('child_process').spawn;
 
 class Ethereum {
   constructor() {
@@ -21,11 +20,10 @@ class Ethereum {
     this.account = null;
     this.accounts = [];
 
-    // deploy defaults will probably need to change
+    // default options for destore methods
     this.defaults = {
       from: this.account,
-      value: 0,
-      gas: 500000
+      gas: 1000000
     };
   }
 
@@ -92,11 +90,12 @@ class Ethereum {
   }
 
   /**
+   * NEED TO CALL PROCESS.EXIT() IN CALLBACK!
    * @password {String}
    * @returns {String} - id of created account
    **/
   createAccount(password) {
-    return this._web3.personal.newAccount(password);
+    return createAccount(password);
   }
 
   /**
