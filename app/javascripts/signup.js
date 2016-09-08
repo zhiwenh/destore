@@ -1,5 +1,4 @@
 const nodeRequire = require;
-const zxcvbn = nodeRequire('zxcvbn');
 const Config = nodeRequire('electron-config');
 const config = new Config();
 const configs = nodeRequire('../../libs/config/config.js');
@@ -9,20 +8,10 @@ const DeStoreAddress = nodeRequire('../../models/DeStoreAddress');
 
 //TESTING
 configs.contracts.deStore = DeStoreAddress.get();
-// const strength = {
-//   0: 'Worst ☹',
-//   1: 'Bad ☹',
-//   2: 'Weak ☹',
-//   3: 'Good ☺',
-//   4: 'Strong ☻'
-// };
-
-// const password = document.getElementById('password');
-// const meter = document.getElementById('password-strength-meter');
-// const text = document.getElementById('password-strength-text');
 
 $(document).ready(function() {
   Ethereum.init();
+  $("body").css("overflow", "hidden");
 
   // Show/Hide Tabs
   $('.tabs .tab-links a').on('click', function(e) {
@@ -113,23 +102,6 @@ $(document).ready(function() {
     mouseleave: function() {
       $('#signinHelp').css('display', 'none');
     }
-  });
-
-  //password STUFF??
-  // password.addEventListener('input', function() {
-  //   const val = password.value;
-  //   const result = zxcvbn(val);
-
-  //   // Update the password strength meter
-  //   meter.value = result.score;
-  // });
-
-// check that passwords match and then
-  $(function() {
-    $('.password-confirm').keyup(function() {
-      var pwToCheck = $('.password').val();
-      $('#divCheckPasswordMatch').html(pwToCheck == $(this).val() ? 'Passwords match.' : 'Passwords do not match!');
-    });
   });
 
 });
