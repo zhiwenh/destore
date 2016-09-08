@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 #dash {
   background-color: #BBC1E6;
@@ -75,6 +76,31 @@
   width: 100%;
   background-color: gray;
 }
+
+.grid2x2 {
+  min-height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+.grid2x2 > div {
+  display: flex;
+  flex-basis: calc(50%);
+  justify-content: center;
+  flex-direction: column;
+}
+.grid2x2 > div > div {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+
+
+h1 {
+  font-size: 6rem;
+}
+
+
 .dashboardBox {
   margin: 0;
   padding: 0;
@@ -86,6 +112,7 @@
   display: inline-block;*/
   /*border: 1px solid black;*/
 }
+
 .dashboardBox:hover {
   background-color: #94A1ED;
 }

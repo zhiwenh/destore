@@ -8,6 +8,20 @@
   border-radius: 5px;
 }*/
 
+body {
+  background-image: url("../../images/wallpaperUser.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  font-family: 'Lato', sans-serif;
+}
+
+.id {
+  text-align: center;
+  color: white;
+  font-size: 30px;
+}
+
 .info {
   background: white;
   border: 5px solid black;
@@ -15,6 +29,11 @@
   margin-bottom: 10px;
   height: 100px;
   text-align: center;
+  font-size: 20px;
+}
+
+.display {
+  font-size: 45px;
 }
 
 .file {
@@ -47,6 +66,15 @@
 
 .recNum {
   font-size: 12px;
+}
+
+.padding {
+  padding: 25px;
+}
+
+.panel {
+  text-align: center;
+  font-size: 20px;
 }
 
 .panel-heading {
@@ -91,11 +119,20 @@
 .basename {
   color: black;
   font-size: 15px;
-/*  background: white;
-*/}
+}
 
 #fileTable {
   position: relative;
+  background-color: #ededed;
+  font-size: 12px;
+  color: blue;
+  font-weight: 700;
+  margin: 10px 0 10px 10px;
+  border: 1px solid black;
+  padding: 10px;
+  border-radius: 5px;
+  width: 100%;
+  float: right;
 }
 
 .table-header {
@@ -166,10 +203,6 @@
   line-height: 200px;
   text-align: center
 }
-/*.upload-drop-zone.drop {
-  color: #222;
-  border-color: #222;
-}*/
 
 #dropzone {
   text-align: center;
