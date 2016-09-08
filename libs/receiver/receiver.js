@@ -1,4 +1,5 @@
 'use strict';
+const addReceiver = require('./addReceiver');
 const hostInfo = require('./hostInfo');
 const hostAll = require('./hostAll');
 const balance = require('./balance');
@@ -7,6 +8,7 @@ const removeHash = require('./removeHash');
 const listHostDb = require('./listHostDb');
 
 module.exports = {
+  addReceiver: addReceiver,
   hostInfo: hostInfo,
   hostAll: hostAll,
   balance: balance,
