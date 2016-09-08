@@ -12,7 +12,6 @@ const nestedHexToAscii = require('./../ethereum/nestedHexToAscii.js');
 **/
 module.exports = promisify((fileName, callback) => {
   const options = Ethereum.defaults;
-  console.log('upload')
   Upload.db.findOne({fileName: fileName}, (err, doc) => {
     if (err || doc === null) {
       callback(new Error('No Upload document was found of name ' + fileName), null);
@@ -36,15 +35,11 @@ module.exports = promisify((fileName, callback) => {
       const half2 = hashArr[i].substring(23, 46);
       splitArr.push([half1, half2]);
     }
-    console.log('here');
-
     Ethereum.deStore().senderAddFile(splitArr, fileName, value, sizeArr, options)
       .then(tx => {
-        console.log(tx);
         return Ethereum.deStore().senderGetFileHashes(fileName, options);
       })
       .then(hexHashes => {
-        console.log(hexHashes);
         const asciiHashes = nestedHexToAscii(hexHashes);
         callback(null, asciiHashes);
       })
