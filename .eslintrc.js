@@ -2,7 +2,8 @@ module.exports = {
     "env": {
         "browser": true,
         "node": true,
-        "es6": true
+        "es6": true,
+        "jquery": true
     },
     "extends": "eslint:recommended",
     "parserOptions": {
@@ -27,6 +28,6 @@ module.exports = {
         ],
         "comma-dangle": 0,
         "no-unused-vars": 0,
-        "no-console": 0
+        "no-console": 0,
     }
 };

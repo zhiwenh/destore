@@ -1,9 +1,11 @@
+const nodeRequire = require;
 const zxcvbn = nodeRequire('zxcvbn');
 const Config = nodeRequire('electron-config');
 const config = new Config();
-const configs = nodeRequire('../../libs/config/config.js')
+const configs = nodeRequire('../../libs/config/config.js');
 const Ethereum = nodeRequire('../../libs/ethereum/ethereum.js');
 const DeStoreAddress = nodeRequire('../../models/DeStoreAddress');
+
 
 //TESTING
 configs.contracts.deStore = DeStoreAddress.get();
@@ -20,7 +22,8 @@ configs.contracts.deStore = DeStoreAddress.get();
 // const text = document.getElementById('password-strength-text');
 
 $(document).ready(function() {
-Ethereum.init();
+  Ethereum.init();
+
   // Show/Hide Tabs
   $('.tabs .tab-links a').on('click', function(e) {
     var currentAttrValue = $(this).attr('href');
@@ -43,7 +46,7 @@ Ethereum.init();
     var userPass = $(this).find('.password').val();
     //get host storage
     var storage;
-    if(currentTab === "host") {
+    if(currentTab === 'host') {
       storage = $(this).find('.storage').val();
     }
 
@@ -54,19 +57,19 @@ Ethereum.init();
     config.set('user', { path: currentTab, password: userPass, id: userID, store: storage });
 
     //display account in popup (with Authenticate button)
-    $("#popup").dialog({
-          dialogClass: "no-close",
-          draggable: false,
-          resizable: false,
-          modal: true,
-          width: 600,
-          height: 300,
-          // open: function() {
-          //   $('body').css('background', '#000000');
-          // },
-          // close: function() {
-          //   $('body').css('background', '#ccc');
-          // }
+    $('#popup').dialog({
+      dialogClass: 'no-close',
+      draggable: false,
+      resizable: false,
+      modal: true,
+      width: 600,
+      height: 300,
+      // open: function() {
+      //   $('body').css('background', '#000000');
+      // },
+      // close: function() {
+      //   $('body').css('background', '#ccc');
+      // }
     });
     $('.userID').text(userID);
   });
@@ -81,17 +84,16 @@ Ethereum.init();
         Ethereum.deStore().receiverAdd(storage, {from: Ethereum.account})
           .then(tx => {
             console.log(tx);
-            console.log('Receiver Added')
+            console.log('Receiver Added');
           })
           .catch(err => {
-            // console.error(err);
-          })
-      }
-      else {
+            console.error(err);
+          });
+      } else {
         Ethereum.changeAccount(1);
         Ethereum.deStore().senderAdd({from: Ethereum.account})
           .then(tx => {
-            console.log('Sender Added')
+            console.log('Sender Added');
           })
           .catch(err => {
             console.error(err);
@@ -99,7 +101,7 @@ Ethereum.init();
       }
       window.location = `../html/${userType}.html`;
     } else {
-      $('#authFail').css('display', 'block')
+      $('#authFail').css('display', 'block');
     }
   });
 
