@@ -1,9 +1,10 @@
+const nodeRequire = require;
 const Ethereum = nodeRequire('../../libs/ethereum/ethereum.js');
 const web3 = Ethereum.init();
 const IPFS = nodeRequire('../../libs/ipfs/ipfs.js');
 const Sender = nodeRequire('../../libs/sender/sender.js');
 const path = nodeRequire('path');
-const configs = nodeRequire('../../libs/config/config.js')
+const configs = nodeRequire('../../libs/config/config.js');
 const Config = nodeRequire('electron-config');
 const config = new Config();
 const fs = nodeRequire('fs');
@@ -18,7 +19,7 @@ configs.contracts.deStore = DeStoreAddress.get();
 
 Sender.listUploadDb()
   .then((docs) => {
-    console.log(docs)
+    console.log(docs);
     docs.map((item) => {
       if(item.isUploaded) {
         $('#fileTable').append(`<div data-filepath="${item.filePath}" class="file"><span class="basename">${path.basename(item.filePath)}</span><div class="filesize">${(item.fileSize/(1024*1024)).toFixed(2)} MB</div><div class="cost">${((item.fileSize/(1024*1024*1024)) * 10).toFixed(3) } cents/month</div><button class="btn-up retrieve">Retrieve</button></div>`);
@@ -28,6 +29,7 @@ Sender.listUploadDb()
       }
     });
   });
+
 $('.dragdropQ').on({
   mouseenter: function() {
     $('#dragdropHelp').css('display', 'inline-block');
@@ -48,14 +50,7 @@ $('.uploadQ').on({
 
 $(document).on('click', '.clearList', () => {
   config.clear('startup');
-  window.location = "../html/signup.html";
-});
-
-// clears config storage
-$("button.clear").click(() => {
-  config.clear('fileList');
-  $('#fileTable').html("");
-  count = 0;
+  window.location = '../html/signup.html';
 });
 
 // DROPZONE FUNCTIONALITY
@@ -64,19 +59,19 @@ document.ondragover = document.ondrop = (ev) => {
 };
 
 $('.upload-drop-zone').on('dragover', (ev) => {
-  $('.upload-drop-zone').css('background-color', '#4c83db')
+  $('.upload-drop-zone').css('background-color', '#4c83db');
 });
 
 $('.upload-drop-zone').on('dragleave', (ev) => {
-  $('.upload-drop-zone').css('background-color', 'white')
+  $('.upload-drop-zone').css('background-color', 'white');
 });
 
 //ON FILE DROP
-$(".upload-drop-zone").on("drop", (ev) => {
+$('.upload-drop-zone').on('drop', (ev) => {
   ev.preventDefault();
   $('.upload-drop-zone').css('background-color', 'white');
   var filePath = ev.originalEvent.dataTransfer.files[0].path;
-  var fileSize = Sender.filesize(filePath); 
+  var fileSize = Sender.filesize(filePath);
   console.log(filePath);
   //check if it's a folder
 
@@ -112,7 +107,7 @@ $('body').on('click', '.mount', function() {
 $('body').on('click', '.distribute', function() {
   var fileName = path.basename($(this).closest('.file').data('filepath'));
   var userNum = $(this).closest('.file').find('.recNum').val() || 3;
-  console.log(userNum)
+  console.log(userNum);
   Sender.distribute(fileName, userNum)
     .then((res) => {
       console.log(res);
@@ -126,10 +121,10 @@ $('body').on('click', '.distribute', function() {
 });
 
 $('body').on('click', '.retrieve', function() {
-  var fileName = path.basename($(this).closest('.file').data('filepath'));  
+  var fileName = path.basename($(this).closest('.file').data('filepath'));
   Sender.retrieveFile(fileName)
     .then((res) => {
-      console.log(fileName, 'written to ', res)
+      console.log(fileName, 'written to ', res);
     });
 
   // User.mkdir('Downloaded');

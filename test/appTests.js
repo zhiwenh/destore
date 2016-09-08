@@ -27,10 +27,11 @@ const web3 = Ethereum.init();
 
 Upload.reset();
 Host.reset();
+
 test('Deploying new DeStore contract and adding a sender and receiver', t => {
   Ethereum.changeAccount(0);
   const deployOptions = {
-    from: Ethereum.account
+    from: Ethereum.account,
   };
   Ethereum.deploy('DeStore', [], deployOptions)
     .then(instance => {
@@ -51,6 +52,8 @@ test('Deploying new DeStore contract and adding a sender and receiver', t => {
 });
 
 const mountFile = require('./../libs/sender/mountFile.js');
+
+
 
 test('Testing mountFile', t => {
   mountFile(__dirname + '/lemon.gif', 1)
