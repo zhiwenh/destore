@@ -1,7 +1,14 @@
-<<<<<<< HEAD
+body {
+  background-image: url("../../images/wallpaperUser.jpg");
+  /*background-repeat: no-repeat;*/
+  background-attachment: fixed;
+  background-position: center;
+  font-family: 'Lato', sans-serif;
+}
 
 #dash {
   background-color: #BBC1E6;
+  position: relative;
 }
 #dash div:first-child {
    height: 200px;
@@ -11,7 +18,6 @@
   background-color: red;
 }
 .dash__balance__title {
-  background-color: blue;
 }
 #dash__balance__value {
   color: black;
@@ -66,6 +72,7 @@
   display: flex;
   flex-direction: column;
 }
+
 #dash__time__timer {
   width: 100%;
   /*border: 1px solid black;*/
@@ -75,6 +82,10 @@
 #hashList {
   width: 100%;
   background-color: gray;
+}
+
+.dash__display {
+  font-size: 60px;
 }
 
 .grid2x2 {
@@ -95,28 +106,30 @@
   flex-direction: row;
 }
 
+.dash__box {
+  height: 275px;
+  position: relative;
+}
+
+.question {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+}
+
+.help__info {
+  background: black;
+  color: white;
+  position: absolute;
+  left: 35px;
+  top: 5px;
+  width: 90%;
+  visibility: hidden;
+}
 
 h1 {
   font-size: 6rem;
 }
-
-
-.dashboardBox {
-  margin: 0;
-  padding: 0;
-  /*flex: 3;*/
-  /*position: relative;
-  width: 49%;
-  height: 0;
-  padding-bottom: 30%;
-  display: inline-block;*/
-  /*border: 1px solid black;*/
-}
-
-.dashboardBox:hover {
-  background-color: #94A1ED;
-}
-
 
 #storage {
   font-size: 0.5em;
