@@ -30,6 +30,7 @@ program
 
 program.parse(process.argv);
 
+
 if (program.destore) {
   Ethereum.changeAccount(0);
   const deployOptions = {
@@ -48,6 +49,8 @@ if (program.destore) {
 
 if (program.receivers) {
   Ethereum.init();
+  config.contracts.deStore = DeStoreAddress.get();
+
   Promise.all([
     Ethereum.deStore().receiverAdd(1000000000, {from: Ethereum.accounts[2]}),
     Ethereum.deStore().receiverAdd(1000000000, {from: Ethereum.accounts[3]}),
