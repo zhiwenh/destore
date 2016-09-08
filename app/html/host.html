@@ -6,6 +6,7 @@
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">
   <link href="../vendors/bootstrap.min.css" rel="stylesheet" type="text/css">
   <link href="../stylesheets/app.css" rel="stylesheet" type="text/css">
+  <link href="../stylesheets/host.css" rel="stylesheet" type="text/css">
   <script>
     window.nodeRequire = require;
     delete window.require;
@@ -18,24 +19,24 @@
     <header>
       <h1>Welcome Host</h1>
     </header>
-    <div id="hostDashboard" class="shadow grid2x2">
-      <div class=" box box1">Host Balance:
-        <div id="balance">
-      </div></div>
-      <div class=" box box2">Money Gained:</div>
-      <div class=" box box3">Host Storage:</div>
-      <div class=" box box4">Time Online:
+    <div id="dash" class="shadow grid2x2">
+      <div class=" box box1">
+        Host Balance:<div id="balance"></div>
+      </div>
+      <div class="box box2">Money Gained:</div>
+      <div class="box box3">Host Storage:</div>
+      <div class="box box4">Time Online:
         <div id="timer">00:00:00</div>
       </div>
     </div>
     <!-- <div class="row" id="hostContainer">
-      
+
 
 
       <div id="hostDashboard">
         <div class="dashboardBox" id="hostBalance">Host Balance:
           <div id="balance">
-            
+
           </div>
         </div>
         <div class="dashboardBox" id="hostGain">Money Gained:
@@ -45,7 +46,7 @@
             Total storage: 10 GB
           </div>
         </div>
-        <div class="dashboardBox" id="hostOnline">Time Online: 
+        <div class="dashboardBox" id="hostOnline">Time Online:
           <div id="timer">00:00:00</div>
           </div>
         </div>
@@ -54,7 +55,7 @@
       <button type="button" class="downloadFiles btn btn-primary"> Download Available Files </button>
       <button class="btn btn-danger clearList">CLEAR EVERYTHING</button>
     </div> <!-- HOST -->
-    
+
   </body>
   <script>
     nodeRequire('../javascripts/host.js');

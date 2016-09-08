@@ -29,14 +29,6 @@ $(document).on('click', '.clearList', () => {
   window.location = '../html/signup.html';
 });
 
-$('button.hostLink').click(() => {
-  config.set('');
-});
-
-$('button.userLink').click(() => {
-  console.log('USER');
-});
-
 // retrives all files stored in reciever contract and downloads
 $('button.downloadFiles').click(function() {
   // button is still there
@@ -48,11 +40,11 @@ $('button.downloadFiles').click(function() {
   // });
 });
 
-const getFileSize = (filename) => {
-  var stats = fs.statSync(filename);
-  var fileSizeInBytes = stats['size'];
-  return fileSizeInBytes;
-};
+// const getFileSize = (filename) => {
+//   var stats = fs.statSync(filename);
+//   var fileSizeInBytes = stats['size'];
+//   return fileSizeInBytes;
+// };
 
 
 document.body.ondrop = (ev) => {

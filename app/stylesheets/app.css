@@ -15,8 +15,8 @@ body {
   flex-direction: row;
 }
 .grid2x2 > div {
-  display: flex; 
-  flex-basis: calc(50%);  
+  display: flex;
+  flex-basis: calc(50%);
   justify-content: center;
   flex-direction: column;
 }
@@ -26,52 +26,8 @@ body {
   flex-direction: row;
 }
 
- .box { height: 200px; } 
-.box1 { background-color: red; }
-.box2 { background-color: orange; }
-.box3 { background-color: purple; }
-.box4 { background-color: grey; }
-
 h1 {
   font-size: 6rem;
-}
-
-#hostContainer {
-  text-align: center;
-  font-size: 16pt;
-  font-weight: 700;
-  display: flex;
-  width: 1000px;
-}
-
-#hostDashboard {
-  background-color: #BBC1E6;
-}
-
-.dashboardBox {
-  margin: 0;
-  padding: 0;
-  /*flex: 3;*/
-  /*position: relative;
-  width: 49%;
-  height: 0;
-  padding-bottom: 30%;
-  display: inline-block;*/
-  /*border: 1px solid black;*/
-}
-
-.dashboardBox:hover {
-  background-color: #94A1ED;
-}
-
-#timer {
-  width: 100%;
-  /*border: 1px solid black;*/
-  font-size: 2em;
-}
-
-#storage {
-  font-size: 0.5em;
 }
 
 /*input {
