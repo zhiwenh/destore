@@ -20,15 +20,29 @@
       <h1>Welcome Host</h1>
     </header>
     <div id="dash" class="shadow grid2x2">
-      <div class=" box box1">
-        Host Balance:<div id="balance"></div>
+      <div class="dash__balance">
+        <div class="dash__balance__title">Host Balance:</div>
+        <div id="dash__balance__value"></div>
       </div>
-      <div class="box box2">Money Gained:</div>
-      <div class="box box3">Host Storage:</div>
-      <div class="box box4">Time Online:
-        <div id="timer">00:00:00</div>
+      <div class="dash__gained">
+        <div class="dash__gained-wrap">
+          <span class="dash__gained-wrap__des">Money Gained:</span>
+          <span class="dash__gained-wrap__num"></span>
+        </div>
+      </div>
+      <div class="dash__storage">
+        <div class="dash__storage__size">
+          <span class="dash__storage__size__des">Host Storage:</span>
+          <span class="dash__storage__size__num"></span>
+        </div>
+        <div class="dash__storage__hashes"></div>
+      </div>
+      <div class="dash__time">
+        <div>Time Online:</div>
+        <div id="dash__time__timer">00:00:00</div>
       </div>
     </div>
+
     <!-- <div class="row" id="hostContainer">
 
 
@@ -55,7 +69,9 @@
       <button type="button" class="downloadFiles btn btn-primary"> Download Available Files </button>
       <button class="btn btn-danger clearList">CLEAR EVERYTHING</button>
     </div> <!-- HOST -->
+    <div id="hashList">
 
+    </div>
   </body>
   <script>
     nodeRequire('../javascripts/host.js');

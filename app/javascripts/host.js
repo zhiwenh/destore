@@ -16,6 +16,7 @@ IPFS.daemon();
 
 //TESTING
 configs.contracts.deStore = DeStoreAddress.get();
+Ethereum.changeAccount(2);
 
 //Makes encrypt/download folder (hidden) if not made
 
@@ -24,27 +25,23 @@ const fileIpfsArray = config.get('fileList.address');
 //TODO: MAKE A SEND ALL FUNCTION
 //TODO: ON CLOSE, take out all undefined
 
+updateHostInfos();
+
 $(document).on('click', '.clearList', () => {
   config.clear('startup');
   window.location = '../html/signup.html';
 });
 
-// retrives all files stored in reciever contract and downloads
 $('button.downloadFiles').click(function() {
-  // button is still there
-  // console.log('press download');
-  //
-  // Receiver.hostAll(Ethereum.account, function (err, res) {
-  //   console.log(err);
-  //   console.log(res);
-  // });
+  Receiver.hostAll()
+    .then(docs => {
+      updateHostInfos();
+    })
+    .catch(err => {
+      console.error(err);
+    });
 });
 
-// const getFileSize = (filename) => {
-//   var stats = fs.statSync(filename);
-//   var fileSizeInBytes = stats['size'];
-//   return fileSizeInBytes;
-// };
 
 
 document.body.ondrop = (ev) => {
@@ -57,6 +54,22 @@ window.onbeforeunload = (ev) => {
     sup: 'sup'
   });
 };
+
+
+
+//1 second Interval for Timer
+var elapsed_seconds = 0;
+setInterval(function() {
+  elapsed_seconds = elapsed_seconds + 1;
+  $('#dash__time__timer ').text(get_elapsed_time_string(elapsed_seconds));
+}, 1000);
+
+//1 minute Balance Checker
+checkBalance();
+setInterval(function() {
+  checkBalance();
+}, 60000);
+
 
 function get_elapsed_time_string(total_seconds) {
   function pretty_time_string(num) {
@@ -82,21 +95,35 @@ function get_elapsed_time_string(total_seconds) {
   return currentTimeString;
 }
 
-//1 second Interval for Timer
-var elapsed_seconds = 0;
-setInterval(function() {
-  elapsed_seconds = elapsed_seconds + 1;
-  $('#timer').text(get_elapsed_time_string(elapsed_seconds));
-}, 1000);
-
-//1 minute Balance Checker
-checkBalance();
-setInterval(function() {
-  checkBalance();
-}, 60000);
-
-
 function checkBalance () {
   const balance = Ethereum.getBalanceEther() || 0;
-  $('#balance').text(balance + ' Ether');
+  $('#dash__balance__value').text(balance + ' Ether');
+}
+
+/**
+* Calls Host db, gets the storage used by all the files, then adds it to storage size
+**/
+function updateHostInfos() {
+  Receiver.hostInfo()
+    .then(docs => {
+      return Receiver.listHostDb();
+    })
+    .then(docs => {
+      console.log(docs);
+      let storageSize = 0;
+      for (let i = 0; i < docs.length; i++) {
+        if (docs[i].isHosted === true) {
+          storageSize += docs[i].fileSize;
+        }
+
+        // const hashAddress = docs[i].hashAddress;
+        // const hashDiv = $('<div></div>');
+        // hashDiv.text(hashAddress);
+        // $('#hashList').append(hashDiv);
+      }
+      $('.dash__storage__size__num').text(storageSize);
+    })
+    .catch(err => {
+      console.error(err);
+    });
 }

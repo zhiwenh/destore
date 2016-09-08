@@ -2,20 +2,65 @@
 #dash {
   background-color: #BBC1E6;
 }
-.box {
+#dash div:first-child {
    height: 200px;
- }
-.box1 {
+}
+
+.dash__balance {
   background-color: red;
 }
-.box2 {
-  background-color: orange;
+.dash__balance__title {
+  background-color: blue;
 }
-.box3 {
+#dash__balance__value {
+  color: black;
+}
+
+.dash__gained {
+  background-color: orange;
+  display: flex;
+  flex-direction: column;
+}
+.dash__gained-wrap {
+
+}
+.dash__gained-wrap__des {
+
+}
+.dash__gained-wrap__num {
+
+}
+
+.dash__storage {
   background-color: purple;
 }
-.box4 {
+.dash__storage__size {
+  background-color: red;
+}
+.dash__storage__size__des {
+
+}
+.dash__storage__size__num {
+
+}
+.dash__storage__hashes {
+  background-color: green;
+}
+
+.dash__time {
   background-color: grey;
+  display: flex;
+  flex-direction: column;
+}
+#dash__time__timer {
+  width: 100%;
+  /*border: 1px solid black;*/
+  font-size: 2em;
+}
+
+#hashList {
+  width: 100%;
+  background-color: gray;
 }
 .dashboardBox {
   margin: 0;
@@ -31,11 +76,7 @@
 .dashboardBox:hover {
   background-color: #94A1ED;
 }
-#timer {
-  width: 100%;
-  /*border: 1px solid black;*/
-  font-size: 2em;
-}
+
 
 #storage {
   font-size: 0.5em;
