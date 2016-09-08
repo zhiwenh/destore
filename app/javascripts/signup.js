@@ -68,7 +68,7 @@ $(document).ready(function() {
     if(Ethereum.getBalanceEther() > 5) {
       var userType = config.get('user.path');
       if(userType === 'host') {
-        Ethereum.changeAccount(0);
+        Ethereum.changeAccount(1);
         var storage = 1024*1024*1024*config.get('user.store');
         Ethereum.deStore().receiverAdd(storage, {from: Ethereum.account})
           .then(tx => {
@@ -79,7 +79,7 @@ $(document).ready(function() {
             console.error(err);
           });
       } else {
-        Ethereum.changeAccount(1);
+        Ethereum.changeAccount(0);
         Ethereum.deStore().senderAdd({from: Ethereum.account})
           .then(tx => {
             console.log('Sender Added');
