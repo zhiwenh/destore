@@ -118,6 +118,7 @@ h3 {
 }
 
 .logo {
+  margin: 25px;
   width: 600px;
   text-align: center;
 }

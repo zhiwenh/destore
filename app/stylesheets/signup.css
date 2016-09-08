@@ -13,6 +13,10 @@ body {
   /*background-color: #070707;*/
   color: #C3CCDB;
   text-align: center;
+  background-image: url("../../images/wallpaper.jpg");
+  /*background-repeat: no-repeat;*/
+  background-attachment: fixed;
+  background-position: center;
 }
 
 a {
@@ -37,7 +41,6 @@ a:focus {
 .tabs {
   width:50%;
   display:inline-block;
-
 }
 
 /*----- Tab Links -----*/
@@ -66,17 +69,20 @@ a:focus {
   font-weight:600;
   /*color:#4c4c4c;*/
   transition:all linear 0.15s;
+  width: 150px;
+  font-size: 30px;
 }
 
 /*a7cce5*/
 /*BUTTON COLOR*/
 .tab-links a:hover {
-  background:#6935ad;
+  background:#3b417f;
   text-decoration:none;
+  color: white;
 }
 
 li.active a {
-  background: #6935ad;
+  background: #3b417f;
   color: white;
 }
 
