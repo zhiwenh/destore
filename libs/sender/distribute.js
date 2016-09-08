@@ -12,11 +12,13 @@ const promisify = require('es6-promisify');
 module.exports = promisify((fileName, amount, callback) => {
   Ethereum.deStore().senderGetFileHost(fileName, amount)
     .then(tx => {
+      console.log('first')
       return Ethereum.deStore().senderGetFileReceivers(fileName);
     })
     .then(addresses => {
+      console.log('second')
+
       Upload.db.update({fileName: fileName}, {$set: {receivers: addresses, isUploaded: true}}, (err, num) => {
-        console.log(num);
         if (err) callback(err, null);
         else {
           callback(null, addresses);
