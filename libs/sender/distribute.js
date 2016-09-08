@@ -10,13 +10,15 @@ const promisify = require('es6-promisify');
 * @return Promise - array of receivers addresses the file was designated to
 **/
 module.exports = promisify((fileName, amount, callback) => {
-  Ethereum.deStore().senderGetFileHost(fileName, amount)
+  const options = {
+    from: Ethereum.account
+  };
+  Ethereum.deStore().senderGetFileHost(fileName, amount, options)
     .then(tx => {
-      return Ethereum.deStore().senderGetFileReceivers(fileName);
+      return Ethereum.deStore().senderGetFileReceivers(fileName, options);
     })
     .then(addresses => {
       Upload.db.update({fileName: fileName}, {$set: {receivers: addresses, isUploaded: true}}, (err, num) => {
-        console.log(num);
         if (err) callback(err, null);
         else {
           callback(null, addresses);

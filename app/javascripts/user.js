@@ -13,6 +13,7 @@ const DeStoreAddress = nodeRequire('../../models/DeStoreAddress');
 //Initializes daemon when on page
 IPFS.init();
 IPFS.daemon();
+Ethereum.init();
 
 //TESTING
 configs.contracts.deStore = DeStoreAddress.get();
@@ -78,13 +79,13 @@ $('.upload-drop-zone').on('drop', (ev) => {
   //check if it's already there in the list
 
   Sender.copyFile(filePath)
-  .then((res) => {
-    console.log(res);
-    $('#fileTable').append(`<div data-filepath="${filePath}" class="file">${path.basename(filePath)}<div class="filesize">${(fileSize/(1024*1024)).toFixed(2)} MB</div><div class="cost">${((fileSize/(1024*1024*1024)) * 10).toFixed(3) } cents/month</div><button class="btn-up mount">Mount</button></div>`);
-  })
-  .catch((res) => {
-    console.log('Error', res);
-  });
+    .then((res) => {
+      console.log(res);
+      $('#fileTable').append(`<div data-filepath="${filePath}" class="file">${path.basename(filePath)}<div class="filesize">${(fileSize/(1024*1024)).toFixed(2)} MB</div><div class="cost">${((fileSize/(1024*1024*1024)) * 10).toFixed(3) } cents/month</div><button class="btn-up mount">Mount</button></div>`);
+    })
+    .catch((res) => {
+      console.log('Error', res);
+    });
 });
 
 $('body').on('click', '.mount', function() {
