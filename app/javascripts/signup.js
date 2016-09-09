@@ -12,7 +12,16 @@ configs.contracts.deStore = DeStoreAddress.get();
 
 $(document).ready(function() {
   Ethereum.init();
-  $("body").css("overflow", "hidden");
+  $('body').css('overflow', 'hidden');
+
+  if (Ethereum.accounts.length !== 0) {
+    $('#tab-accounts').fadeIn(400).siblings().hide();
+
+    for (let i = 0; i < Ethereum.accounts.length; i++) {
+      const accountDiv = $('<div>').text(Ethereum.accounts[i]);
+      $('.accounts').append(accountDiv);
+    }
+  }
 
   // Show/Hide Tabs
   $('.tabs .tab-links a').on('click', function(e) {
@@ -42,34 +51,57 @@ $(document).ready(function() {
 
     //call function for password -> account
     var userID;
-    if(!Ethereum.check()) userID = Ethereum.createAccount(userPass);
-    else userID = '0x8cf0451e8e69ac504cd0a89d6874a827770e80e6';
-    config.set('user', { path: currentTab, password: userPass, id: userID, store: storage });
+    if(Ethereum.check()) {
 
-    //display account in popup (with Authenticate button)
-    $('#popup').dialog({
-      dialogClass: 'no-close',
-      draggable: false,
-      resizable: false,
-      modal: true,
-      width: 600,
-      height: 300,
-      // open: function() {
-      //   $('body').css('background', '#000000');
-      // },
-      // close: function() {
-      //   $('body').css('background', '#ccc');
-      // }
-    });
-    $('.userID').text(userID);
+      Ethereum.createAccount(userPass)
+        .then(account => {
+          console.log(account);
+          userID = account;
+          config.set('user', { path: currentTab, password: userPass, id: userID, store: storage, accountIndex: (Ethereum.accounts.length - 1)});
+          Ethereum.changeAccount(config.get('user.accountIndex'));
+          //display account in popup (with Authenticate button)
+          $('#popup').dialog({
+            dialogClass: 'no-close',
+            draggable: false,
+            resizable: false,
+            modal: true,
+            width: 600,
+            height: 300,
+            // open: function() {
+            //   $('body').css('background', '#000000');
+            // },
+            // close: function() {
+            //   $('body').css('background', '#ccc');
+            // }
+          });
+          $('.userID').text(userID);
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    } else {
+      $('#popup2').dialog({
+        dialogClass: 'no-close',
+        draggable: false,
+        resizable: false,
+        modal: true,
+        width: 600,
+        height: 300,
+        // open: function() {
+        //   $('body').css('background', '#000000');
+        // },
+        // close: function() {
+        //   $('body').css('background', '#ccc');
+        // }
+      });
+    }
   });
 
   $('body').on('click', '#authenticate', function() {
     //check if coin balance > 0.01
     if(Ethereum.getBalanceEther() > 5) {
       var userType = config.get('user.path');
-      if(userType === 'host') {
-        Ethereum.changeAccount(1);
+      if (userType === 'host') {
         var storage = 1024*1024*1024*config.get('user.store');
         Ethereum.deStore().receiverAdd(storage, {from: Ethereum.account, gas: 1000000})
           .then(tx => {
@@ -81,7 +113,6 @@ $(document).ready(function() {
             console.error(err);
           });
       } else {
-        Ethereum.changeAccount(0);
         Ethereum.deStore().senderAdd({from: Ethereum.account, gas: 1000000})
           .then(tx => {
             console.log('Sender Added');
@@ -106,5 +137,4 @@ $(document).ready(function() {
       $('#signinHelp').css('display', 'none');
     }
   });
-
 });

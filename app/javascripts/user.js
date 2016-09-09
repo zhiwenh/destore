@@ -17,6 +17,7 @@ Ethereum.init();
 
 //TESTING
 configs.contracts.deStore = DeStoreAddress.get();
+Ethereum.changeAccount(config.get('user.accountIndex'));
 
 Sender.listUploadDb()
   .then((docs) => {
@@ -104,7 +105,7 @@ $('body').on('click', '.mount', function() {
     })
     .catch(err => {
       console.error(err);
-    })
+    });
 });
 
 $('body').on('click', '.distribute', function() {
