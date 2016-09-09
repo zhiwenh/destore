@@ -41,6 +41,7 @@ a:focus {
 /*----- Tabs -----*/
 .tab {
   height: 250px;
+  overflow-y: scroll;
 }
 
 .tabs {
@@ -49,6 +50,10 @@ a:focus {
   border-radius: 3px;
 }
 
+.accounts {
+  display: flex;
+  flex-flow: column;
+}
 /*----- Tab Links -----*/
 /* Clearfix */
 .tab-links:after {
@@ -200,6 +205,14 @@ li.active a {
 }
 
 #popup {
+  display: none;
+  background: #4c4c4c;
+  color: white;
+  text-align: left;
+  padding: 7px 10px;
+}
+
+#popup2 {
   display: none;
   background: #4c4c4c;
   color: white;

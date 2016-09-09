@@ -12,14 +12,16 @@ const options = {
 
 /**
 * NEED TO CALL PROCESS.EXIT() in callback
+* @account {String} - account address
 * @password {String} - password for account
-* @returns {String} - promise with a response thats the account number
+* @returns {Bool} - promise with a response of success or fail
 **/
-module.exports = promisify((password, callback) => {
+module.exports = promisify((account, password, callback) => {
   const web3Extended = web3_extended.create(options);
-  return web3Extended.personal.newAccount(password, (err, res) => {
+  return web3Extended.personal.unlockAccount(account, password, (err, res) => {
     if (err) {
       callback(err, null);
+      process.exit();
     } else {
       callback(null, res);
     }

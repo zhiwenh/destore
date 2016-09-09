@@ -16,7 +16,7 @@ IPFS.daemon();
 
 //TESTING
 configs.contracts.deStore = DeStoreAddress.get();
-Ethereum.changeAccount(2);
+Ethereum.changeAccount(config.get('user.accountIndex'));
 
 //Makes encrypt/download folder (hidden) if not made
 

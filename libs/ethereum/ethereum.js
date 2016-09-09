@@ -7,6 +7,7 @@ const fs = require('fs');
 const promisifiy = require('es6-promisify');
 
 const createAccount = require('./createAccount');
+const unlockAccount = require('./unlockAccount');
 
 const rpcConfig = config.rpc;
 const contractsConfig = config.contracts;
@@ -95,6 +96,7 @@ class Ethereum {
    * @returns {String} - id of created account
    **/
   createAccount(password) {
+    this.init();
     return createAccount(password);
   }
 
@@ -103,9 +105,9 @@ class Ethereum {
    * @password {String}
    * @returns {Boolean} - indication if the account was unlocked
    **/
-  unlock(address, password) {
+  unlockAccount(address, password) {
     this.init();
-    return this._web3.personal.unlockAccount(address, password);
+    return unlockAccount(address, password);
   }
 
   /**
