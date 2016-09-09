@@ -30,6 +30,9 @@ updateHostInfos();
 var accountID = config.get('user.id');
 $('#accountID').html(accountID);
 
+var totalStorage = config.get('user.store');
+$('.dash__total__storage__value').html(`${totalStorage} GB`);
+
 $(document).on('click', '.clearList', () => {
   config.clear('startup');
   window.location = '../html/signup.html';
@@ -60,10 +63,10 @@ setInterval(function() {
 
 //Checks Contract and Account Balance (every minute)
 checkBalance();
-contractBalance();
+// contractBalance();
 setInterval(function() {
   checkBalance();
-  contractBalance();
+  // contractBalance();
 }, 60000);
 
 //Downloads all files available in contract (every minute)
@@ -100,7 +103,7 @@ function get_elapsed_time_string(total_seconds) {
 }
 
 function checkBalance () {
-  const balance = Ethereum.getBalanceEther() || 0;
+  const balance = Ethereum.getBalanceEther().toFixed(3) || 0;
   $('#dash__balance__value').text(balance + ' Ether');
 }
 
@@ -137,8 +140,8 @@ function updateHostInfos() {
 function contractBalance() {
   Receiver.balance()
     .then(amounts => {
-      $('.dash__money__avail__num').text(amounts[0]);
-      $('.dash__money__gain__num').text(amounts[1]);
+      $('#dash__balance__value').text(amounts[0]);
+      $('#dash__contract__balance__value').text(amounts[1]);
     })
     .catch(err => {
       console.error(err);

@@ -11,7 +11,6 @@ const options = {
   debug: false
 };
 
-const web3Extended = web3_extended.create(options);
 
 /**
 * NEED TO CALL PROCESS.EXIT() in callback
@@ -19,6 +18,7 @@ const web3Extended = web3_extended.create(options);
 * @returns {String} - promise with a response thats the account number
 **/
 module.exports = promisify((password, callback) => {
+  const web3Extended = web3_extended.create(options);
   return web3Extended.personal.newAccount(password, (err, res) => {
     if (err) {
       callback(err, null);
