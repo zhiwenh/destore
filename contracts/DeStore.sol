@@ -250,6 +250,10 @@ contract DeStore {
     return receivers[msg.sender].balance;
   }
 
+  function receiverCheckInit() public constant returns (bool) {
+    return receivers[msg.sender].init;
+  }
+
   /********************************************************
   * Used by Sender
   ********************************************************/
@@ -261,6 +265,7 @@ contract DeStore {
     /*AddSender(msg.sender);*/
     return true;
   }
+
 
   function senderAddFile(bytes23[2][] _hashes, bytes _fileName, uint _value, uint[] _sizes)
     senderStatus(msg.sender)
@@ -358,6 +363,9 @@ contract DeStore {
     }
   }*/
 
+  function senderCheckInit() public constant returns (bool) {
+    return senders[msg.sender].status;
+  }
   /********************************************************
   * Used by Sender or Receiver
   ********************************************************/

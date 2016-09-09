@@ -21,7 +21,6 @@ module.exports = promisify((account, password, callback) => {
   return web3Extended.personal.unlockAccount(account, password, (err, res) => {
     if (err) {
       callback(err, null);
-      process.exit();
     } else {
       callback(null, res);
     }
