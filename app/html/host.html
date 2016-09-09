@@ -18,7 +18,7 @@
   </head>
   <body>
     <img class="logoAbs" src="../../images/DeStoreWhite.png" alt="DeStore Logo">
-    
+
     <div class="public__id">
         <span style="float: left; font-weight: 700; font-size: 30px"> Account: Host</span>
       Your Public Account ID is <span id="accountID"></span>
@@ -31,21 +31,12 @@
         <div class="help__info" id="balance__help">
           Your Public Account ID identifies your account in Ethereum, allowing you to access/store files. Before you are able to store files, please deposit money into your account using a transfer service (i.e. Coinbase, Ethereum Wallet, Mist).
         </div>
-        <div class="dash__balance__title">Balance:</div>
-        <div id="dash__display dash__balance__value"></div>
-      </div>
-
-      <div class="dash__box dash__money">
-        <img class="question" data-help="#contract__money__help" src="../../images/question.png" alt="question">
-        <div class="help__info" id="contract__money__help">
-          Your Public Account ID identifies your account in Ethereum, allowing you to access/store files. Before you are able to store files, please deposit money into your account using a transfer service (i.e. Coinbase, Ethereum Wallet, Mist).
-        </div>
-        <div class="dash__money__avail">
-          <div class="dash__money__avail__des">Contract Balance: </div>
-          <div class="dash__display dash__money__avail__num"></div>
-          <div>
-            <button class="btn btn-danger withdraw">Transfer to Account</button>
-          </div>
+        <div class="dash__balance__title dash__title">Account Balance:</div>
+        <div id="dash__balance__value" class="dash__display"></div>
+        <div class="dash__contract__balance__title dash__title">Contract Balance: </div>
+        <div id="dash__contract__balance__value" class="dash__display"></div>
+        <div>
+          <button class="btn btn-danger withdraw">Transfer to Account</button>
         </div>
       </div>
 
@@ -55,11 +46,13 @@
           Your Public Account ID identifies your account in Ethereum, allowing you to access/store files. Before you are able to store files, please deposit money into your account using a transfer service (i.e. Coinbase, Ethereum Wallet, Mist).
         </div>
         <div class="dash__storage__size">
-          <div class="dash__storage__size__des">Storage Left:</div>
+          <div class="dash__storage__size__title dash__title">Storage Left:</div>
           <div class="dash__display dash__storage__size__num"></div>
+          <div class="dash__total__storage__title">Total Storage: </div>
+          <div class="dash__total__storage__value"></div>
+          <div class="dash__change__storage"><button class="btn btn-danger">Change Storage Limit</button></div>
+
         </div>
-        <div class="dash__storage__hashes"></div>
-        <div class="centerAbs"><button type="button" class="hostAll  btn btn-primary"> Download Available Files </button></div>
       </div>
 
       <div class="dash__box dash__time">
@@ -67,13 +60,25 @@
         <div class="help__info" id="time__help">
           Your Public Account ID identifies your account in Ethereum, allowing you to access/store files. Before you are able to store files, please deposit money into your account using a transfer service (i.e. Coinbase, Ethereum Wallet, Mist).
         </div>
-        <div>Time Online:</div>
-        <div id="dash__time__timer">00:00:00</div>
+        <div class="dash__time__title dash__title">Time Online:</div>
+        <div id="dash__time__timer" class="dash__display">00:00:00</div>
       </div>
-    </div>
+
+      <div class="dash__box dash__hashes">
+        <img class="question" data-help="#contract__money__help" src="../../images/question.png" alt="question">
+        <div class="help__info" id="contract__money__help">
+          Your Public Account ID identifies your account in Ethereum, allowing you to access/store files. Before you are able to store files, please deposit money into your account using a transfer service (i.e. Coinbase, Ethereum Wallet, Mist).
+        </div>
+        <div class="dash__hashes__title dash__title">Stored Hashes: </div>
+        <div class="dash__storage__hashes"></div>
+        <div class="centerAbs"><button type="button" class="hostAll  btn btn-primary"> Download Available Files </button></div>
+      </div>
+
+    </div> <!-- 2x2 Grid -->
+
+
       
       <button class="btn btn-danger clearList">CLEAR EVERYTHING</button>
-      <button class="btn btn-primary">Change Storage Limit</button>
     </div> <!-- HOST -->
     <div id="hashList">
 
