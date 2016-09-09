@@ -15,6 +15,7 @@ const lol = console.log.bind(console);
 
 program
   .version('0.0.1')
+  .option('init')
   .option('destore', 'Deploy DeStore Contract ')
   .option('receivers')
   .option('reset-db')
@@ -33,6 +34,44 @@ program
 program.parse(process.argv);
 Ethereum.init();
 
+if (program.init) {
+  Ethereum.init();
+  Upload.reset();
+  Host.reset();
+  Ethereum.changeAccount(0);
+  console.log(Ethereum.account);
+  console.log(Ethereum.getBalanceEther());
+  const deployOptions = {
+    from: Ethereum.account,
+    gas: 3000000
+  };
+  const promises = [];
+  for (let i = 0; i < Ethereum.accounts.length; i++) {
+    promises.push(Ethereum.unlockAccount(Ethereum.accounts[i], 'hello'));
+  }
+  Promise.all(promises)
+    .then(bools => {
+      console.log(bools);
+      return Ethereum.deploy('DeStore', [], deployOptions);
+    })
+    .then(instance => {
+      config.contracts.deStore = instance.address;
+      console.log(instance.address);
+      DeStoreAddress.save(instance.address);
+      return Promise.all([
+        Ethereum.deStore().receiverAdd(1000000000, {from: Ethereum.accounts[1], gas: 1000000}),
+        Ethereum.deStore().receiverAdd(1000000000, {from: Ethereum.accounts[2], gas: 1000000}),
+        Ethereum.deStore().receiverAdd(1000000000, {from: Ethereum.accounts[3], gas: 1000000}),
+        Ethereum.deStore().receiverAdd(1000000000, {from: Ethereum.accounts[4], gas: 1000000}),
+      ]);
+    })
+    .then(arr => {
+      console.log(arr);
+    })
+    .catch(err => {
+      console.error(err);
+    });
+}
 
 if (program.destore) {
   Ethereum.init();
@@ -49,6 +88,9 @@ if (program.destore) {
       console.log(instance.address);
       DeStoreAddress.save(instance.address);
     })
+    .then(arr => {
+      console.log(arr);
+    })
     .catch(err => {
       console.error(err);
     });
@@ -59,10 +101,10 @@ if (program.receivers) {
   config.contracts.deStore = DeStoreAddress.get();
 
   Promise.all([
+    Ethereum.deStore().receiverAdd(1000000000, {from: Ethereum.accounts[1], gas: 1000000}),
     Ethereum.deStore().receiverAdd(1000000000, {from: Ethereum.accounts[2], gas: 1000000}),
     Ethereum.deStore().receiverAdd(1000000000, {from: Ethereum.accounts[3], gas: 1000000}),
     Ethereum.deStore().receiverAdd(1000000000, {from: Ethereum.accounts[4], gas: 1000000}),
-    Ethereum.deStore().receiverAdd(1000000000, {from: Ethereum.accounts[5], gas: 1000000})
   ])
     .then(arr => {
       console.log(arr);
