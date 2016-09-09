@@ -45,15 +45,15 @@ if (program.init) {
     from: Ethereum.account,
     gas: 3000000
   };
-  const promises = [];
-  for (let i = 0; i < Ethereum.accounts.length; i++) {
-    promises.push(Ethereum.unlockAccount(Ethereum.accounts[i], 'hello'));
-  }
-  Promise.all(promises)
-    .then(bools => {
-      console.log(bools);
-      return Ethereum.deploy('DeStore', [], deployOptions);
-    })
+  // const promises = [];
+  // for (let i = 0; i < Ethereum.accounts.length; i++) {
+  //   promises.push(Ethereum.unlockAccount(Ethereum.accounts[i], 'hello'));
+  // }
+  // Promise.all(promises)
+  //   .then(bools => {
+  //     console.log(bools);
+  Ethereum.deploy('DeStore', [], deployOptions)
+    // })
     .then(instance => {
       config.contracts.deStore = instance.address;
       console.log(instance.address);

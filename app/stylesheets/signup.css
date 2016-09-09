@@ -116,10 +116,16 @@ li.active a {
     display:block;
 }
 
-.form {
+.form-signup {
   font-family: 'Abel', sans-serif;
   font-size: 20px;
 }
+
+.form-signin {
+  font-family: 'Abel', sans-serif;
+  font-size: 20px;
+}
+
 
 .input {
     border: 0;
@@ -252,3 +258,25 @@ meter[value="1"]::-moz-meter-bar { background: red; }
 meter[value="2"]::-moz-meter-bar { background: yellow; }
 meter[value="3"]::-moz-meter-bar { background: orange; }
 meter[value="4"]::-moz-meter-bar { background: green; }
+
+
+
+#signup-user {
+  display: none;
+}
+
+#signin-user {
+  display: block;
+}
+
+#signup-host {
+  display: none;
+}
+
+#signin-host {
+  display: block;
+}
+
+.signup {
+
+}
