@@ -1,4 +1,5 @@
 'use strict';
+const Ethereum = require('./../ethereum/ethereum.js');
 const IPFS = require('./../ipfs/ipfs.js');
 const Host = require('./../../models/Host.js');
 const promisify = require('es6-promisify');
@@ -10,7 +11,7 @@ const path = require('path');
 * @returns {Promise} - an array of docs updated in Host.db
 **/
 module.exports = promisify((callback) => {
-  Host.db.find({isHosted: false}, (err, docs) => {
+  Host.db.find({account: Ethereum.account, isHosted: false}, (err, docs) => {
     if (err || docs.length === 0) {
       callback(new Error('Could not find a doc with isHosted of false'), null);
       return;
@@ -32,7 +33,7 @@ module.exports = promisify((callback) => {
         for (let i = 0; i < resArr.length; i++) {
           const promise = new Promise((resolve, reject) => {
             Host.db.update(
-              {hashAddress: hosted[i]},
+              {hashAddress: hosted[i], account: Ethereum.account},
               {$set: {isHosted: true, hostTime: new Date(), filePath: filePaths[i]}},
               {returnUpdatedDocs: true},
               (err, num, updatedDoc) => {

@@ -100,7 +100,7 @@ $(document).ready(function() {
       }
       console.log('userid', userID);
       console.log('userpass', userPass);
-      Ethereum.unlockAccount(userID, userPass)
+      Ethereum.unlockAccount(userID, userPass, 24*60*60*30)
         .then(status => {
           if (status === true) {
             console.log('status is true');
@@ -114,9 +114,13 @@ $(document).ready(function() {
             Ethereum.changeAccount(accountIndex);
             // window.location = `../html/${userType}.html`;
             $('.userID').text(userID); // zhiwen - dont know what this does
-            authenticatePopUp();
+            if (userType === 'user') {
+              senderCheckInit(false);
+            } else {
+              receiverCheckInit(false);
+            }
           } else {
-            console.log('stauts is false');
+            console.log('status is false');
             $('.userID').text(userID); // zhiwen - dont know what this does
           }
         })
@@ -135,71 +139,9 @@ $(document).ready(function() {
     console.log(Ethereum.account);
     if (userType === 'host') {
       // check to see if receiver status is true
-      Ethereum.deStore().receiverCheckInit({
-        from: Ethereum.account
-      })
-      .then(status => {
-        console.log('host', status);
-        if (status === true) {
-          window.location = `../html/${userType}.html`;
-        } else if (Ethereum.getBalanceEther() > 5) {
-          console.log('making receiver');
-          receiverAdd();
-        } else {
-          $('#authFail').css('display', 'block');
-        }
-      })
-      .catch(err => {
-        console.error(err);
-      });
+      receiverCheckInit(true);
     } else {
-      Ethereum.deStore().senderCheckInit({
-        from: Ethereum.account
-      })
-      .then(status => {
-        console.log('user', status);
-        if (status === true) {
-          window.location = `../html/${userType}.html`;
-        } else if (Ethereum.getBalanceEther() > 5) {
-          console.log('making sender');
-          senderAdd();
-        } else {
-          $('#authFail').css('display', 'block');
-        }
-      })
-      .catch(err => {
-        console.error(err);
-      });
-    }
-
-    function senderAdd() {
-      console.log('making sender');
-      Ethereum.deStore().senderAdd({
-        from: Ethereum.account,
-        gas: 1000000
-      })
-      .then(tx => {
-        console.log('Sender Added');
-        window.location = `../html/${userType}.html`;
-      })
-      .catch(err => {
-        console.error(err);
-      });
-    }
-
-    function receiverAdd() {
-      var storage = 1024 * 1024 * 1024 * config.get('user.store');
-      Ethereum.deStore().receiverAdd(storage, {
-        from: Ethereum.account,
-        gas: 1000000
-      })
-      .then(tx => {
-        console.log('Receiver Added');
-        window.location = `../html/${userType}.html`;
-      })
-      .catch(err => {
-        console.error(err);
-      });
+      senderCheckInit(true);
     }
   });
 
@@ -222,15 +164,15 @@ $('.signup-new').on('click', function() {
     $('#signin-user').css({display: 'none'});
     $('#signin-host').css({display: 'none'});
     $(this).html('Sign in to Ethereum Account');
+    signupBool = false;
   } else {
     $('#signup-user').css({display: 'none'});
     $('#signup-host').css({display: 'none'});
     $('#signin-user').css({display: 'block'});
     $('#signin-host').css({display: 'block'});
     $(this).html('Create An Ethereum Account');
-    signupBool = false;
+    signupBool = true;
   }
-
 });
 
 
@@ -265,5 +207,78 @@ function failurePopUp() {
     // close: function() {
     //   $('body').css('background', '#ccc');
     // }
+  });
+}
+
+function senderAdd() {
+  Ethereum.deStore().senderAdd({
+    from: Ethereum.account,
+    gas: 1000000
+  })
+  .then(tx => {
+    console.log('Sender Added');
+    window.location = '../html/host.html';
+  })
+  .catch(err => {
+    console.error(err);
+  });
+}
+
+function receiverAdd() {
+  var storage = 1024 * 1024 * 1024 * config.get('user.store');
+  Ethereum.deStore().receiverAdd(storage, {
+    from: Ethereum.account,
+    gas: 1000000
+  })
+  .then(tx => {
+    console.log('Receiver Added');
+    window.location = '../html/user.html';
+  })
+  .catch(err => {
+    console.error(err);
+  });
+}
+
+function senderCheckInit(isSignUp) {
+  Ethereum.deStore().senderCheckInit({
+    from: Ethereum.account
+  })
+  .then(status => {
+    console.log('user', status);
+    if (status === true) {
+      window.location = '../html/user.html';
+    } else if (isSignUp === false) {
+      authenticatePopUp();
+    } else if (isSignUp === true && Ethereum.getBalanceEther() > 5) {
+      console.log('making sender');
+      senderAdd();
+    } else {
+      $('#authFail').css('display', 'block');
+    }
+  })
+  .catch(err => {
+    console.error(err);
+  });
+}
+
+function receiverCheckInit(isSignUp) {
+  Ethereum.deStore().receiverCheckInit({
+    from: Ethereum.account
+  })
+  .then(status => {
+    console.log('host', status);
+    if (status === true) {
+      window.location = '../html/host.html';
+    } else if (isSignUp === false) {
+      authenticatePopUp();
+    } else if (isSignUp === true && Ethereum.getBalanceEther() > 5) {
+      console.log('making receiver');
+      receiverAdd();
+    } else {
+      $('#authFail').css('display', 'block');
+    }
+  })
+  .catch(err => {
+    console.error(err);
   });
 }

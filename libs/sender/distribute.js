@@ -16,7 +16,7 @@ module.exports = promisify((fileName, amount, callback) => {
       return Ethereum.deStore().senderGetFileReceivers(fileName, options);
     })
     .then(addresses => {
-      Upload.db.update({fileName: fileName}, {$set: {receivers: addresses, isUploaded: true}}, (err, num) => {
+      Upload.db.update({account: Ethereum.account, fileName: fileName}, {$set: {receivers: addresses, isUploaded: true}}, (err, num) => {
         if (err) callback(err, null);
         else {
           callback(null, addresses);

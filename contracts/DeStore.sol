@@ -303,7 +303,7 @@ contract DeStore {
           receivers[availReceivers[j]].sizes.push(file.sizes[g]);
           receivers[availReceivers[j]].values.push(file.value);
           receivers[availReceivers[j]].availStorage -= file.sizes[g];
-          /*senders[msg.sender].files[_fileName].receivers[g].push(availReceivers[j]); // was not able to use memory file*/
+          /*senders[msg.sender].files[_fileName].receivers[g].push(availReceivers[j]); init// was not able to use memory file*/
           // need to verifiy this reciever list
           senders[msg.sender].files[_fileName].receivers.push(availReceivers[j]);
         }

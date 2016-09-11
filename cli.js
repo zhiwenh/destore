@@ -52,17 +52,32 @@ if (program.init) {
   // Promise.all(promises)
   //   .then(bools => {
   //     console.log(bools);
-  Ethereum.deploy('DeStore', [], deployOptions)
-    // })
+
+  Ethereum.unlockAccount(Ethereum.accounts[0], 'hello', 10000000)
+    .then(bool => {
+      return Ethereum.unlockAccount(Ethereum.accounts[1], 'hello', 10000000);
+    })
+    .then(bool => {
+      return Ethereum.unlockAccount(Ethereum.accounts[2], 'hello', 10000000);
+    })
+    .then(bool => {
+      return Ethereum.unlockAccount(Ethereum.accounts[3], 'hello', 10000000);
+    })
+    .then(bool => {
+      return Ethereum.unlockAccount(Ethereum.accounts[4], 'hello', 10000000);
+    })
+    .then(bool => {
+      return Ethereum.deploy('DeStore', [], deployOptions);
+    })
     .then(instance => {
       config.contracts.deStore = instance.address;
       console.log(instance.address);
       DeStoreAddress.save(instance.address);
       return Promise.all([
-        Ethereum.deStore().receiverAdd(1000000000, {from: Ethereum.accounts[1], gas: 1000000}),
-        Ethereum.deStore().receiverAdd(1000000000, {from: Ethereum.accounts[2], gas: 1000000}),
-        Ethereum.deStore().receiverAdd(1000000000, {from: Ethereum.accounts[3], gas: 1000000}),
-        Ethereum.deStore().receiverAdd(1000000000, {from: Ethereum.accounts[4], gas: 1000000}),
+        Ethereum.deStore().receiverAdd(1000000000, {from: Ethereum.accounts[1], gas: 100000}),
+        Ethereum.deStore().receiverAdd(1000000000, {from: Ethereum.accounts[2], gas: 100000}),
+        Ethereum.deStore().receiverAdd(1000000000, {from: Ethereum.accounts[3], gas: 100000}),
+        Ethereum.deStore().receiverAdd(1000000000, {from: Ethereum.accounts[4], gas: 100000}),
       ]);
     })
     .then(arr => {
@@ -101,10 +116,10 @@ if (program.receivers) {
   config.contracts.deStore = DeStoreAddress.get();
 
   Promise.all([
-    Ethereum.deStore().receiverAdd(1000000000, {from: Ethereum.accounts[1], gas: 1000000}),
-    Ethereum.deStore().receiverAdd(1000000000, {from: Ethereum.accounts[2], gas: 1000000}),
-    Ethereum.deStore().receiverAdd(1000000000, {from: Ethereum.accounts[3], gas: 1000000}),
-    Ethereum.deStore().receiverAdd(1000000000, {from: Ethereum.accounts[4], gas: 1000000}),
+    Ethereum.deStore().receiverAdd(1000000000, {from: Ethereum.accounts[1]}),
+    Ethereum.deStore().receiverAdd(1000000000, {from: Ethereum.accounts[2]}),
+    Ethereum.deStore().receiverAdd(1000000000, {from: Ethereum.accounts[3]}),
+    Ethereum.deStore().receiverAdd(1000000000, {from: Ethereum.accounts[4]}),
   ])
     .then(arr => {
       console.log(arr);
@@ -140,9 +155,23 @@ if (program.createAccount) {
 }
 
 if (program.unlock) {
-  for (let i = 1; i < Ethereum.accounts.length; i++) {
-    const web3 = Ethereum.init();
-    web3.eth.sendTransaction({from: Ethereum.accounts[0], to: Ethereum.accounts[i], value: Ethereum.toWei(50)});
-    console.log(Ethereum.getBalanceEther(i));
-  }
+  // for (let i = 1; i < Ethereum.accounts.length; i++) {
+  //   const web3 = Ethereum.init();
+  //   web3.eth.sendTransaction({from: Ethereum.accounts[0], to: Ethereum.accounts[i], value: Ethereum.toWei(50)});
+  //   console.log(Ethereum.getBalanceEther(i));
+  // }
+  Ethereum.init();
+  Ethereum.unlockAccount(Ethereum.accounts[0], 'hello', 10000000)
+    .then(bool => {
+      return Ethereum.unlockAccount(Ethereum.accounts[1], 'hello', 10000000);
+    })
+    .then(bool => {
+      return Ethereum.unlockAccount(Ethereum.accounts[2], 'hello', 10000000);
+    })
+    .then(bool => {
+      return Ethereum.unlockAccount(Ethereum.accounts[3], 'hello', 10000000);
+    })
+    .then(bool => {
+      return Ethereum.unlockAccount(Ethereum.accounts[4], 'hello', 10000000);
+    });
 }

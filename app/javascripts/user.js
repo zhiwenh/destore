@@ -23,11 +23,24 @@ Sender.listUploadDb()
   .then((docs) => {
     console.log(docs);
     docs.map((item) => {
-      if(item.isUploaded) {
-        $('#fileTable').append(`<div data-filepath="${item.filePath}" class="file"><span class="basename">${path.basename(item.filePath)}</span><div class="filesize">${(item.fileSize/(1024*1024)).toFixed(2)} MB</div><div class="cost">${((item.fileSize/(1024*1024*1024)) * 10).toFixed(3) } cents/month</div><button class="btn-up retrieve">Retrieve</button><button class="btn-pay pay">Pay</button></div>`);
-      }
-      else if(item.isMounted) {
-        $('#fileTable').append(`<div data-filepath="${item.filePath}" class="file"><span class="basename">${path.basename(item.filePath)}</span><div class="filesize">${(item.fileSize/(1024*1024)).toFixed(2)} MB</div><div class="cost">${((item.fileSize/(1024*1024*1024)) * 10).toFixed(3) } cents/month</div><input class="recNum" type="number" placeholder="# of hosts"/><button class="btn-up distribute">Distribute</button></div>`);
+      if (item.isUploaded) {
+        $('#fileTable').append(`
+        <div data-filepath="${item.filePath}" class="file">
+          <span class="basename">${path.basename(item.filePath)}</span>
+          <div class="filesize">${(item.fileSize/(1024*1024)).toFixed(2)} MB</div>
+          <div class="cost">${((item.fileSize/(1024*1024*1024)) * 10).toFixed(3) } cents/month</div>
+          <button class="btn-up retrieve">Retrieve</button>
+          <button class="btn-pay pay">Pay</button>
+        </div>`);
+      } else if (item.isMounted) {
+        $('#fileTable').append(`
+          <div data-filepath="${item.filePath}" class="file">
+            <span class="basename">${path.basename(item.filePath)}</span>
+            <div class="filesize">${(item.fileSize/(1024*1024)).toFixed(2)} MB</div>
+            <div class="cost">${((item.fileSize/(1024*1024*1024)) * 10).toFixed(3) } cents/month</div>
+            <input class="recNum" type="number" placeholder="# of hosts"/>
+            <button class="btn-up distribute">Distribute</button>
+          </div>`);
       }
     });
   });
@@ -81,7 +94,13 @@ $('.upload-drop-zone').on('drop', (ev) => {
   Sender.copyFile(filePath)
     .then((res) => {
       console.log(res);
-      $('#fileTable').append(`<div data-filepath="${filePath}" class="file"><span class="basename">${path.basename(filePath)}</span><div class="filesize">${(fileSize/(1024*1024)).toFixed(2)} MB</div><div class="cost">${((fileSize/(1024*1024*1024)) * 10).toFixed(3) } cents/month</div><button class="btn-up mount">Mount</button></div>`);
+      $('#fileTable').append(`
+        <div data-filepath="${filePath}" class="file">
+          <span class="basename">${path.basename(filePath)}</span>
+          <div class="filesize">${(fileSize/(1024*1024)).toFixed(2)} MB</div>
+          <div class="cost">${((fileSize/(1024*1024*1024)) * 10).toFixed(3) } cents/month</div>
+          <button class="btn-up mount">Mount</button>
+        </div>`);
     })
     .catch((res) => {
       console.log('Error', res);
@@ -101,7 +120,9 @@ $('body').on('click', '.mount', function() {
       return hashes[0];
     })
     .then(() => {
-      $(this).replaceWith('<input class="recNum" type="number" placeholder="# of hosts"></input><button class="btn-up distribute">Distribute</button>');
+      $(this).replaceWith(`
+        <input class="recNum" type="number" placeholder="# of hosts"></input>
+        <button class="btn-up distribute">Distribute</button>`);
     })
     .catch(err => {
       console.error(err);
@@ -110,15 +131,16 @@ $('body').on('click', '.mount', function() {
 
 $('body').on('click', '.distribute', function() {
   var fileName = path.basename($(this).closest('.file').data('filepath'));
-  var userNum = $(this).closest('.file').find('.recNum').val() || 3;
+  var userNum = $(this).closest('.file').find('.recNum').val() || 1;
   console.log(userNum);
   Sender.distribute(fileName, userNum)
     .then((res) => {
       $(this).closest('.file').find('.recNum').remove();
-      $(this).replaceWith('<button class="btn-up retrieve">Retrieve</button><button class="btn-up pay">Pay</button>');
-      console.log(res);
-      $(this).closest('.file').find('.recNum').remove();
-      $(this).replaceWith('<button class="btn-up retrieve">Retrieve</button><button class="btn-pay pay">Pay</button>');
+
+      $(this).replaceWith(`
+        <button class="btn-up retrieve">Retrieve</button>
+        <button class="btn-up pay">Pay</button>
+      `);
     })
     .catch((err) => {
       console.log(err);

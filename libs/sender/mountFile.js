@@ -1,4 +1,5 @@
 'use strict';
+const Ethereum = require('./../ethereum/ethereum.js');
 const IPFS = require('./../ipfs/ipfs.js');
 const Upload = require('./../../models/Upload.js');
 const promisify = require('es6-promisify');
@@ -21,6 +22,7 @@ module.exports = promisify((filePath, value, callback) => {
     })
     .then(hashArr => {
       const upload = {
+        account: Ethereum.account,
         fileName: fileName,
         filePath: filePath,
         fileSize: fileSize,

@@ -23,6 +23,7 @@ module.exports = promisfy((callback) => {
       const promises = [];
       for (let i = 0; i < resArr[0].length; i++) {
         const doc = {
+          account: Ethereum.account,
           fileSize: Number(sizes[i].toString(10)),
           hashAddress: hashes[i],
           senderAddress: senders[i],

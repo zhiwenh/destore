@@ -147,7 +147,7 @@ class Ethereum {
    * @return {Number} - wei amount
    **/
   toWei(amount) {
-    return Number(this._web3.toWei(amount, 'ether').toString(10));
+    return Number(this._web3.toWei(amount, 'ether').toString());
   }
 
   /**
@@ -156,7 +156,7 @@ class Ethereum {
    * @return {Number} - Ether amount
    **/
   toEther(amount) {
-    return Number(this._web3.fromWei(amount, 'ether').toString(10));
+    return Number(this._web3.fromWei(amount, 'ether').toString());
   }
 
   /**

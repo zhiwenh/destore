@@ -11,7 +11,7 @@ const promisify = require('es6-promisify');
 module.exports = promisify((fileName, callback) => {
   const options = Ethereum.defaults;
 
-  Upload.db.findOne({fileName: fileName}, (err, doc) => {
+  Upload.db.findOne({account: Ethereum.account, fileName: fileName}, (err, doc) => {
     if (err || doc === null) {
       callback(new Error('File name not found'), null);
       return;

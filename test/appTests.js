@@ -244,6 +244,7 @@ test('Testing removeHash and listHostDb', t => {
 
 const retrieveFile = require('./../libs/sender/retrieveFile');
 test('Testing retrieveFile', t => {
+  Ethereum.changeAccount(0);
   retrieveFile('lemon.gif')
     .then(returnedPath => {
       t.equal(returnedPath, path.join(config.files.download, 'lemon.gif'), 'Expect retrieved path to equal config files download location and file name');
