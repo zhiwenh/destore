@@ -31,7 +31,14 @@ var accountID = config.get('user.id');
 $('#accountID').html(accountID);
 
 var totalStorage = config.get('user.store');
-$('.dash__total__storage__value').html(`${totalStorage} GB`);
+Ethereum.deStore().receiverGetStorage({from: Ethereum.account})
+  .then(amount => {
+    const amountGB = amount / 1024 / 1024 / 1024;
+    $('.dash__total__storage__value').text(amountGB);
+  })
+  .catch(err => {
+    console.error(err);
+  });
 
 $(document).on('click', '.clearList', () => {
   config.clear('startup');
@@ -104,7 +111,8 @@ function updateHostInfos() {
         // hashDiv.text(hashAddress);
         $('.dash__storage__hashes').text(hashAddress + '<br>');
       }
-      $('.dash__storage__size__num').text(storageSize);
+      const storageSizeGB = storageSize / 1024 / 1024 / 1024;
+      $('.dash__storage__size__num').text(storageSizeGB);
     })
     .catch(err => {
       console.error(err);
