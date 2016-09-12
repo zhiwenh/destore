@@ -1,8 +1,10 @@
 body {
-  background-image: url("../../images/wallpaperUser.jpg");
+  /*background-image: url("../../images/wallpaperUser.jpg");
   background-repeat: no-repeat;
   background-attachment: fixed;
-  background-position: center;
+  background-position: center;*/
+  background: -webkit-linear-gradient(to left, #40105d, #070707);
+  background: linear-gradient(to left, #40105d, #070707);
   font-family: 'Lato', sans-serif;
 }
 
