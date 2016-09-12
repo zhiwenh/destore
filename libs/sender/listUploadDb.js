@@ -1,4 +1,5 @@
 'use strict';
+const Ethereum = require('./../ethereum/ethereum.js');
 const Upload = require('./../../models/Upload.js');
 const promisify = require('es6-promisify');
 
@@ -7,7 +8,7 @@ const promisify = require('es6-promisify');
 * @returns {Promise} - contains an array of all Uploaded docs
 **/
 module.exports = promisify((callback) => {
-  Upload.db.find({}, (err, docs) => {
+  Upload.db.find({account: Ethereum.account}, (err, docs) => {
     if (err) {
       callback(err, null);
       return;

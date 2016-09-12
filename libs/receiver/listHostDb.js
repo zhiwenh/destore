@@ -1,4 +1,5 @@
 'use strict';
+const Ethereum = require('./../ethereum/ethereum.js');
 const Host = require('./../../models/Host.js');
 const promisify = require('es6-promisify');
 
@@ -8,7 +9,7 @@ const promisify = require('es6-promisify');
 **/
 
 module.exports = promisify((callback) => {
-  Host.db.find({}, (err, docs) => {
+  Host.db.find({account: Ethereum.account}, (err, docs) => {
     if (err) {
       callback(err, null);
       return;

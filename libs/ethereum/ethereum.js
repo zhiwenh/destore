@@ -20,11 +20,25 @@ class Ethereum {
 
     this.account = null;
     this.accounts = [];
+    this.gasValue = null;
 
     // default options for destore methods
+    /**
+    const options = {
+      from: {String}, // The address for the sending account. Uses the web3.eth.defaultAccount property, if not specified.
+      to: {String}, // (optional) The destination address of the message, left undefined for a contract-creation transaction.
+      value: {Number|String|BigNumber}, // (optional) The value transferred for the transaction in Wei, also the endowment if it's a contract-creation transaction
+      gas: {Number|String|BigNumber}, // optional, default: To-Be-Determined) The amount of gas to use for the transaction (unused gas is refunded).
+
+      gasPrice: {Number|String|BigNumber}, // (optional, default: To-Be-Determined) The price of gas for this transaction in wei, defaults to the mean network gas price.
+      data: {String}, // (optional) Either a byte string containing the associated data of the message, or in the case of a contract-creation transaction, the initialisation code.
+      nonce: {Number} //  (optional) Integer of a nonce. This allows to overwrite your own pending transactions that use the same nonce.
+    }
+    **/
     this.defaults = {
       from: this.account,
-      gas: 1000000
+      gas: 2000000,
+      value: 0,
     };
   }
 
@@ -103,11 +117,12 @@ class Ethereum {
   /**
    * @address {String}
    * @password {String}
+   * @timeLength {Number}
    * @returns {Boolean} - indication if the account was unlocked
    **/
-  unlockAccount(address, password) {
+  unlockAccount(address, password, timeLength) {
     this.init();
-    return unlockAccount(address, password);
+    return unlockAccount(address, password, timeLength);
   }
 
   /**
@@ -147,7 +162,7 @@ class Ethereum {
    * @return {Number} - wei amount
    **/
   toWei(amount) {
-    return Number(this._web3.toWei(amount, 'ether').toString(10));
+    return Number(this._web3.toWei(amount, 'ether').toString());
   }
 
   /**
@@ -156,7 +171,7 @@ class Ethereum {
    * @return {Number} - Ether amount
    **/
   toEther(amount) {
-    return Number(this._web3.fromWei(amount, 'ether').toString(10));
+    return Number(this._web3.fromWei(amount, 'ether').toString());
   }
 
   /**
@@ -259,7 +274,7 @@ class Ethereum {
       event.get((err, logs) => {
         if (err) callback(err, null);
         else {
-          const filteredLogs = {};
+          const filteredLunlocogs = {};
           logs = logs.filter((element) => {
             for (let key in filter) {
               if (filter[key] !== element[key] && element[key] !== undefined) {

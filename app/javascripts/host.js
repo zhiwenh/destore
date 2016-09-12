@@ -10,6 +10,8 @@ const config = new Config();
 const fs = nodeRequire('fs');
 const DeStoreAddress = nodeRequire('../../models/DeStoreAddress');
 
+const bytesMag = nodeRequire('./utils/bytesMag');
+
 //Initializes daemon when on page
 IPFS.init();
 IPFS.daemon();
@@ -22,18 +24,9 @@ Ethereum.changeAccount(config.get('user.accountIndex'));
 
 const fileIpfsArray = config.get('fileList.address');
 
-//TODO: MAKE A SEND ALL FUNCTION
-//TODO: ON CLOSE, take out all undefined
+$('#accountID').html(Ethereum.account);
 
-updateHostInfos();
-
-var accountID = config.get('user.id');
-$('#accountID').html(accountID);
-
-var totalStorage = config.get('user.store');
-$('.dash__total__storage__value').html(`${totalStorage} GB`);
-
-$(document).on('click', '.clearList', () => {
+$(document).on('click', '.signOut', () => {
   config.clear('startup');
   window.location = '../html/signup.html';
 });
@@ -54,6 +47,49 @@ $('body').on('click', '.withdraw', function() {
   withdrawAll();
 });
 
+
+var isChangingStorage = false;
+var isChangePending = false;
+var newStorageInput;
+$('.dash__change__storage__button').on('click', function(e) {
+  if (isChangePending === true) {
+    return;
+  }
+  if (isChangingStorage === false) {
+    isChangingStorage = true;
+    newStorageInput = $('<input>');
+    $('.dash__total__storage__value').text('');
+    $('.dash__total__storage__title').html(newStorageInput);
+    $('.dash__total__storage__title').append('GB');
+  } else {
+    isChangePending = true;
+    var storageValue = newStorageInput.val();
+    storageValue = storageValue * 1024 * 1024 * 1024;
+    console.log(storageValue);
+    Ethereum.deStore().receiverChangeStorage(storageValue)
+      .then(tx => {
+        console.log('tx for change storage went thru');
+        return Ethereum.deStore().receiverGetStorage();
+      })
+      .then(amount => {
+        $('.dash__total__storage__value').text(bytesMag(amount));
+        $('.dash__total__storage__title').html('Storage Limit:');
+        isChangePending = false;
+        isChangingStorage = false;
+      })
+      .catch(err => {
+        console.error(err);
+        isChangePending = false;
+      });
+  }
+  // insert input box into total storage value
+  // another click on change storage button will change the input
+  // needs to be greater than amount hosted
+  // sends the limit to the contract
+
+
+});
+
 //1 second Interval for Timer
 var elapsed_seconds = 0;
 setInterval(function() {
@@ -63,10 +99,10 @@ setInterval(function() {
 
 //Checks Contract and Account Balance (every minute)
 checkBalance();
-// contractBalance();
+contractBalance();
 setInterval(function() {
   checkBalance();
-  // contractBalance();
+  contractBalance();
 }, 60000);
 
 //Downloads all files available in contract (every minute)
@@ -77,34 +113,9 @@ $('body').on('click', '.hostAll', function() {
   }, 60000);
 });
 
-
-function get_elapsed_time_string(total_seconds) {
-  function pretty_time_string(num) {
-    return ( num < 10 ? '0' : '' ) + num;
-  }
-
-  var hours = Math.floor(total_seconds / 3600);
-  total_seconds = total_seconds % 3600;
-
-  var minutes = Math.floor(total_seconds / 60);
-  total_seconds = total_seconds % 60;
-
-  var seconds = Math.floor(total_seconds);
-
-  // Pad the minutes and seconds with leading zeros, if required
-  hours = pretty_time_string(hours);
-  minutes = pretty_time_string(minutes);
-  seconds = pretty_time_string(seconds);
-
-  // Compose the string for display
-  var currentTimeString = hours + ':' + minutes + ':' + seconds;
-
-  return currentTimeString;
-}
-
 function checkBalance () {
   const balance = Ethereum.getBalanceEther().toFixed(3) || 0;
-  $('#dash__balance__value').text(balance + ' Ether');
+  $('#dash__balance__value').text(balance);
 }
 
 /**
@@ -125,8 +136,9 @@ function updateHostInfos() {
         const hashAddress = docs[i].hashAddress;
         // const hashDiv = $('<div></div>');
         // hashDiv.text(hashAddress);
-        $('.dash__storage__hashes').append(hashAddress + '<br>');
+        $('.dash__storage__hashes').text(hashAddress + '<br>');
       }
+      storageSize = bytesMag(storageSize);
       $('.dash__storage__size__num').text(storageSize);
     })
     .catch(err => {
@@ -140,8 +152,9 @@ function updateHostInfos() {
 function contractBalance() {
   Receiver.balance()
     .then(amounts => {
-      $('#dash__balance__value').text(amounts[0]);
-      $('#dash__contract__balance__value').text(amounts[1]);
+      console.log(amounts);
+      // $('#dash__balance__value').text(amounts[0]);
+      $('#dash__balance__contract__value').text(amounts[0]);
     })
     .catch(err => {
       console.error(err);
@@ -172,3 +185,39 @@ function hostAll() {
       console.error(err);
     });
 }
+
+function get_elapsed_time_string(total_seconds) {
+  function pretty_time_string(num) {
+    return ( num < 10 ? '0' : '' ) + num;
+  }
+
+  var hours = Math.floor(total_seconds / 3600);
+  total_seconds = total_seconds % 3600;
+
+  var minutes = Math.floor(total_seconds / 60);
+  total_seconds = total_seconds % 60;
+
+  var seconds = Math.floor(total_seconds);
+
+  // Pad the minutes and seconds with leading zeros, if required
+  hours = pretty_time_string(hours);
+  minutes = pretty_time_string(minutes);
+  seconds = pretty_time_string(seconds);
+
+  // Compose the string for display
+  var currentTimeString = hours + ':' + minutes + ':' + seconds;
+
+  return currentTimeString;
+}
+
+// Run on page initialization
+Ethereum.deStore().receiverGetStorage({from: Ethereum.account})
+  .then(amount => {
+    amount = bytesMag(amount);
+    $('.dash__total__storage__value').text(amount);
+  })
+  .catch(err => {
+    console.error(err);
+  });
+
+updateHostInfos();

@@ -18,12 +18,12 @@ function createWindow () {
   mainWindow = new BrowserWindow({width: 1200, height: 750});
 
   // and load the index.html of the app.
-  mainWindow.loadURL(`file://${__dirname}/html/${startupPath}.html`);
+  mainWindow.loadURL(`file://${__dirname}/html/signup.html`);
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
 
-  // Emitted when the window is closed.
+  // Emitted when the windowis closed.
   mainWindow.on('closed', function () {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time

@@ -19,14 +19,15 @@ module.exports = promisfy((callback) => {
       const hashes = nestedHexToAscii(hexHashes);
       const senders = resArr[1];
       const sizes = resArr[2];
-      const values = resArr[3];
+      const values = resArr[3]; // values are in wei
       const promises = [];
       for (let i = 0; i < resArr[0].length; i++) {
         const doc = {
+          account: Ethereum.account,
           fileSize: Number(sizes[i].toString(10)),
           hashAddress: hashes[i],
           senderAddress: senders[i],
-          value: Number(values[i].toString(10)),
+          value: Ethereum.toEther(values[i]),
           infoTime: new Date(),
           isHosted: false,
           filePath: null,

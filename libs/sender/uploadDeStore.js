@@ -12,14 +12,14 @@ const nestedHexToAscii = require('./../ethereum/nestedHexToAscii.js');
 **/
 module.exports = promisify((fileName, callback) => {
   const options = Ethereum.defaults;
-  Upload.db.findOne({fileName: fileName}, (err, doc) => {
+  Upload.db.findOne({account: Ethereum.account, fileName: fileName}, (err, doc) => {
     if (err || doc === null) {
       callback(new Error('No Upload document was found of name ' + fileName), null);
       return;
     }
     let hashArr;
     let sizeArr;
-    const value = doc.value;
+    const value = Ethereum.toWei(doc.value);
     // for doc blocs to have existed would have needed to used method to break them up
     if (doc.blocks.length >= 1) {
       hashArr = doc.blocks;

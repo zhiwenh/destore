@@ -1,4 +1,5 @@
 'use strict';
+const Ethereum = require('./../ethereum/ethereum.js');
 const IPFS = require('./../ipfs/ipfs.js');
 const Upload = require('./../../models/Upload.js');
 const promisify = require('es6-promisify');
@@ -8,6 +9,7 @@ const path = require('path');
 /**
  * Mounts a single file
  * @filePath {String} or {Array} - path to file
+ * @value {Number} cost of the file in Ether
  * @returns Promise - res is an Object of the doc added to nedb
  **/
 module.exports = promisify((filePath, value, callback) => {
@@ -21,6 +23,7 @@ module.exports = promisify((filePath, value, callback) => {
     })
     .then(hashArr => {
       const upload = {
+        account: Ethereum.account,
         fileName: fileName,
         filePath: filePath,
         fileSize: fileSize,
