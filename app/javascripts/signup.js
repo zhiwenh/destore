@@ -79,14 +79,33 @@ $(document).ready(function() {
     console.log('signin submit');
 
     e.preventDefault();
+    var userID = $(this).find('.login-address').val();
+    var userPass = $(this).find('.login-password').val();
+    var storage;
     var userType = $(this).data('tab');
     // if (currentTab === 'host') {
     //   storage = $(this).find('.storage').val();
     // }
+    
+    /**
+    * For Testing
+    **/
+    if (configs.testing === true) {
+      let accountIndex;
+      for (let i = 0; i < Ethereum.accounts.length; i++) {
+        if (Ethereum.accounts[i] === userID) {
+          accountIndex = i;
+          break;
+        }
+      }
+      config.set('user', {
+        path: userType,
+        accountIndex: accountIndex
+      });
+      window.location = `../html/${userType}.html`;
+    }
 
-    var userID = $(this).find('.login-address').val();
-    var userPass = $(this).find('.login-password').val();
-    var storage;
+
     if (Ethereum.check()) {
       console.log('ethereum check');
       let accountIndex;

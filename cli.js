@@ -23,6 +23,7 @@ program
   .option('reset-upload')
   .option('create-account')
   .option('unlock')
+  .option('testrpc', 'Set up testrpc env')
 
 program
   .command('save <file>')
@@ -177,5 +178,39 @@ if (program.unlock) {
     })
     .then(bool => {
       return Ethereum.unlockAccount(Ethereum.accounts[4], 'hello', 10000000);
+    });
+}
+
+if (program.testrpc) {
+  Ethereum.init();
+  Upload.reset();
+  Host.reset();
+  Ethereum.changeAccount(0);
+  const deployOptions = {
+    from: Ethereum.account,
+    gas: 3000000,
+    gasValue: 20000000000
+  };
+
+  Ethereum.deploy('DeStore', [], deployOptions)
+    .then(instance => {
+      config.contracts.deStore = instance.address;
+      console.log('Deloyed DeStore', instance.address);
+      DeStoreAddress.save(instance.address);
+      const storage = 5 * 1024 * 1024 * 1024;
+      return Promise.all([
+        Ethereum.deStore().senderAdd({from: Ethereum.accounts[0], gas: 300000, gasValue: 20000000000}),
+        Ethereum.deStore().receiverAdd(storage, {from: Ethereum.accounts[1], gas: 300000, gasValue: 20000000000}),
+        Ethereum.deStore().receiverAdd(storage, {from: Ethereum.accounts[2], gas: 300000, gasValue: 20000000000}),
+        Ethereum.deStore().receiverAdd(storage, {from: Ethereum.accounts[3], gas: 300000, gasValue: 20000000000}),
+        Ethereum.deStore().receiverAdd(storage, {from: Ethereum.accounts[4], gas: 300000, gasValue: 20000000000}),
+      ]);
+    })
+    .then(arr => {
+      console.log('Receiver Accounts');
+      console.log(arr);
+    })
+    .catch(err => {
+      console.error(err);
     });
 }
