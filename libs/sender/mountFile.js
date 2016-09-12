@@ -9,6 +9,7 @@ const path = require('path');
 /**
  * Mounts a single file
  * @filePath {String} or {Array} - path to file
+ * @value {Number} cost of the file in Ether
  * @returns Promise - res is an Object of the doc added to nedb
  **/
 module.exports = promisify((filePath, value, callback) => {

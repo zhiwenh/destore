@@ -203,6 +203,13 @@ contract DeStore {
     receivers[msg.sender].availStorage += kilobytes;
   }
 
+  function receiverChangeStorage(uint kilobytes)
+    external
+    receiverStatus(msg.sender)
+  {
+    receivers[msg.sender].availStorage = kilobytes;
+  }
+
   function receiverGetStorage()
     external
     receiverStatus(msg.sender)

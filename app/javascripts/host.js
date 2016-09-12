@@ -10,6 +10,8 @@ const config = new Config();
 const fs = nodeRequire('fs');
 const DeStoreAddress = nodeRequire('../../models/DeStoreAddress');
 
+const bytesMag = nodeRequire('./utils/bytesMag');
+
 //Initializes daemon when on page
 IPFS.init();
 IPFS.daemon();
@@ -22,25 +24,9 @@ Ethereum.changeAccount(config.get('user.accountIndex'));
 
 const fileIpfsArray = config.get('fileList.address');
 
-//TODO: MAKE A SEND ALL FUNCTION
-//TODO: ON CLOSE, take out all undefined
+$('#accountID').html(Ethereum.account);
 
-updateHostInfos();
-
-var accountID = config.get('user.id');
-$('#accountID').html(accountID);
-
-var totalStorage = config.get('user.store');
-Ethereum.deStore().receiverGetStorage({from: Ethereum.account})
-  .then(amount => {
-    const amountGB = amount / 1024 / 1024 / 1024;
-    $('.dash__total__storage__value').text(amountGB);
-  })
-  .catch(err => {
-    console.error(err);
-  });
-
-$(document).on('click', '.clearList', () => {
+$(document).on('click', '.signOut', () => {
   config.clear('startup');
   window.location = '../html/signup.html';
 });
@@ -59,6 +45,49 @@ $('.question').on({
 //withdraws all the money in the smart contract
 $('body').on('click', '.withdraw', function() {
   withdrawAll();
+});
+
+
+var isChangingStorage = false;
+var isChangePending = false;
+var newStorageInput;
+$('.dash__change__storage__button').on('click', function(e) {
+  if (isChangePending === true) {
+    return;
+  }
+  if (isChangingStorage === false) {
+    isChangingStorage = true;
+    newStorageInput = $('<input>');
+    $('.dash__total__storage__value').text('');
+    $('.dash__total__storage__title').html(newStorageInput);
+    $('.dash__total__storage__title').append('GB');
+  } else {
+    isChangePending = true;
+    var storageValue = newStorageInput.val();
+    storageValue = storageValue * 1024 * 1024 * 1024;
+    console.log(storageValue);
+    Ethereum.deStore().receiverChangeStorage(storageValue)
+      .then(tx => {
+        console.log('tx for change storage went thru');
+        return Ethereum.deStore().receiverGetStorage();
+      })
+      .then(amount => {
+        $('.dash__total__storage__value').text(bytesMag(amount));
+        $('.dash__total__storage__title').html('Storage Limit:');
+        isChangePending = false;
+        isChangingStorage = false;
+      })
+      .catch(err => {
+        console.error(err);
+        isChangePending = false;
+      });
+  }
+  // insert input box into total storage value
+  // another click on change storage button will change the input
+  // needs to be greater than amount hosted
+  // sends the limit to the contract
+
+
 });
 
 //1 second Interval for Timer
@@ -84,11 +113,9 @@ $('body').on('click', '.hostAll', function() {
   }, 60000);
 });
 
-
-
 function checkBalance () {
   const balance = Ethereum.getBalanceEther().toFixed(3) || 0;
-  $('#dash__balance__value').text(balance + ' Ether');
+  $('#dash__balance__value').text(balance);
 }
 
 /**
@@ -111,8 +138,8 @@ function updateHostInfos() {
         // hashDiv.text(hashAddress);
         $('.dash__storage__hashes').text(hashAddress + '<br>');
       }
-      const storageSizeGB = storageSize / 1024 / 1024 / 1024;
-      $('.dash__storage__size__num').text(storageSizeGB);
+      storageSize = bytesMag(storageSize);
+      $('.dash__storage__size__num').text(storageSize);
     })
     .catch(err => {
       console.error(err);
@@ -182,3 +209,15 @@ function get_elapsed_time_string(total_seconds) {
 
   return currentTimeString;
 }
+
+// Run on page initialization
+Ethereum.deStore().receiverGetStorage({from: Ethereum.account})
+  .then(amount => {
+    amount = bytesMag(amount);
+    $('.dash__total__storage__value').text(amount);
+  })
+  .catch(err => {
+    console.error(err);
+  });
+
+updateHostInfos();

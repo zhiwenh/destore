@@ -20,14 +20,14 @@
     <img class="logoAbs" src="../../images/DeStoreWhite.png" alt="DeStore Logo">
 
     <div class="public__id">
-        <span style="float: left; font-weight: 700; font-size: 30px"> Account: Host</span>
-      Your Public Account ID is <span id="accountID"></span>
+        <span style="float: left; font-weight: 700; font-size: 30px">Host
+        </span>Account ID: <span id="accountID"></span>
     </div>
 
     <div id="dash" class="shadow grid2x2">
 
       <div class="dash__box dash__balance">
-        <div class="dash__balance__title dash__title">Account Balance:</div>
+        <div class="dash__balance__title dash__title">Account Ether Balance </div>
         <div id="dash__balance__value" class="dash__display"></div>
         <div class="dash__balance__contract__title dash__title">Contract Balance: </div>
         <div id="dash__balance__contract__value" class="dash__display"></div>
@@ -38,16 +38,18 @@
 
       <div class="dash__box dash__storage">
         <div class="dash__storage__size">
-          <div class="dash__storage__size__title dash__title">Amount Hosted GB</div>
+          <div class="dash__storage__size__title dash__title">Amount Hosted </div>
           <div class="dash__storage__size__num dash__display"></div>
-          <div class="dash__total__storage__title">Total Storage: </div>
+          <div class="dash__total__storage__title">Storage Limit: </div>
           <div class="dash__total__storage__value"></div>
-          <div class="dash__change__storage"><button class="btn btn-danger">Change Storage Limit</button></div>
+          <div class="dash__change__storage">
+            <button class="btn btn-danger dash__change__storage__button">Change Storage Limit</button>
+          </div>
         </div>
       </div>
 
       <div class="dash__box dash__time">
-        <div class="dash__time__title dash__title">Time Online:</div>
+        <div class="dash__time__title dash__title">Uptime:</div>
         <div id="dash__time__timer" class="dash__display">00:00:00</div>
       </div>
 
@@ -58,7 +60,7 @@
       </div>
 
     </div> <!-- 2x2 Grid -->
-      <button class="btn btn-danger clearList">Sign Out</button>
+      <button class="btn btn-danger signOut">Sign Out</button>
     </div> <!-- HOST -->
   </body>
   <script>

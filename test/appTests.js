@@ -53,10 +53,8 @@ test('Deploying new DeStore contract and adding a sender and receiver', t => {
 
 const mountFile = require('./../libs/sender/mountFile.js');
 
-
-
 test('Testing mountFile', t => {
-  mountFile(__dirname + '/lemon.gif', 1)
+  mountFile(__dirname + '/lemon.gif', 0.002)
     .then(res => {
       t.equal(res.hashAddress, 'QmcSwTAwqbtGTt1MBobEjKb8rPwJJzfCLorLMs5m97axDW', 'Expect hash uploaded to equal');
       t.end();
@@ -124,6 +122,7 @@ test('Testing hostInfo', t => {
   Ethereum.changeAccount(1);
   hostInfo()
     .then(infos => {
+      console.log(infos[0]);
       t.equal(infos[0].hashAddress, 'QmT6aQLRNWbDf38qHGmaUUw8Q4E3fCnn7wKec2haVrQoSS', 'Expect hashAddress of 1st link to equal 1st link of added file');
       t.equal(infos[0].senderAddress, Ethereum.accounts[0], 'Expect Ethereum account to equal account used to send file');
       t.end();

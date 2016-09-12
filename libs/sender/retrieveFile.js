@@ -5,7 +5,6 @@ const promisify = require('es6-promisify');
 const IPFS = require('./../ipfs/ipfs.js');
 const path = require('path');
 const config = require('./../config/config.js');
-const mkdir = require('./../sender/mkdir.js');
 
 /**
 * Retrieves hash based on its file name and downloads it into a folder
@@ -19,7 +18,6 @@ module.exports = promisify((fileName, callback) => {
       return;
     }
     const writePath = path.join(config.files.download, fileName);
-    mkdir(config.files.download);
     IPFS.download(doc.hashAddress, writePath)
       .then(buffer => {
         callback(null, writePath);

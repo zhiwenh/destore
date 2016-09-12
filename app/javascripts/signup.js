@@ -53,19 +53,17 @@ $(document).ready(function() {
     if (Ethereum.check()) {
       Ethereum.createAccount(userPass)
         .then(account => {
-          console.log(account);
-          userID = account;
           config.set('user', {
             path: currentTab,
-            password: userPass,
-            id: userID,
-            store: storage,
+            // password: userPass,
+            // id: userID,
+            // store: storage,
             accountIndex: (Ethereum.accounts.length - 1)
           });
-          Ethereum.changeAccount(config.get('user.accountIndex'));
+          Ethereum.changeAccount(Ethereum.accounts.length - 1);
           //display account in popup (with Authenticate button)
           authenticatePopUp();
-          $('.userID').text(userID);
+          $('.userID').text(account);
         })
         .catch(err => {
           console.error(err);
@@ -98,22 +96,19 @@ $(document).ready(function() {
           break;
         }
       }
-      console.log('userid', userID);
-      console.log('userpass', userPass);
       Ethereum.unlockAccount(userID, userPass, 24*60*60*30)
         .then(status => {
           if (status === true) {
             console.log('status is true');
             config.set('user', {
               path: userType,
-              password: userPass,
-              id: userID,
-              store: storage,
+              // password: userPass,
+              // id: userID,
+              // store: storage,
               accountIndex: accountIndex
             });
             Ethereum.changeAccount(accountIndex);
             // window.location = `../html/${userType}.html`;
-            $('.userID').text(userID); // zhiwen - dont know what this does
             if (userType === 'user') {
               senderCheckInit(false);
             } else {
@@ -128,14 +123,13 @@ $(document).ready(function() {
           console.error(err);
         });
     } else {
-      console.log('not connected to ethereum');
+      console.error('not connected to ethereum');
     }
   });
 
   $('body').on('click', '#authenticate', function() {
     //check if coin balance > 0.01
     var userType = config.get('user.path');
-    Ethereum.changeAccount(config.get('user.accountIndex'));
     console.log(Ethereum.account);
     if (userType === 'host') {
       // check to see if receiver status is true
@@ -217,7 +211,7 @@ function senderAdd() {
   })
   .then(tx => {
     console.log('Sender Added');
-    window.location = '../html/host.html';
+    window.location = '../html/user.html';
   })
   .catch(err => {
     console.error(err);
@@ -232,7 +226,7 @@ function receiverAdd() {
   })
   .then(tx => {
     console.log('Receiver Added');
-    window.location = '../html/user.html';
+    window.location = '../html/sender.html';
   })
   .catch(err => {
     console.error(err);
@@ -244,12 +238,11 @@ function senderCheckInit(isSignUp) {
     from: Ethereum.account
   })
   .then(status => {
-    console.log('user', status);
     if (status === true) {
       window.location = '../html/user.html';
     } else if (isSignUp === false) {
       authenticatePopUp();
-    } else if (isSignUp === true && Ethereum.getBalanceEther() > 5) {
+    } else if (isSignUp === true && Ethereum.getBalanceEther() > 0.01) {
       console.log('making sender');
       senderAdd();
     } else {
@@ -271,7 +264,7 @@ function receiverCheckInit(isSignUp) {
       window.location = '../html/host.html';
     } else if (isSignUp === false) {
       authenticatePopUp();
-    } else if (isSignUp === true && Ethereum.getBalanceEther() > 5) {
+    } else if (isSignUp === true && Ethereum.getBalanceEther() > 0.01) {
       console.log('making receiver');
       receiverAdd();
     } else {

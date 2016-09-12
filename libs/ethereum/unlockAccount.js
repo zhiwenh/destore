@@ -16,9 +16,9 @@ const options = {
 * @password {String} - password for account
 * @returns {Bool} - promise with a response of success or fail
 **/
-module.exports = promisify((account, password, callback) => {
+module.exports = promisify((account, password, timeLength, callback) => {
   const web3Extended = web3_extended.create(options);
-  return web3Extended.personal.unlockAccount(account, password, (err, res) => {
+  return web3Extended.personal.unlockAccount(account, password, timeLength, (err, res) => {
     if (err) {
       callback(err, null);
     } else {

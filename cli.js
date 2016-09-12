@@ -39,11 +39,10 @@ if (program.init) {
   Upload.reset();
   Host.reset();
   Ethereum.changeAccount(0);
-  console.log(Ethereum.account);
-  console.log(Ethereum.getBalanceEther());
   const deployOptions = {
     from: Ethereum.account,
-    gas: 3000000
+    gas: 3000000,
+    gasValue: 20000000000
   };
   // const promises = [];
   // for (let i = 0; i < Ethereum.accounts.length; i++) {
@@ -71,20 +70,25 @@ if (program.init) {
     })
     .then(instance => {
       config.contracts.deStore = instance.address;
-      console.log(instance.address);
+      console.log('Deloyed DeStore', instance.address);
       DeStoreAddress.save(instance.address);
+      const storage = 5 * 1024 * 1024 * 1024;
       return Promise.all([
-        Ethereum.deStore().receiverAdd(1000000000, {from: Ethereum.accounts[1], gas: 100000}),
-        Ethereum.deStore().receiverAdd(1000000000, {from: Ethereum.accounts[2], gas: 100000}),
-        Ethereum.deStore().receiverAdd(1000000000, {from: Ethereum.accounts[3], gas: 100000}),
-        Ethereum.deStore().receiverAdd(1000000000, {from: Ethereum.accounts[4], gas: 100000}),
+        Ethereum.deStore().receiverAdd(storage, {from: Ethereum.accounts[1], gas: 300000, gasValue: 20000000000}),
+        Ethereum.deStore().receiverAdd(storage, {from: Ethereum.accounts[2], gas: 300000, gasValue: 20000000000}),
+        Ethereum.deStore().receiverAdd(storage, {from: Ethereum.accounts[3], gas: 300000, gasValue: 20000000000}),
+        Ethereum.deStore().receiverAdd(storage, {from: Ethereum.accounts[4], gas: 300000, gasValue: 20000000000}),
       ]);
     })
     .then(arr => {
+      console.log('Receiver Accounts');
       console.log(arr);
+      process.exit();
     })
     .catch(err => {
       console.error(err);
+      process.exit();
+
     });
 }
 

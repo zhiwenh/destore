@@ -10,6 +10,8 @@ const config = new Config();
 const fs = nodeRequire('fs');
 const DeStoreAddress = nodeRequire('../../models/DeStoreAddress');
 
+const bytesMag = nodeRequire('./utils/bytesMag');
+
 //Initializes daemon when on page
 IPFS.init();
 IPFS.daemon();
@@ -18,6 +20,7 @@ Ethereum.init();
 //TESTING
 configs.contracts.deStore = DeStoreAddress.get();
 Ethereum.changeAccount(config.get('user.accountIndex'));
+$('#accountID').html(Ethereum.account);
 
 Sender.listUploadDb()
   .then((docs) => {
@@ -27,25 +30,24 @@ Sender.listUploadDb()
         $('#fileTable').append(`
         <div data-filepath="${item.filePath}" class="file">
           <span class="basename">${path.basename(item.filePath)}</span>
-          <div class="filesize">${(item.fileSize/(1024*1024)).toFixed(2)} MB</div>
-          <div class="cost">${((item.fileSize/(1024*1024*1024)) * 10).toFixed(3) } cents/month</div>
+          <div class="filesize">${bytesMag(item.fileSize)}</div>
+          <div class="cost">
+            <span class="cost-value">${item.value.toFixed(3)}</span> ether/month</div>
           <button class="btn-up retrieve">Retrieve</button>
-          <button class="btn-pay pay">Pay</button>
         </div>`);
       } else if (item.isMounted) {
         $('#fileTable').append(`
           <div data-filepath="${item.filePath}" class="file">
             <span class="basename">${path.basename(item.filePath)}</span>
-            <div class="filesize">${(item.fileSize/(1024*1024)).toFixed(2)} MB</div>
-            <div class="cost">${((item.fileSize/(1024*1024*1024)) * 10).toFixed(3) } cents/month</div>
+            <div class="filesize">${bytesMag(item.fileSize)}</div>
+            <div class="cost">
+              <span class="cost-value">${item.value.toFixed(3)}</span> ether/month</div>
             <input class="recNum" type="number" placeholder="# of hosts"/>
             <button class="btn-up distribute">Distribute</button>
           </div>`);
       }
     });
   });
-var accountID = config.get('user.id');
-$('#accountID').html(accountID);
 
 $('.dragdropQ').on({
   mouseenter: function() {
@@ -64,8 +66,6 @@ $('.uploadQ').on({
     $('#uploadHelp').css('display', 'none');
   }
 });
-
-
 
 // DROPZONE FUNCTIONALITY
 document.ondragover = document.ondrop = (ev) => {
@@ -90,6 +90,7 @@ $('.upload-drop-zone').on('drop', (ev) => {
   //check if it's a folder
 
   //check if it's already there in the list
+  // <div class="cost">${((fileSize/(1024*1024*1024)) * 10).toFixed(3) } cents/month</div>
 
   Sender.copyFile(filePath)
     .then((res) => {
@@ -97,22 +98,29 @@ $('.upload-drop-zone').on('drop', (ev) => {
       $('#fileTable').append(`
         <div data-filepath="${filePath}" class="file">
           <span class="basename">${path.basename(filePath)}</span>
-          <div class="filesize">${(fileSize/(1024*1024)).toFixed(2)} MB</div>
-          <div class="cost">${((fileSize/(1024*1024*1024)) * 10).toFixed(3) } cents/month</div>
+          <div class="filesize">${bytesMag(fileSize)}</div>
+          <div class="cost">
+            <span class="cost-value">N/A</span>
+            <span class="cost-demo">ether/month<span>
+          </div>
+          <input class="recNum" type="number" placeholder="file ether value"></input>
           <button class="btn-up mount">Mount</button>
         </div>`);
     })
-    .catch((res) => {
-      console.log('Error', res);
+    .catch((err) => {
+      console.log('Error', err);
     });
 });
 
 $('body').on('click', '.mount', function() {
   var filePath = $(this).closest('.file').data('filepath');
+  var fileValue = $(this).closest('.file').find('.recNum').val();
+  var fileSize;
   console.log(filePath);
-  Sender.mountFile(filePath, 1)
+  Sender.mountFile(filePath, fileValue)
     .then((doc) => {
       console.log(doc);
+      fileSize = doc.fileSize;
       return Sender.uploadDeStore(doc.fileName);
     })
     .then((hashes) => {
@@ -120,6 +128,10 @@ $('body').on('click', '.mount', function() {
       return hashes[0];
     })
     .then(() => {
+      $(this).closest('.file').find('.recNum').remove();
+      $(this).closest('.file').find('.cost-value')
+        .text((fileSize/(1024*1024*1024) * fileValue).toFixed(3));
+
       $(this).replaceWith(`
         <input class="recNum" type="number" placeholder="# of hosts"></input>
         <button class="btn-up distribute">Distribute</button>`);
@@ -131,21 +143,25 @@ $('body').on('click', '.mount', function() {
 
 $('body').on('click', '.distribute', function() {
   var fileName = path.basename($(this).closest('.file').data('filepath'));
-  var userNum = $(this).closest('.file').find('.recNum').val() || 1;
+  var userNum = $(this).closest('.file').find('.recNum').val() || 3;
   console.log(userNum);
   Sender.distribute(fileName, userNum)
     .then((res) => {
+      console.log(res);
       $(this).closest('.file').find('.recNum').remove();
+
+      var currentValue = $(this).closest('.file').find('.cost-value').text();
+      currentValue = currentValue * userNum;
+
+      $(this).closest('.file').find('.cost-value').text(currentValue);
 
       $(this).replaceWith(`
         <button class="btn-up retrieve">Retrieve</button>
-        <button class="btn-up pay">Pay</button>
       `);
     })
     .catch((err) => {
       console.log(err);
     });
-
 });
 
 $('body').on('click', '.retrieve', function() {
@@ -215,13 +231,12 @@ setInterval(function() {
   checkBalance();
 }, 60000);
 
-
-function checkBalance () {
+function checkBalance() {
   console.log(Ethereum.getBalanceEther());
-  const balance = (Ethereum.getBalanceEther()-92.37).toFixed(3) || 0;
-  $('#balance').text(balance + ' Ether');
+  const balance = Ethereum.getBalanceEther().toFixed(3) || 0;
+  $('#balance').text(balance);
 }
-$(document).on('click', '.clearList', () => {
+$(document).on('click', '.signOut', () => {
   config.clear('startup');
   window.location = '../html/signup.html';
 });

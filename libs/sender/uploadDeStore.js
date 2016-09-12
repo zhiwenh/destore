@@ -19,7 +19,7 @@ module.exports = promisify((fileName, callback) => {
     }
     let hashArr;
     let sizeArr;
-    const value = doc.value;
+    const value = Ethereum.toWei(doc.value);
     // for doc blocs to have existed would have needed to used method to break them up
     if (doc.blocks.length >= 1) {
       hashArr = doc.blocks;
