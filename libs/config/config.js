@@ -9,5 +9,6 @@ module.exports = {
   rpc: rpcConfig,
   network: networkConfig,
   files: filesConfig,
-  ipc: ipcConfig
+  ipc: ipcConfig,
+  testing: true
 };

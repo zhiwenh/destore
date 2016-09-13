@@ -17,8 +17,10 @@ module.exports = promisify((fileName, callback) => {
       return;
     }
     const receiverCount = doc.receivers.length;
-    const value = doc.value;
-    if (Ethereum.getBalanceEther() < receiverCount * value) {
+    let value = doc.value;
+    const size = doc.fileSize;
+    value = value * size * receiverCount;
+    if (Ethereum.getBalanceEther() < value) {
       callback(new Error('Not enough funds'), null);
       return;
     }

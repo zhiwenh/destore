@@ -55,9 +55,6 @@ $(document).ready(function() {
         .then(account => {
           config.set('user', {
             path: currentTab,
-            // password: userPass,
-            // id: userID,
-            // store: storage,
             accountIndex: (Ethereum.accounts.length - 1)
           });
           Ethereum.changeAccount(Ethereum.accounts.length - 1);
@@ -73,20 +70,37 @@ $(document).ready(function() {
     }
   });
 
-
-
   $('.form-signin').submit(function(e) {
     console.log('signin submit');
 
     e.preventDefault();
+    var userID = $(this).find('.login-address').val();
+    var userPass = $(this).find('.login-password').val();
+    var storage;
     var userType = $(this).data('tab');
     // if (currentTab === 'host') {
     //   storage = $(this).find('.storage').val();
     // }
 
-    var userID = $(this).find('.login-address').val();
-    var userPass = $(this).find('.login-password').val();
-    var storage;
+    /**
+    * For Testing
+    **/
+    if (configs.testing === true) {
+      let accountIndex;
+      for (let i = 0; i < Ethereum.accounts.length; i++) {
+        if (Ethereum.accounts[i] === userID) {
+          accountIndex = i;
+          break;
+        }
+      }
+      config.set('user', {
+        path: userType,
+        accountIndex: accountIndex
+      });
+      window.location = `../html/${userType}.html`;
+    }
+
+
     if (Ethereum.check()) {
       console.log('ethereum check');
       let accountIndex;
@@ -102,9 +116,6 @@ $(document).ready(function() {
             console.log('status is true');
             config.set('user', {
               path: userType,
-              // password: userPass,
-              // id: userID,
-              // store: storage,
               accountIndex: accountIndex
             });
             Ethereum.changeAccount(accountIndex);
@@ -177,13 +188,7 @@ function authenticatePopUp() {
     resizable: false,
     modal: true,
     width: 600,
-    height: 300,
-    // open: function() {
-    //   $('body').css('background', '#000000');
-    // },
-    // close: function() {
-    //   $('body').css('background', '#ccc');
-    // }
+    height: 300
   });
 }
 
@@ -194,13 +199,7 @@ function failurePopUp() {
     resizable: false,
     modal: true,
     width: 600,
-    height: 300,
-    // open: function() {
-    //   $('body').css('background', '#000000');
-    // },
-    // close: function() {
-    //   $('body').css('background', '#ccc');
-    // }
+    height: 300
   });
 }
 
