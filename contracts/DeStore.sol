@@ -51,7 +51,7 @@ contract DeStore {
     bytes23[2][] hashes; // each nested array contains half of entire hash
     address[] senders; // the sender that stored the particular file hash
     uint[] sizes; // sizes of each hash
-    uint[] values;
+    uint[] values; // amount the file sender will send the hosts every day
     uint[] fileBalances; // the balance that particular hash has obtained
     mapping(bytes => uint) fileIndexes; // so the sender knows what hash to add file balances ++ to
     bytes ipfsAddress;

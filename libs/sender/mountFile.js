@@ -13,6 +13,7 @@ const path = require('path');
  * @returns Promise - res is an Object of the doc added to nedb
  **/
 module.exports = promisify((filePath, value, callback) => {
+  value = Number(value);
   const fileName = path.basename(filePath);
   let fileSize;
   promisify(fs.stat)(filePath)

@@ -86,8 +86,6 @@ $('.dash__change__storage__button').on('click', function(e) {
   // another click on change storage button will change the input
   // needs to be greater than amount hosted
   // sends the limit to the contract
-
-
 });
 
 //1 second Interval for Timer

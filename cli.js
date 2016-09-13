@@ -23,7 +23,7 @@ program
   .option('reset-upload')
   .option('create-account')
   .option('unlock')
-  .option('testrpc', 'Set up testrpc env')
+  .option('testrpc', 'Set up testrpc env');
 
 program
   .command('save <file>')

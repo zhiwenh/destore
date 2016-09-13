@@ -28,20 +28,22 @@ Sender.listUploadDb()
     docs.map((item) => {
       if (item.isUploaded) {
         $('#fileTable').append(`
-        <div data-filepath="${item.filePath}" class="file">
-          <span class="basename">${path.basename(item.filePath)}</span>
+        <div data-filepath="${item.filePath}" data-filesize="${item.fileSize}" class="file">
+          <div class="basename">${path.basename(item.filePath)}</div>
           <div class="filesize">${bytesMag(item.fileSize)}</div>
           <div class="cost">
-            <span class="cost-value">${item.value.toFixed(3)}</span> ether/month</div>
+            <span class="cost-value">${(item.value * item.fileSize).toFixed(3)}</span>
+          </div>
           <button class="btn-up retrieve">Retrieve</button>
         </div>`);
       } else if (item.isMounted) {
         $('#fileTable').append(`
-          <div data-filepath="${item.filePath}" class="file">
-            <span class="basename">${path.basename(item.filePath)}</span>
+          <div data-filepath="${item.filePath}" data-filesize="${item.fileSize}" class="file">
+            <div class="basename">${path.basename(item.filePath)}</div>
             <div class="filesize">${bytesMag(item.fileSize)}</div>
             <div class="cost">
-              <span class="cost-value">${item.value.toFixed(3)}</span> ether/month</div>
+              <span class="cost-value">${(item.value * item.fileSize).toFixed(3)}</span>
+            </div>
             <input class="recNum" type="number" placeholder="# of hosts"/>
             <button class="btn-up distribute">Distribute</button>
           </div>`);
@@ -96,12 +98,12 @@ $('.upload-drop-zone').on('drop', (ev) => {
     .then((res) => {
       console.log(res);
       $('#fileTable').append(`
-        <div data-filepath="${filePath}" class="file">
-          <span class="basename">${path.basename(filePath)}</span>
+        <div data-filepath="${filePath}" data-filesize=${fileSize} class="file">
+          <div class="basename">${path.basename(filePath)}</div>
           <div class="filesize">${bytesMag(fileSize)}</div>
           <div class="cost">
             <span class="cost-value">N/A</span>
-            <span class="cost-demo">ether/month<span>
+            <span class="cost-demo"><span>
           </div>
           <input class="recNum" type="number" placeholder="file ether value"></input>
           <button class="btn-up mount">Mount</button>
@@ -115,6 +117,7 @@ $('.upload-drop-zone').on('drop', (ev) => {
 $('body').on('click', '.mount', function() {
   var filePath = $(this).closest('.file').data('filepath');
   var fileValue = $(this).closest('.file').find('.recNum').val();
+  fileValue = fileValue / 1028 / 1028;
   var fileSize;
   console.log(filePath);
   Sender.mountFile(filePath, fileValue)
@@ -130,7 +133,7 @@ $('body').on('click', '.mount', function() {
     .then(() => {
       $(this).closest('.file').find('.recNum').remove();
       $(this).closest('.file').find('.cost-value')
-        .text((fileSize/(1024*1024*1024) * fileValue).toFixed(3));
+        .text((fileSize * fileValue).toFixed(3));
 
       $(this).replaceWith(`
         <input class="recNum" type="number" placeholder="# of hosts"></input>

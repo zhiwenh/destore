@@ -55,9 +55,6 @@ $(document).ready(function() {
         .then(account => {
           config.set('user', {
             path: currentTab,
-            // password: userPass,
-            // id: userID,
-            // store: storage,
             accountIndex: (Ethereum.accounts.length - 1)
           });
           Ethereum.changeAccount(Ethereum.accounts.length - 1);
@@ -73,8 +70,6 @@ $(document).ready(function() {
     }
   });
 
-
-
   $('.form-signin').submit(function(e) {
     console.log('signin submit');
 
@@ -86,7 +81,7 @@ $(document).ready(function() {
     // if (currentTab === 'host') {
     //   storage = $(this).find('.storage').val();
     // }
-    
+
     /**
     * For Testing
     **/
@@ -121,9 +116,6 @@ $(document).ready(function() {
             console.log('status is true');
             config.set('user', {
               path: userType,
-              // password: userPass,
-              // id: userID,
-              // store: storage,
               accountIndex: accountIndex
             });
             Ethereum.changeAccount(accountIndex);
@@ -196,13 +188,7 @@ function authenticatePopUp() {
     resizable: false,
     modal: true,
     width: 600,
-    height: 300,
-    // open: function() {
-    //   $('body').css('background', '#000000');
-    // },
-    // close: function() {
-    //   $('body').css('background', '#ccc');
-    // }
+    height: 300
   });
 }
 
@@ -213,13 +199,7 @@ function failurePopUp() {
     resizable: false,
     modal: true,
     width: 600,
-    height: 300,
-    // open: function() {
-    //   $('body').css('background', '#000000');
-    // },
-    // close: function() {
-    //   $('body').css('background', '#ccc');
-    // }
+    height: 300
   });
 }
 

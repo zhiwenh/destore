@@ -10,5 +10,5 @@ module.exports = {
   network: networkConfig,
   files: filesConfig,
   ipc: ipcConfig,
-  testing: false
+  testing: true
 };
